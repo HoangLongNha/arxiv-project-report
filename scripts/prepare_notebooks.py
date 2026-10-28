@@ -27,6 +27,8 @@ run_name, summary, benchmark, samples = load_run(ROOT)
 display(Markdown(f"**Run: {run_name} — label: {benchmark['label']}**"))
 if benchmark['label'] == 'synthetic_demo':
     display(Markdown('> **DEMO OFFLINE: các con số không phải kết quả corpus thật hoặc benchmark Colab.**'))
+elif benchmark['label'] == 'colab_cpu_sample':
+    display(Markdown('> **MẪU COLAB CPU-ONLY: một paper được giao, không phải toàn bộ assignment 25.000 ID.**'))
 else:
     display(Markdown('> Lượt gọi API thật; cần đối chiếu môi trường Colab CPU-only, phạm vi input và logs trước nghiệm thu.'))
 '''
@@ -34,7 +36,7 @@ else:
 notebook('milestone1/statistics.ipynb', [
 ('md', '# Thống kê corpus\n\nBảng và biểu đồ được tạo từ JSON khi build. Tỷ lệ dùng thang 0–1; bảng hiển thị thêm phần trăm. Null nghĩa chưa có mẫu số/số đo.'),
 ('code', setup),
-('code', "display(pd.DataFrame([summary['counts']]))\nrates = pd.DataFrame([{'metric': k, **v} for k,v in summary['rates'].items()])\nrates['percent'] = rates['value'] * 100\ndisplay(rates)"),
+('code', "display(pd.DataFrame([summary['counts']]))\ncoverage_path = ROOT / 'summaries/milestone1' / run_name / 'corpus_coverage.json'\nif coverage_path.exists():\n    import json\n    display(Markdown('**Độ bao phủ assignment đầy đủ (khác phạm vi mẫu benchmark):**'))\n    display(pd.DataFrame([json.loads(coverage_path.read_text(encoding='utf-8'))]))\nrates = pd.DataFrame([{'metric': k, **v} for k,v in summary['rates'].items()])\nrates['percent'] = rates['value'] * 100\ndisplay(rates)"),
 ('md', '## Trạng thái theo version\n\nDownload và extract dùng cùng tập version đã biết. Discovery lỗi được báo riêng vì chưa biết số version.'),
 ('code', "fig, axes = plt.subplots(1,2,figsize=(11,4))\nfor ax,key,title in zip(axes,['download_statuses','extract_statuses'],['Download outcomes','Extraction outcomes']):\n    values = summary[key]\n    if values: ax.bar(list(values),list(values.values()))\n    ax.set_title(title); ax.set_ylabel('Paper-version count'); ax.tick_params(axis='x',rotation=25)\nplt.tight_layout(); plt.show()\ndisplay(pd.DataFrame([summary['discovery_statuses']]))"),
 ('md', '## Kích thước và references\n\nTrước/sau lọc là bytes đã giải nén, tổng mọi version mỗi paper trên cùng tập có đủ cặp đo. Kích thước package nén được báo riêng.'),

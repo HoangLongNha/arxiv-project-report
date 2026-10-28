@@ -1,6 +1,8 @@
 # arXiv Project Report — Nhóm 6
 
-Repository Jupyter Book riêng, chỉ chứa báo cáo và số liệu tổng hợp, không chứa corpus. **Hiện có demo offline và smoke cục bộ một ID thật; chưa có benchmark corpus chính thức trên Colab.** MS2 sẽ nối tiếp MS1 trong cùng book sau khi nhóm bàn giao.
+Repository Jupyter Book riêng, chỉ chứa báo cáo và số liệu tổng hợp, không chứa corpus. Đã có demo offline, smoke local và mẫu CPU-only trên Colab; chưa có kết quả toàn corpus. MS2 sẽ nối tiếp MS1 trong cùng book sau khi nhóm bàn giao.
+
+Cập nhật: đã có mẫu `colab-cpu-sample` chạy CPU-only trên Google Colab từ commit source sạch `0f8d83b`; một paper, một version, 97 references, exit 0. Audit assignment xác nhận còn 24.999/25.000 ID chưa có dữ liệu. Đây chưa phải nghiệm thu toàn corpus.
 
 ## Build
 
@@ -54,7 +56,8 @@ Kiểm tra link GitHub Pages và các trang/biểu đồ sau khi workflow thành
 - `milestone1/`: mục tiêu, phương pháp, notebooks thống kê/hiệu năng, phân tích hạn chế.
 - `summaries/milestone1/demo/`: số đo local trên fixtures tổng hợp, có nhãn synthetic_demo.
 - `summaries/milestone1/live-smoke-local/`: smoke một ID thật trên máy hiện tại, nhãn live_unverified; có thể chọn bằng `TV5_RUN=live-smoke-local`, không phải benchmark Colab.
-- `colab/`: notebook tái lập benchmark CPU-only, chưa chạy trong Colab ở phiên triển khai.
+- `summaries/milestone1/colab-cpu-sample/`: mẫu CPU-only trên Colab, nhãn colab_cpu_sample, run ID, số đo thô và provenance; coverage assignment được ghi riêng trong corpus_coverage.json.
+- `colab/`: notebook tái lập benchmark CPU-only; mẫu một paper đã chạy trong Colab. Chọn source commit `0f8d83b591c89cf085f344f5fb59af671ab43b81` để tái lập phiên bản đã đo.
 - `references.md`: nguồn chính thức và tài liệu kỹ thuật.
 
 Ngôn ngữ hiện tại là tiếng Việt; nếu chương trình học quy định ngôn ngữ khác, cần chuyển trước khi nộp.

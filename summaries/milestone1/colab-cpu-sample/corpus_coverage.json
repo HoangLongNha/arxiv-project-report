@@ -1,0 +1,10 @@
+{
+  "assigned_input_count": 25000,
+  "discovered_assigned_ids": 1,
+  "validation_pass_papers": 1,
+  "validation_fail_papers": 0,
+  "audit_complete": false,
+  "unseen_id_count": 24999,
+  "unresolved_discovery_count": 0,
+  "audit_sha256": "64ff200f1e0d06011801dc76c4aeb7cce71c8e9e58f95a325987af12fc462528"
+}

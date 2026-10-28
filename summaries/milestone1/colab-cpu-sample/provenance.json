@@ -1,0 +1,11 @@
+{
+  "exported_at": "2026-10-28T15:11:34.790866+00:00",
+  "label": "colab_cpu_sample",
+  "original_sha256": {
+    "benchmark.json": "631bb3e2d1317afcd6573b296a4cccb82ed46c3e5c6fbd1e1bde55f7cae5989a",
+    "statistics.json": "0aef7afdd4f898f11652fc6e1cfc90d0695e50fcce09c93460120802f9d03f5d",
+    "samples.jsonl": "496d2b1c76bde5f85223c0b497608c10bb41db6ee62d41228aa952d2b8f33e9a",
+    "timings.jsonl": "35c500dbd77056d66b78969d2ef3e434f058d15cf0ff1e974630f4c80992faf1"
+  },
+  "note": "benchmark.json excludes local command, output path and Python executable; retain originals privately"
+}
