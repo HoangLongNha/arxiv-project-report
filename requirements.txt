@@ -1,0 +1,5 @@
+# Intentionally use Jupyter Book 1: _config.yml/_toc.yml, not the Book 2 CLI.
+jupyter-book==1.0.4.post1
+pandas>=2.2,<3
+matplotlib>=3.9,<4
+ipykernel>=6,<8

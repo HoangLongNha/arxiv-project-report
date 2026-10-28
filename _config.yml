@@ -1,0 +1,14 @@
+title: "arXiv — Milestone 1: Data Crawling"
+author: "Nhóm 6 — Introduction to Data Science"
+copyright: "2026"
+only_build_toc_files: true
+execute:
+  execute_notebooks: force
+  timeout: 180
+  allow_errors: false
+sphinx:
+  config:
+    language: vi
+    html_show_sourcelink: true
+    nb_execution_raise_on_error: true
+    suppress_warnings: ["myst.header"]

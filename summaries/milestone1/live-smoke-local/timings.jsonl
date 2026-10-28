@@ -1,0 +1,7 @@
+{"kind": "discovery", "paper_id": "2508.12872", "input_id": "2508.12872", "status": "success", "cached": false, "elapsed_seconds": 0.8142740000039339}
+{"kind": "stage", "stage": "download", "paper_id": "2508.12872", "version": 1, "status": "success", "cached": false, "elapsed_seconds": 12.583195699990029}
+{"kind": "stage", "stage": "extract", "paper_id": "2508.12872", "version": 1, "status": "success", "cached": false, "elapsed_seconds": 0.20210200001019984}
+{"kind": "stage", "stage": "metadata", "paper_id": "2508.12872", "version": null, "status": "success", "cached": false, "elapsed_seconds": 0.004719600023236126}
+{"kind": "stage", "stage": "references", "paper_id": "2508.12872", "version": null, "status": "success", "cached": false, "elapsed_seconds": 1.364383700012695}
+{"kind": "stage", "stage": "validate", "paper_id": "2508.12872", "version": null, "status": "success", "cached": false, "elapsed_seconds": 0.14033850000123493}
+{"kind": "paper", "paper_id": "2508.12872", "input_id": "2508.12872", "elapsed_seconds": 15.112580799992429}

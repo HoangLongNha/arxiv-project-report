@@ -1,0 +1,11 @@
+{
+  "exported_at": "2026-10-28T14:15:36.698525+00:00",
+  "label": "live_unverified",
+  "original_sha256": {
+    "benchmark.json": "301326e4fb0c2baecbba4ca7ee24651e572ceb48dbcddd25fe75003d364e2eea",
+    "statistics.json": "4671d6a207655c11aa30df96ced7b7f882baf7d7f5278a5186a1b51c1e03752d",
+    "samples.jsonl": "5c26bdd4a72d1c381cefa93557ece3df67c05878715f2d1db74375dfa9679b0e",
+    "timings.jsonl": "3ce854041370613dd5c7f4b2f8e6916b85bd7459ef0f15505667932c9508cbfa"
+  },
+  "note": "benchmark.json excludes local command, output path and Python executable; retain originals privately"
+}

@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-10-28T14:12:44.638385+00:00",
+  "counts": {
+    "papers": 1,
+    "discovery_success_papers": 1,
+    "unknown_version_papers": 0,
+    "expected_versions": 1,
+    "references": 97
+  },
+  "rates": {
+    "discovery_success": {
+      "numerator": 1,
+      "denominator": 1,
+      "value": 1.0
+    },
+    "download_success": {
+      "numerator": 1,
+      "denominator": 1,
+      "value": 1.0
+    },
+    "extract_success": {
+      "numerator": 1,
+      "denominator": 1,
+      "value": 1.0
+    },
+    "version_record_coverage": {
+      "numerator": 1,
+      "denominator": 1,
+      "value": 1.0
+    },
+    "source_complete_papers": {
+      "numerator": 1,
+      "denominator": 1,
+      "value": 1.0
+    },
+    "validation_pass": {
+      "numerator": 1,
+      "denominator": 1,
+      "value": 1.0
+    },
+    "reference_query_success": {
+      "numerator": 1,
+      "denominator": 1,
+      "value": 1.0
+    },
+    "reference_nonempty_success": {
+      "numerator": 1,
+      "denominator": 1,
+      "value": 1.0
+    }
+  },
+  "sizes": {
+    "paired_papers": 1,
+    "package_complete_papers": 1,
+    "mean_uncompressed_before_per_paper_bytes": 17799287.0,
+    "mean_filtered_per_paper_bytes": 66491.0,
+    "mean_download_package_per_paper_bytes": 10785379.0
+  },
+  "references": {
+    "mean_per_retrieved_paper": 97.0,
+    "complete_metadata_rate": {
+      "numerator": 7,
+      "denominator": 97,
+      "value": 0.07216494845360824
+    }
+  },
+  "discovery_statuses": {
+    "success": 1
+  },
+  "download_statuses": {
+    "success": 1
+  },
+  "extract_statuses": {
+    "success": 1
+  },
+  "reference_statuses": {
+    "success": 1
+  },
+  "failure_causes": {},
+  "papers": [
+    {
+      "paper_id": "2508.12872",
+      "versions": 1,
+      "metadata": "success",
+      "references": "success",
+      "reference_count": 97,
+      "validation_valid": true,
+      "source_complete": true
+    }
+  ],
+  "versions": [
+    {
+      "paper_id": "2508.12872",
+      "version": 1,
+      "download": "success",
+      "extract": "success",
+      "package_bytes": 10785379,
+      "uncompressed_before_bytes": 17799287,
+      "filtered_bytes": 66491
+    }
+  ],
+  "diagnostics": [],
+  "label": "live_unverified"
+}
