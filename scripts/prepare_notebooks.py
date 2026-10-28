@@ -60,5 +60,31 @@ notebook('colab/MS1_Benchmark_CPU.ipynb', [
 ('code', "MODE = 'smoke'  # 'smoke' hoặc 'full'\nRUN_BENCHMARK = False  # đổi True khi đã kiểm tra cấu hình\nRESUME = False\nSTAMP = datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%SZ')\nDATA_ROOT = Path('/content/ms1-data')  # đổi sang thư mục persistent nếu cần resume qua session\nOUTPUT = DATA_ROOT / MODE\nRESULTS = Path('/content/ms1-runs') / f'{MODE}-{STAMP}'\nassignment = json.loads((SOURCE/'configs/ms1_group6_ranges.json').read_text())\nargs = ['--ids','2508.12872'] if MODE == 'smoke' else [arg for r in assignment['ranges'] for arg in ['--range',r['range']]]\nassert MODE in {'smoke','full'}\nif RESUME: args += ['--resume']\nprint({'mode': MODE, 'assigned_inputs': 1 if MODE=='smoke' else assignment['assigned_input_count'], 'output':str(OUTPUT), 'results':str(RESULTS), 'free_disk_bytes':shutil.disk_usage('/content').free})\ntry:\n    from google.colab import userdata\n    os.environ['S2_API_KEY'] = userdata.get('S2_API_KEY')\nexcept Exception:\n    print('S2_API_KEY không có; dùng pool chung, có thể gặp throttling.')"),
 ('code', "assert RUN_BENCHMARK, 'Đổi RUN_BENCHMARK=True để bắt đầu lượt chạy đã chọn'\nif not RESUME and OUTPUT.exists() and any(OUTPUT.iterdir()):\n    raise ValueError('Fresh run cần output mới/rỗng; chọn đường dẫn khác hoặc RESUME=True')\ncommand = [sys.executable,'-m','arxiv_pipeline.reporting.milestone1.benchmark','--output',str(OUTPUT),'--results',str(RESULTS),'--',*args]\ncompleted = subprocess.run(command,cwd=SOURCE)\nprint('Pipeline exit:', completed.returncode)\nprint('Đọc benchmark.json, statistics.json và logs; exit=0 không có nghĩa mọi version có source.')"),
 ('md', '## Kiểm tra lại và lưu bằng chứng\n\nSau khi pipeline dừng, revalidate trên snapshot đã hoàn tất. Chỉ dữ liệu summary được đưa vào book; không giả định lỗi ngắt đã có manifest mới. Nếu chưa có manifest, resume hoàn tất trước khi tổng hợp.'),
-('code', "if (OUTPUT/'manifests/discovery.json').exists():\n    subprocess.run([sys.executable,'-m','arxiv_pipeline.reporting.milestone1.statistics','--output',str(OUTPUT),'--save',str(RESULTS/'statistics-revalidated.json'),'--revalidate'],check=True,cwd=SOURCE)\n    checked = json.loads((RESULTS/'statistics-revalidated.json').read_text())\n    checked['label'] = 'live_unverified'\n    (RESULTS/'statistics.json').write_text(json.dumps(checked,ensure_ascii=False,indent=2),encoding='utf-8')\n    display(checked['rates'])\nif (RESULTS/'benchmark.json').exists():\n    report = json.loads((RESULTS/'benchmark.json').read_text())\n    report['environment']['is_colab'] = True\n    report['environment']['cpu_only_confirmation'] = 'CPU-only selected; no NVIDIA GPU detected by notebook check'\n    (RESULTS/'benchmark.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')\narchive = shutil.make_archive(str(RESULTS), 'zip', RESULTS)\nfrom google.colab import files\nfiles.download(archive)"),
+('code', '''report_path = RESULTS/'benchmark.json'
+if report_path.exists():
+    report = json.loads(report_path.read_text())
+    if report.get('statistics_status') == 'current_run':
+        # Never regenerate current-run statistics from a stale manifest after interruption.
+        from arxiv_pipeline.reporting.milestone1.benchmark import current_snapshot
+        current_snapshot(OUTPUT, report['run_id'])
+        subprocess.run([sys.executable,'-m','arxiv_pipeline.reporting.milestone1.statistics',
+            '--output',str(OUTPUT),'--save',str(RESULTS/'statistics-revalidated.json'),
+            '--revalidate'],check=True,cwd=SOURCE)
+        checked = json.loads((RESULTS/'statistics-revalidated.json').read_text())
+        checked.update(label=report['label'], run_id=report['run_id'])
+        (RESULTS/'statistics.json').write_text(json.dumps(checked,ensure_ascii=False,indent=2),encoding='utf-8')
+        display(checked['rates'])
+    else:
+        print('No completed current-run snapshot; preserve raw evidence, do not publish old statistics.')
+    report['environment']['is_colab'] = True
+    report['environment']['cpu_only_confirmation'] = 'CPU-only selected; no NVIDIA GPU detected by notebook check'
+    report_path.write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
+# Audit every assigned lookup independently of the benchmark subset/snapshot.
+audit_process = subprocess.run([sys.executable,'-m','arxiv_pipeline.reporting.milestone1.audit',
+    '--output',str(OUTPUT),'--assignment',str(SOURCE/'configs/ms1_group6_ranges.json'),
+    '--save',str(RESULTS/'assignment-audit.json')],cwd=SOURCE)
+print('Assignment audit exit:', audit_process.returncode, '(1 means incomplete/error; inspect JSON)')
+archive = shutil.make_archive(str(RESULTS), 'zip', RESULTS)
+from google.colab import files
+files.download(archive)'''),
 ])

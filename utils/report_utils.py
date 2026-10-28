@@ -15,4 +15,7 @@ def load_run(book_root):
     samples = [json.loads(line) for line in (selected / 'samples.jsonl').read_text().splitlines() if line.strip()]
     if benchmark['label'] != summary['label']:
         raise ValueError('Benchmark and statistics labels differ')
+    if benchmark.get('run_id') and (benchmark.get('statistics_status') != 'current_run'
+                                    or summary.get('run_id') != benchmark['run_id']):
+        raise ValueError('Statistics are not authenticated for this benchmark run')
     return name, summary, benchmark, samples
