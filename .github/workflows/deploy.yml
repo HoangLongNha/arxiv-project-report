@@ -10,6 +10,22 @@ concurrency:
   group: pages-${{ github.ref }}
   cancel-in-progress: true
 jobs:
+  notebook-tests:
+    runs-on: ubuntu-latest
+    env:
+      TV5_SOURCE: ${{ github.workspace }}/_source
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: LeoTkiet/arxiv-data-science
+          ref: 0f8d83b591c89cf085f344f5fb59af671ab43b81
+          path: _source
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -e './_source[reporting,dev]'
+      - run: python -m unittest discover -s tests -v
   build:
     runs-on: ubuntu-latest
     env:
@@ -28,7 +44,7 @@ jobs:
           path: _build/html
   deploy:
     if: github.event_name != 'pull_request'
-    needs: build
+    needs: [build, notebook-tests]
     runs-on: ubuntu-latest
     permissions:
       pages: write

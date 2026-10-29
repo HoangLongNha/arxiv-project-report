@@ -55,38 +55,6 @@ notebook('milestone1/performance.ipynb', [
 ('code', "display(pd.DataFrame([benchmark['ram']]))\ndisplay(pd.DataFrame([benchmark['disk']]))\nframe = pd.DataFrame(samples)\nif not frame.empty:\n    fig, axes = plt.subplots(2,1,figsize=(9,6),sharex=True)\n    axes[0].plot(frame['elapsed_seconds'],frame['rss_bytes']/1024**2); axes[0].set_ylabel('Summed RSS (MiB)')\n    axes[1].plot(frame['elapsed_seconds'],frame['disk_bytes']/1024**2); axes[1].set_ylabel('Output size (MiB)'); axes[1].set_xlabel('Elapsed seconds')\n    plt.tight_layout(); plt.show()"),
 ])
 
-notebook('colab/MS1_Benchmark_CPU.ipynb', [
-('md', '# TV5 — Benchmark MS1 trên Colab CPU-only\n\nChọn Runtime → Change runtime type → CPU (không accelerator). Source ref phải đã push code TV5. Chạy smoke trước, rồi full assignment khi đã kiểm tra. API key dùng Colab Secrets `S2_API_KEY`, không gõ trực tiếp. Notebook này chưa được chạy trong Colab khi bàn giao bản local.'),
-('code', "from pathlib import Path\nimport os, sys, subprocess, json, datetime, shutil\nassert 'google.colab' in sys.modules or __import__('importlib').util.find_spec('google.colab'), 'Notebook dành cho Google Colab'\nif shutil.which('nvidia-smi'):\n    gpu = subprocess.run(['nvidia-smi','-L'],capture_output=True,text=True)\n    assert 'GPU ' not in gpu.stdout, 'Chọn runtime CPU-only trước khi benchmark'\nSOURCE_URL = 'https://github.com/LeoTkiet/arxiv-data-science.git'\nSOURCE_REF = 'feature/tv5-ms1-benchmark-report'  # phải push nhánh này trước, hoặc dùng commit SHA đã review\nSOURCE = Path('/content/arxiv-data-science')\nif not SOURCE.exists(): subprocess.run(['git','clone',SOURCE_URL,str(SOURCE)],check=True)\nsubprocess.run(['git','-C',str(SOURCE),'fetch','origin',SOURCE_REF],check=True)\nsubprocess.run(['git','-C',str(SOURCE),'checkout','--detach','FETCH_HEAD'],check=True)\nsubprocess.run([sys.executable,'-m','pip','install','-e',str(SOURCE)+'[reporting]'],check=True)"),
-('md', '## Chọn phạm vi và cấu hình\n\nFull = năm khoảng, 25.000 ID lookup. API pacing/retry khiến lượt full dài; nếu ngắt, giữ corpus trên persistent storage và dùng resume. Không mount Drive rồi lưu kết quả vào Git. Mỗi results phải mới và nằm ngoài output.'),
-('code', "MODE = 'smoke'  # 'smoke' hoặc 'full'\nRUN_BENCHMARK = False  # đổi True khi đã kiểm tra cấu hình\nRESUME = False\nSTAMP = datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%SZ')\nDATA_ROOT = Path('/content/ms1-data')  # đổi sang thư mục persistent nếu cần resume qua session\nOUTPUT = DATA_ROOT / MODE\nRESULTS = Path('/content/ms1-runs') / f'{MODE}-{STAMP}'\nassignment = json.loads((SOURCE/'configs/ms1_group6_ranges.json').read_text())\nargs = ['--ids','2508.12872'] if MODE == 'smoke' else [arg for r in assignment['ranges'] for arg in ['--range',r['range']]]\nassert MODE in {'smoke','full'}\nif RESUME: args += ['--resume']\nprint({'mode': MODE, 'assigned_inputs': 1 if MODE=='smoke' else assignment['assigned_input_count'], 'output':str(OUTPUT), 'results':str(RESULTS), 'free_disk_bytes':shutil.disk_usage('/content').free})\ntry:\n    from google.colab import userdata\n    os.environ['S2_API_KEY'] = userdata.get('S2_API_KEY')\nexcept Exception:\n    print('S2_API_KEY không có; dùng pool chung, có thể gặp throttling.')"),
-('code', "assert RUN_BENCHMARK, 'Đổi RUN_BENCHMARK=True để bắt đầu lượt chạy đã chọn'\nif not RESUME and OUTPUT.exists() and any(OUTPUT.iterdir()):\n    raise ValueError('Fresh run cần output mới/rỗng; chọn đường dẫn khác hoặc RESUME=True')\ncommand = [sys.executable,'-m','arxiv_pipeline.reporting.milestone1.benchmark','--output',str(OUTPUT),'--results',str(RESULTS),'--',*args]\ncompleted = subprocess.run(command,cwd=SOURCE)\nprint('Pipeline exit:', completed.returncode)\nprint('Đọc benchmark.json, statistics.json và logs; exit=0 không có nghĩa mọi version có source.')"),
-('md', '## Kiểm tra lại và lưu bằng chứng\n\nSau khi pipeline dừng, revalidate trên snapshot đã hoàn tất. Chỉ dữ liệu summary được đưa vào book; không giả định lỗi ngắt đã có manifest mới. Nếu chưa có manifest, resume hoàn tất trước khi tổng hợp.'),
-('code', '''report_path = RESULTS/'benchmark.json'
-if report_path.exists():
-    report = json.loads(report_path.read_text())
-    if report.get('statistics_status') == 'current_run':
-        # Never regenerate current-run statistics from a stale manifest after interruption.
-        from arxiv_pipeline.reporting.milestone1.benchmark import current_snapshot
-        current_snapshot(OUTPUT, report['run_id'])
-        subprocess.run([sys.executable,'-m','arxiv_pipeline.reporting.milestone1.statistics',
-            '--output',str(OUTPUT),'--save',str(RESULTS/'statistics-revalidated.json'),
-            '--revalidate'],check=True,cwd=SOURCE)
-        checked = json.loads((RESULTS/'statistics-revalidated.json').read_text())
-        checked.update(label=report['label'], run_id=report['run_id'])
-        (RESULTS/'statistics.json').write_text(json.dumps(checked,ensure_ascii=False,indent=2),encoding='utf-8')
-        display(checked['rates'])
-    else:
-        print('No completed current-run snapshot; preserve raw evidence, do not publish old statistics.')
-    report['environment']['is_colab'] = True
-    report['environment']['cpu_only_confirmation'] = 'CPU-only selected; no NVIDIA GPU detected by notebook check'
-    report_path.write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
-# Audit every assigned lookup independently of the benchmark subset/snapshot.
-audit_process = subprocess.run([sys.executable,'-m','arxiv_pipeline.reporting.milestone1.audit',
-    '--output',str(OUTPUT),'--assignment',str(SOURCE/'configs/ms1_group6_ranges.json'),
-    '--save',str(RESULTS/'assignment-audit.json')],cwd=SOURCE)
-print('Assignment audit exit:', audit_process.returncode, '(1 means incomplete/error; inspect JSON)')
-archive = shutil.make_archive(str(RESULTS), 'zip', RESULTS)
-from google.colab import files
-files.download(archive)'''),
-])
+# Colab cells are maintained separately; preserve its member/Drive workflow.
+import runpy
+runpy.run_path(str(ROOT / 'scripts/sync_colab_notebook.py'), run_name='__main__')
