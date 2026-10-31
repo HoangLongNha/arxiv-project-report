@@ -140,4 +140,3 @@ Pipeline summary: complete = True, stage_statuses = {'success': 7}
 - **Commit:** `79dcd6e` — *feat: implement TV3 safe corpus extractor and unit tests*
 - **Pull Request:** [PR #5](https://github.com/LeoTkiet/arxiv-data-science/pull/5) — *Merge pull request #5 from LeoTkiet/feature/tv3-file-processing (Commit `5715188`)*
 - **Tình trạng nghiệm thu:** **ĐÃ HOÀN THÀNH 100% VÀ ĐÃ MERGE VÀO NHÁNH `main` CỦA REPO DỰ ÁN.**
-

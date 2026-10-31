@@ -18,7 +18,7 @@
 
 #### 1.2. Điều tiết Tần suất truy vấn (Rate Limiting Strategy)
 * **Giới hạn thời gian:** Giãn cách tối thiểu cố định $\Delta t \ge 3.0$ giây giữa hai yêu cầu mạng liên tiếp.
-* **Cơ chế cài đặt (`RateLimiter`):** 
+* **Cơ chế cài đặt (`RateLimiter`):**
   * Lưu vết nhãn thời gian của lần hoàn tất request gần nhất (`last_request_time`).
   * Trước khi gửi request tiếp theo, tính toán độ trễ trôi qua: $\text{elapsed} = t_{\text{current}} - t_{\text{last}}$.
   * Nếu $\text{elapsed} < 3.0$s, luồng chủ động gọi `time.sleep(3.0 - elapsed)`. Cơ chế này giảm việc gửi request dồn dập; vẫn có thể gặp `HTTP 429 Too Many Requests`, nên cần xử lý throttle và retry thay vì bảo đảm không bị giới hạn.
@@ -36,7 +36,7 @@
 * **Nguy cơ lỗi tệp (Corrupted Files):** Khi thực thi trên Google Colab CPU-only, phiên làm việc có thể bị ngắt đột ngột (Kernel crash, timeout, rớt mạng). Nếu ghi trực tiếp vào tệp đích `source`, tệp sẽ bị dở dang (partial file), làm sập các trạm giải nén sau.
 * **Quy trình ghi nguyên tử (Atomic Write Pipeline):**
   ```text
-  [HTTP Stream Chunk 64KB] 
+  [HTTP Stream Chunk 64KB]
             │
             ├──> Cập nhật hashlib.sha256() & đếm tổng size_bytes (trong RAM)
             │

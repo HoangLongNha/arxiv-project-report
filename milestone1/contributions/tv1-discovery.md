@@ -137,7 +137,7 @@ Quy trình Discovery:
 1. Chuẩn hóa ID đầu vào.
 2. Truy vấn thông tin phiên bản mới nhất của bài báo.
 3. Nếu phản hồi hợp lệ không có entry, trả về `not_found`.
-4. Xác định số version mới nhất $v_n$. 
+4. Xác định số version mới nhất $v_n$.
 5. Nếu người dùng yêu cầu version lớn hơn version mới nhất, trả về `not_found` với loại lỗi `version_not_found`.
 6. Lấy metadata cho các version từ `v1` đến `vn`; version mới nhất được tái sử dụng từ request đầu tiên.
 7. Xác minh ID và version trong từng phản hồi khớp với request.
@@ -297,6 +297,6 @@ Tên hàm tích hợp downstream trong skeleton là `run(record, output_dir, *, 
 README đề xuất tạo issue có người phụ trách, input/output và tiêu chí nghiệm thu; phát triển trên nhánh tính năng; mở PR có hướng dẫn test và reviewer; tránh commit trực tiếp vào `main`. Khi một module được bàn giao, nhóm cần kiểm tra hợp đồng, chạy unit test của module và kiểm tra tích hợp với orchestrator.
 
 ---
-## 7. KẾT LUẬN 
+## 7. KẾT LUẬN
 ### 7.1. Kết quả TV1
 TV1 đã xây dựng nền tảng ban đầu cho dự án: cấu trúc package cho MS1–MS3, hợp đồng dữ liệu v1, Discovery toàn bộ version arXiv, CLI, cơ chế retry/rate limiting, checkpoint/resume, manifest/summary và bộ test offline. Các thành phần này giúp nhóm có một giao diện thống nhất để tích hợp module của các thành viên.
