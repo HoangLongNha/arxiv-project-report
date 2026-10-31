@@ -54,6 +54,7 @@ Kiểm tra link GitHub Pages và các trang/biểu đồ sau khi workflow thành
 ## Nội dung
 
 - `milestone1/`: mục tiêu, phương pháp, notebooks thống kê/hiệu năng, phân tích hạn chế.
+- `milestone1/contributions/`: bốn trang đóng góp TV1–TV4 từ bộ cập nhật báo cáo thành viên; được liên kết dưới mục Phương pháp triển khai. Trạng thái và số liệu thành viên nêu được giữ trong phạm vi nguồn tư liệu, không thay cho nghiệm thu end-to-end hoặc số đo Colab đã xác minh.
 - `summaries/milestone1/demo/`: số đo local trên fixtures tổng hợp, có nhãn synthetic_demo.
 - `summaries/milestone1/live-smoke-local/`: smoke một ID thật trên máy hiện tại, nhãn live_unverified; có thể chọn bằng `TV5_RUN=live-smoke-local`, không phải benchmark Colab.
 - `summaries/milestone1/colab-cpu-sample/`: mẫu CPU-only trên Colab, nhãn colab_cpu_sample, run ID, số đo thô và provenance; coverage assignment được ghi riêng trong corpus_coverage.json.
