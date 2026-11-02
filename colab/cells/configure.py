@@ -43,12 +43,17 @@ if AUTO_RESUME and MEMBER_ROLE not in {'ALL_GROUP_25K', 'TEST_SMOKE_1_BAI'} and 
     if done_ids:
         max_done = max(done_ids)
         max_idx = full_ids.index(max_done)
-        target_idx = max(0, max_idx - 5)
-        new_start = full_ids[target_idx] if RESUME_START_ID == 'AUTO' else RESUME_START_ID
-        if new_start in full_ids and full_ids.index(new_start) > 0:
-            new_range = f"{new_start}:{full_ids[-1]}"
-            effective_ranges = [{'range': new_range}]
-            print(f"🔄 [Smart Fast Resume]: Đã thẩm định hoàn tất đến {max_done}. Tự động lùi 5 bài để tiếp tục từ {new_range} (bỏ qua {target_idx} bài cũ đã thẩm định).")
+        if max_idx >= len(full_ids) - 1 and len(done_ids) >= len(full_ids) * 0.95:
+            effective_ranges = list(selected_ranges)
+            print(f"🎉 [Corpus Hoàn Tất 100%]: Đã thẩm định toàn bộ {len(done_ids)}/{len(full_ids)} bài đến {max_done}.")
+            print("   Giữ nguyên toàn bộ dải phân công (5.000 bài) với cờ --resume để ghi nhận benchmark & audit đầy đủ!")
+        else:
+            target_idx = max(0, max_idx - 5)
+            new_start = full_ids[target_idx] if RESUME_START_ID == 'AUTO' else RESUME_START_ID
+            if new_start in full_ids and full_ids.index(new_start) > 0:
+                new_range = f"{new_start}:{full_ids[-1]}"
+                effective_ranges = [{'range': new_range}]
+                print(f"🔄 [Smart Fast Resume]: Đã thẩm định hoàn tất đến {max_done}. Tự động lùi 5 bài để tiếp tục từ {new_range} (bỏ qua {target_idx} bài cũ đã thẩm định).")
 
 cli_args = [arg for item in effective_ranges for arg in ['--range', item['range']]]
 if AUTO_RESUME:

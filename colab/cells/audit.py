@@ -37,7 +37,7 @@ def run_assignment_audit(output, definition, filename, scope):
     saved = attempt / filename
     process = subprocess.run([sys.executable, '-m', 'arxiv_pipeline.reporting.milestone1.audit',
                               '--output', str(output), '--assignment', str(definition_path),
-                              '--save', str(saved)], cwd=str(SOURCE))
+                              '--save', str(saved), '--workers', '32'], cwd=str(SOURCE))
     if process.returncode not in (0, 1) or not saved.is_file():
         raise RuntimeError(f'Audit {scope} không tạo được báo cáo mới.')
     data = json.loads(saved.read_text(encoding='utf-8'))
