@@ -268,30 +268,11 @@ Phần này trình bày lần lượt **tiến độ xử lý đầu vào**, **d
 
 Bảng dưới đây sử dụng audit toàn dải đã đối chiếu, không thay số liệu còn thiếu bằng thống kê của run cuối. Số version là số đọc được từ báo cáo kiểm định, có thể chưa đầy đủ nếu kiểm định không đọc được dữ liệu; đây không phải số source tải thành công.'''),
     ('code', 'table(assignment_outcomes(members))'),
-    ('md', '''### Kết quả source trong các lượt chạy đã có thống kê
+    ('md', '''### Kích thước corpus và references
 
-Một corpus 5.000 ID có thể được tạo qua nhiều phiên. Các bảng tiếp theo mô tả **riêng phạm vi của từng lượt resume** có statistics hợp lệ gắn với benchmark, giúp quan sát kết quả xử lý nhưng chưa đại diện toàn assignment. Không cộng chúng với bảng audit toàn dải hoặc với các run chồng lặp.'''),
+Kích thước trước/sau lọc dùng cùng tập paper có đủ cặp đo, tổng các version của mỗi paper. Phần loại bỏ gồm hình và các tệp ngoài TeX/BibTeX. References trung bình tính trên các paper truy vấn được, gồm kết quả rỗng hợp lệ. Các bảng chỉ mô tả phạm vi lượt đo ghi trong từng dòng, chưa phải trung bình trên 5.000 ID/người hoặc toàn bộ nhóm.'''),
     ('code', '''valid = [m for m in members if m['authenticated']]
-table([{'Thành viên': m['member'], 'Phạm vi lượt đo': run_range(m['benchmark']),
-        'Paper phát hiện': m['statistics']['counts']['discovery_success_papers'],
-        'Version đã biết': m['statistics']['counts']['expected_versions'],
-        'Source tải thành công': m['statistics']['download_statuses'].get('success', 0),
-        'Không có source': m['statistics']['download_statuses'].get('no_source', 0),
-        'Lỗi API khi tải': m['statistics']['download_statuses'].get('api_error', 0)} for m in valid])
-fig, ax = plt.subplots(figsize=(8, 4))
-bottom = [0]*len(valid)
-for status, label in [('success','Source thành công'), ('no_source','Không có source'), ('api_error','Lỗi API')]:
-    values = [m['statistics']['download_statuses'].get(status, 0) for m in valid]
-    ax.bar([m['member'] for m in valid], values, bottom=bottom, label=label)
-    bottom = [a+b for a,b in zip(bottom,values)]
-ax.set_ylabel('Số version trong lượt đo'); ax.set_xlabel('Thành viên — các lượt có phạm vi khác nhau')
-ax.legend(); plt.tight_layout(); plt.show()'''),
-    ('md', '''TV3 có thống kê cho 828 ID ở lượt cuối; TV4 và TV5 cho sáu ID mỗi lượt. Số 0 trong bảng trạng thái này chỉ có ý nghĩa trong chính lượt đo đó. `no_source` là một kết quả được phân loại, còn lỗi API là kết quả cần xử lý hoặc thử lại. TV2 có benchmark nhưng chưa có statistics của snapshot hoàn tất trong ZIP đã nộp.
-
-### Kích thước corpus và references
-
-Kích thước trước/sau lọc dùng cùng tập paper có đủ cặp đo, tổng các version của mỗi paper. Phần loại bỏ gồm hình và các tệp ngoài TeX/BibTeX. References trung bình tính trên các paper truy vấn được, gồm kết quả rỗng hợp lệ. Tất cả số liệu dưới đây vẫn thuộc các lượt đo đã nêu, chưa phải trung bình toàn bộ nhóm.'''),
-    ('code', '''table([{'Thành viên': m['member'], 'Paper có cặp đo kích thước': m['statistics']['sizes']['paired_papers'],
+table([{'Thành viên': m['member'], 'Phạm vi lượt đo': run_range(m['benchmark']), 'Paper có cặp đo kích thước': m['statistics']['sizes']['paired_papers'],
         'Trước lọc (bytes/paper)': m['statistics']['sizes']['mean_uncompressed_before_per_paper_bytes'],
         'Sau lọc (bytes/paper)': m['statistics']['sizes']['mean_filtered_per_paper_bytes'],
         'References thu được': m['statistics']['counts']['references'],
