@@ -67,3 +67,4 @@ Danh mục tài liệu tham khảo sau khi khử trùng lặp và hợp nhất t
 - `authors` (list[str]): Danh sách tên các tác giả.
 - `year` (int | None): Năm xuất bản.
 - `doi`, `journal`, `url` (str | None): Các trường tùy chọn nếu có.
+

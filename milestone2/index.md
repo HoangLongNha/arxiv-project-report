@@ -8,3 +8,4 @@ Các nội dung chính:
 - **Thống kê phân tích (Notebook thực thi):** Tự động sinh biểu đồ phân tích độ bao phủ và hiệu quả khử trùng lặp (`elements` và `bibtex`) ngay trong quá trình biên dịch sách (`jupyter-book build`).
 - **Đo lường hiệu năng (Notebook thực thi):** Báo cáo thời gian chạy end-to-end, Peak RAM, Average RAM và dung lượng lưu trữ trên Google Colab CPU-only.
 - **Thảo luận & Phân tích giới hạn:** Đánh giá các trường hợp biên (edge cases) và sự sẵn sàng cho Milestone 3.
+

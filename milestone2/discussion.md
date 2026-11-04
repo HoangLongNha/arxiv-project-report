@@ -42,3 +42,4 @@ Kết quả đầu ra của Milestone 2 đáp ứng đầy đủ điều kiện 
 - **Ngữ cảnh trích dẫn sạch (Clean Citation Context):** Mọi câu văn (`Sentence`) chứa thẻ `\cite{}` đều đã được làm sạch định dạng thừa, chuẩn hóa công thức toán, và đồng bộ mã trích dẫn (`citation_key`) xuyên suốt tất cả các phiên bản.
 - **Danh mục BibTeX hợp nhất:** Bảng `bibtex` đã được chuẩn hóa về một khóa duy nhất cho mỗi công trình nghiên cứu, loại bỏ trùng lặp hoàn toàn, sẵn sàng làm kho dữ liệu đối sánh (Target Catalog) cho các mô hình học máy (Machine Learning) và đối sánh thực thể (Entity Matching).
 - **Cấu trúc phân cấp giàu ngữ nghĩa:** Bảng `hierarchy` cho phép mở rộng ngữ cảnh trích dẫn không chỉ ở cấp câu văn mà còn ở cấp đoạn văn (`paragraph`) và đề mục (`heading/section`), giúp tăng cường độ chính xác cho mô hình phân loại trích dẫn.
+

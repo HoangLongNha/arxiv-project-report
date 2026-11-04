@@ -20,3 +20,4 @@ Hệ thống được thiết kế theo mô hình luồng 5 trạm độc lập,
 3. **Trạm 3 (TV3 — `normalization.py`):** Làm sạch các lệnh định dạng thừa, chuẩn hóa công thức toán nội dòng/khối, phân tách các đoạn văn xuôi thành các câu văn lá (`Sentence`).
 4. **Trạm 4 (TV4 — `bibliography.py` & `deduplication.py`):** Chuyển đổi `\bibitem` sang BibTeX chuẩn, thực hiện khử trùng lặp 2 cấp độ (References và Full-text) xuyên phiên bản, đồng bộ hóa khóa trích dẫn `\cite{}`.
 5. **Trạm 5 (TV5 — `validation.py`, `benchmark.py` & Jupyter Book):** Kiểm định 100% tính toàn vẹn 3 bảng dữ liệu, đo lường hiệu năng trên môi trường Google Colab CPU-only và xuất bản báo cáo tương tác.
+
