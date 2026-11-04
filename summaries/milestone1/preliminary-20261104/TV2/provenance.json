@@ -1,0 +1,33 @@
+{
+  "checked_on": "2026-11-04",
+  "archive_name": "tv2-artifacts.zip",
+  "drive_url": "https://drive.google.com/file/d/1LKh8kYa-Y05kka8gQsZmMr5BHxoVJa66/view",
+  "archive_sha256": "704334ab43ab86a1f72c59efd735d1a279af5dc63a44fc46efb57745296bebdd",
+  "files": {
+    "run.json": {
+      "original_sha256": "3ce2c070ecfd93888b3278819e66edc4a4e64cfdf914414f9eaacc50c817f4b5",
+      "published_sha256": "72238ed8b8151bf3ac7d98b2f1f20184cb6a16ec618f5f7a351d667999289466"
+    },
+    "samples.jsonl": {
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "published_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "timings.jsonl": {
+      "original_sha256": "26a51c52ae370d9ef7468006ddd4d606051617555013f28f07420c8040912690",
+      "published_sha256": "26a51c52ae370d9ef7468006ddd4d606051617555013f28f07420c8040912690"
+    },
+    "statistics_error.json": {
+      "original_sha256": "a20c1671b5af45cb108ec0f0ceebac13fae3c5941ce2ebe30b7a66896bd4cdea",
+      "published_sha256": "a20c1671b5af45cb108ec0f0ceebac13fae3c5941ce2ebe30b7a66896bd4cdea"
+    },
+    "benchmark.json": {
+      "original_sha256": "b99069fec8f9eb4b28e0580efad48f743603d68ed95a2d8e6b22e8bb874c4779",
+      "published_sha256": "f8094efea6aeea2cfb39068534b7dd8b2ed92187966c27f96258cb3034c9cd92"
+    },
+    "assignment-audit.json": {
+      "original_sha256": "39da8cb9ccf063d7c89889b107ec6fcd654b66e303c90b17e6ac84754dcd3b0b",
+      "published_sha256": "39da8cb9ccf063d7c89889b107ec6fcd654b66e303c90b17e6ac84754dcd3b0b"
+    }
+  },
+  "note": "Archive evidence only; no independent revalidation of live corpus. TV5 uses the local ZIP with the same name/size as the shared Drive file."
+}

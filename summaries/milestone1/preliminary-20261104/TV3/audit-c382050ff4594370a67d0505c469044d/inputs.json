@@ -1,0 +1,10 @@
+{
+  "ranges": [
+    {
+      "range": "2411.08799:2411.13798"
+    }
+  ],
+  "assigned_input_count": 5000,
+  "scope": "TV3",
+  "note": "ID lookup inputs, not a count of existing publications"
+}

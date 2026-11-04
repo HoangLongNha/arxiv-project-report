@@ -1,8 +1,8 @@
 # arXiv Project Report — Nhóm 6
 
-Repository Jupyter Book riêng, chỉ chứa báo cáo và số liệu tổng hợp, không chứa corpus. Đã có demo offline, smoke local và mẫu CPU-only trên Colab; chưa có kết quả toàn corpus. MS2 sẽ nối tiếp MS1 trong cùng book sau khi nhóm bàn giao.
+Repository Jupyter Book riêng, chỉ chứa báo cáo và artifacts kiểm chứng, không chứa corpus. Kết quả sơ bộ ngày 04/11/2026 đã đối chiếu bộ nộp của TV2–TV5; chưa nghiệm thu toàn nhóm. MS2 sẽ nối tiếp MS1 trong cùng book sau khi nhóm bàn giao.
 
-Cập nhật: đã có mẫu `colab-cpu-sample` chạy CPU-only trên Google Colab từ commit source sạch `0f8d83b`; một paper, một version, 97 references, exit 0. Audit assignment xác nhận còn 24.999/25.000 ID chưa có dữ liệu. Đây chưa phải nghiệm thu toàn corpus.
+Cập nhật hiện tại: `milestone1/preliminary-results.ipynb` sinh bảng coverage, collection outcomes và performance theo từng thành viên/run từ `summaries/milestone1/preliminary-20261104`. Chưa có TV1; audit TV2 mâu thuẫn; ZIP TV3/TV4 thiếu kết quả audit; TV5 còn unresolved/validation fail. Các mẫu demo/smoke trước đây được giữ riêng làm lịch sử.
 
 ## Build
 
@@ -14,7 +14,9 @@ python -m ipykernel install --user --name python3
 jupyter-book build . --all --warningiserror
 ```
 
-Mở `_build/html/index.html`. `execute_notebooks: force` buộc chạy notebook mỗi lần build; lỗi notebook làm build thất bại. Notebook chỉ xử lý summary đã lưu, không gọi arXiv trong CI. Default `TV5_RUN=demo`; tên run không tồn tại sẽ gây lỗi, không tự fallback về demo.
+Mở `_build/html/index.html`. `execute_notebooks: force` buộc chạy notebook mỗi lần build; lỗi notebook làm build thất bại. Trang kết quả mới chỉ đọc artifacts đã lưu và kiểm hash, không gọi arXiv/Drive trong CI và không phụ thuộc `TV5_RUN`. Biến này chỉ dùng cho hai notebook thống kê/hiệu năng lịch sử hiện không nằm trong mục lục.
+
+Để tạo lại notebook kết quả sơ bộ, chạy `python scripts/prepare_preliminary_results.py`. `scripts/import_member_artifacts.py` nhập các ZIP đã tải về workspace cha, kiểm CRC/SHA-256, không sửa ZIP/corpus và từ chối ghi đè bằng nội dung khác. Bộ nộp TV2 có một lớp ZIP lồng; script xử lý cả hai lớp. Nguồn Drive và hash nằm trong `provenance.json` của từng thành viên. Import chỉ lược đường dẫn cục bộ trong `run.json`/`benchmark.json`; các artifacts còn lại giữ nguyên bytes. Snapshot này không tự cập nhật khi Drive thay đổi; lần cập nhật dữ liệu tiếp theo cần một snapshot mới và cập nhật lựa chọn trong `utils/preliminary_results.py`.
 
 ## Thay số liệu demo bằng run thật
 
