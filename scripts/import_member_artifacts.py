@@ -66,7 +66,7 @@ def main():
             provenance['files'][name] = dict(original_sha256=digest(original),
                                             published_sha256=digest(public))
         (target / 'provenance.json').write_text(
-            json.dumps(provenance, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+            json.dumps(provenance, ensure_ascii=False, indent=2) + '\n', encoding='utf-8', newline='\n')
 
 
 if __name__ == '__main__':
