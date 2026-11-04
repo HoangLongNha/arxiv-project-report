@@ -5,11 +5,10 @@ chapters:
     sections:
       - file: milestone1/introduction
       - file: milestone1/methodology
-        sections:
-          - file: milestone1/contributions/tv1-discovery
-          - file: milestone1/contributions/tv2-downloader
-          - file: milestone1/contributions/tv3-extractor
-          - file: milestone1/contributions/tv4-metadata-references
+      - file: milestone1/experimental-setup
       - file: milestone1/preliminary-results
+      - file: milestone1/performance
       - file: milestone1/discussion
-  - file: references
+      - file: milestone1/member-contributions
+      - file: references
+      - file: milestone1/audit-appendix

@@ -1,5 +1,7 @@
-# Milestone 1 — Data Crawling
+# Milestone 1 — Thu thập dữ liệu arXiv
 
-Phần này trình bày phạm vi đầu vào, pipeline của các thành viên, QA của TV5 và kết quả sơ bộ sinh bảng/biểu đồ khi build. Mỗi run có nhãn và môi trường riêng; không trộn demo, smoke, resumed và benchmark cuối.
+Milestone 1 xây dựng và kiểm tra corpus từ các ID được phân công. Hệ thống xác định toàn bộ phiên bản, tải source, giữ các tệp TeX/BibTeX, chuẩn hóa metadata và thu thập references.
 
-Trang [Preliminary Results & Data Collection Progress](preliminary-results.ipynb) đọc snapshot `preliminary-20261104` của TV2–TV5, độc lập với `TV5_RUN`. Chưa có đủ bằng chứng xác nhận toàn bộ 25.000 ID đạt yêu cầu; build thành công không đồng nghĩa hoàn thành nghiệm thu dữ liệu/hiệu năng.
+Báo cáo đi từ **phạm vi đầu vào → phương pháp → thực nghiệm → kết quả → phân tích**. Phần kết quả trả lời lần lượt: mỗi thành viên đã chạy đến đâu, thu được gì và dữ liệu có đạt yêu cầu hay không. Hiệu năng được trình bày ở một mục riêng, gắn với phạm vi thực sự được đo.
+
+Các bảng và biểu đồ được sinh từ artifacts khi biên dịch Jupyter Book. Chi tiết đối chiếu audit, định danh phiên chạy và nguồn dữ liệu được đặt trong phụ lục; phần nội dung chính tập trung vào ý nghĩa của kết quả.

@@ -6,6 +6,7 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'utils'))
 from preliminary_results import load_members, coverage_rows, performance_rows, audit_assessment
+from preliminary_results import progress_rows, assignment_outcomes, session_members
 
 
 class PreliminaryResultsTests(unittest.TestCase):
@@ -32,6 +33,25 @@ class PreliminaryResultsTests(unittest.TestCase):
         audit = dict(audit_complete=True, unseen_ids=[], unresolved_discovery_ids=[],
                      validation_fail_papers=0, diagnostics=[])
         self.assertIn('Chưa xác minh', audit_assessment(audit, False))
+
+    def test_group_report_and_verified_coverage_stay_separate(self):
+        members = load_members(ROOT)
+        rows = {r['Thành viên']: r for r in progress_rows(members)}
+        self.assertEqual(sum(r['Đã chạy theo báo cáo nhóm'] for r in rows.values()), 25000)
+        for member in ['TV1', 'TV3', 'TV4']:
+            self.assertIsNone(rows[member]['ID có kết quả ghi nhận'])
+            self.assertIsNone(rows[member]['Lookup còn lỗi'])
+        self.assertEqual(rows['TV5']['ID có kết quả ghi nhận'], 5000)
+        self.assertEqual(rows['TV5']['Lookup còn lỗi'], 4)
+        full = {r['Thành viên']: r for r in assignment_outcomes(members)}
+        self.assertIsNone(full['TV3']['Paper phát hiện thành công'])
+
+    def test_supplementary_sessions_are_not_added_to_assignment_counts(self):
+        members = load_members(ROOT)
+        sessions = session_members(ROOT, members)
+        self.assertEqual(len(sessions), 6)
+        self.assertEqual(sum(s['member'] == 'TV4' for s in sessions), 3)
+        self.assertEqual(len(progress_rows(members)), 5)
 
 
 if __name__ == '__main__':

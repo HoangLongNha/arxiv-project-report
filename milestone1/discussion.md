@@ -1,28 +1,29 @@
-# Phân tích và hạn chế
+# Thảo luận, hạn chế và kết luận
 
-Kết quả sơ bộ ngày 04/11/2026 dựa trên artifacts của TV2–TV5, được trình bày trong [Preliminary Results & Data Collection Progress](preliminary-results.ipynb). Chưa có đủ bằng chứng để kết luận toàn bộ nhóm hoàn thành MS1. Việc tải ZIP, có record cho mọi ID, tải source thành công và validation pass là những điều kiện khác nhau.
+## Tiến độ và kết quả đạt được
 
-## Độ bao phủ và chất lượng
+Nhóm đã xây dựng pipeline tích hợp để tìm phiên bản, tải source, tạo corpus TeX/BibTeX, chuẩn hóa metadata, lấy references và kiểm định đầu ra. Theo tổng hợp tiến độ do nhóm cung cấp, năm thành viên đã chạy hết dải 5.000 ID/người. Phần kết quả ghi nhận tiến độ này và tách rõ số liệu đối chiếu được từ artifacts.
 
-TV2 có record cho 5.000 ID, không có unseen/unresolved nhưng báo cáo 2.579 validation fail trong khi cờ `audit_complete=true`. Cờ này không phù hợp công thức tại commit source do benchmark khai báo. Cần xác minh code audit thực dùng, độ mới của validation và chạy lại audit; chưa công nhận hoàn tất. TV5 có record cho 5.000 ID nhưng còn bốn Discovery chưa giải quyết và 379 validation fail. TV3/TV4 chưa cung cấp kết quả audit trong các ZIP đã kiểm tra; khai báo dải trong `inputs.json` không thay thế kết quả thực thi.
+Trong bộ bằng chứng hiện có, audit TV2 và TV5 ghi nhận đủ 5.000 ID đúng dải. Điều này xác nhận việc xử lý đầu vào ở hai dải, đồng thời không bảo đảm tất cả lookup và đầu ra đều thành công. TV3/TV4 có thống kê của các lượt resume, nhưng chưa có kết quả audit toàn dải trong các ZIP đã đọc; chưa đủ cơ sở công bố chỉ số cuối cùng cho toàn bộ 25.000 ID.
 
-Các thống kê TV3/TV4/TV5 tương ứng các run resume 828/6/6 ID. Không dùng chúng để kết luận về toàn dải 5.000 ID, không cộng với dòng audit toàn dải và không cộng các phiên chồng lặp. Cần nhận kết quả audit còn thiếu, giải quyết các lỗi đang mở, rồi tạo thống kê toàn corpus trên snapshot được xác định rõ.
+## Chất lượng và nguyên nhân chưa đạt
 
-## Hiệu năng và tính tái lập
+Các lỗi kiểm định tập trung vào stage upstream chưa thành công, đường dẫn/tệp đầu ra và sự nhất quán của checkpoint. Các nhóm lỗi có thể cùng xuất hiện ở một paper. Cần phân biệt dữ liệu thực sự thiếu với checkpoint cũ hoặc quy tắc kiểm định chưa phù hợp; không thể kết luận toàn bộ paper validation fail đều không có dữ liệu sử dụng được.
 
-Bốn benchmark được nộp đều là resume; TV2 bị ngắt và không có snapshot thống kê hợp lệ cho run hiện tại. TV2 không có RAM sample, TV4/TV5 chỉ có một sample nên không đủ bằng chứng diễn giải peak/mean RAM. TV3 có nhiều mẫu hơn nhưng phạm vi và điều kiện cache khác, chưa phù hợp xếp hạng tốc độ giữa thành viên. `wall_seconds` không bao gồm tổng thời gian các phiên trước và chưa khớp hoàn toàn khoảng cách giữa hai timestamp của artifact; cần làm rõ biên đo trước benchmark chính thức.
+Audit TV2 ghi cờ hoàn tất không khớp số paper fail theo công thức tại commit được benchmark khai báo. Đây là vấn đề cần tái kiểm ở báo cáo audit; không phủ nhận việc file đó liệt kê đủ 5.000 ID. TV5 vẫn có bốn lookup lỗi và các paper validation fail trong snapshot đã nộp. Các con số này mô tả trạng thái tại ngày audit, chưa khẳng định trạng thái của corpus sau những lần sửa/chạy tiếp chưa được xuất artifacts.
 
-## Phần cần hoàn thiện
+## Hiệu năng và giới hạn đo
 
-1. Nhận dữ liệu TV1 và kết quả audit đúng dải của TV3/TV4; kiểm tra lại audit TV2 có mâu thuẫn.
-2. Rà soát nguyên nhân các Discovery/validation fail, phân biệt lỗi upstream, checkpoint/đường dẫn và quy tắc validator; sửa và tái kiểm trên dữ liệu thật.
-3. Chốt snapshot corpus từng thành viên, kiểm tra định danh/range, nguồn code và tính nhất quán trước khi tổng hợp toàn nhóm.
-4. Bổ sung thống kê toàn dải và benchmark có cấu hình, phạm vi, chế độ fresh/resume/cache, thời gian đo và số mẫu tài nguyên được mô tả rõ.
+Các run được nộp có phạm vi khác nhau và đều dùng chạy tiếp. Số đo chịu ảnh hưởng của cache, retry, thời gian chờ dịch vụ và quét file trên Drive. Những yếu tố này giải thích vì sao không dùng bảng benchmark hiện tại để xếp hạng tốc độ giữa thành viên hoặc ngoại suy tổng thời gian toàn nhóm. Các phiên TV4 bổ sung có nhiều mẫu hơn nhưng bị gián đoạn và chồng lặp phạm vi, nên vẫn được trình bày riêng.
 
-## Giới hạn phương pháp
+Lấy mẫu RAM có thể bỏ lỡ đỉnh ngắn; RSS cộng tiến trình có thể đếm shared pages nhiều lần. Disk chỉ đo trong output root và có thể chứa dữ liệu các phiên trước. Kích thước trước/sau lọc chỉ có ý nghĩa khi đo cùng tập dữ liệu đã giải nén; không suy tỷ lệ loại hình từ package nén.
 
-RSS theo mẫu có thể bỏ lỡ đỉnh ngắn; tổng RSS không bằng bộ nhớ vật lý duy nhất do shared pages. Quét disk gây overhead và chỉ đo trong output root, không đo hệ điều hành hay cache pip. Không so package nén với corpus giải nén để kết luận tỷ lệ bỏ hình. Reference metadata không đầy đủ và Semantic Scholar có thể chưa index paper. Validator dùng schema/heuristics, không kiểm chứng ngữ nghĩa toàn bộ LaTeX, không biên dịch PDF và không thay kiểm tra thủ công trên mẫu.
+## Mức sẵn sàng cho MS2
 
-Sau khi tiến trình bị ngắt, checkpoint mới có thể chưa xuất hiện trong manifest cuối. Hoàn tất resume để có snapshot nhất quán trước khi thống kê; không cộng các run chồng lặp như các paper mới.
+Corpus đã tạo là nền tảng cho parsing, nhưng cần rà soát source/corpus thiếu, version chưa hoàn tất và metadata liên kết trước khi chốt đầu vào MS2. Validator không biên dịch LaTeX và không kiểm chứng toàn bộ ngữ nghĩa; các trường hợp rỗng/nhị phân cần kiểm tra mẫu thực tế. References phụ thuộc độ phủ và giới hạn của Semantic Scholar; thiếu dữ liệu ở đây cần được giữ nhãn khi chuyển sang matching.
 
-Các mẫu demo/smoke ngày 28/10 được giữ để tái lập quy trình, không phải số liệu nghiệm thu hiện tại. Kiểm tra hash artifact khi build không thay cho tái kiểm manifest/checkpoint và corpus sống trên Drive.
+## Kết luận và phần cần hoàn thiện
+
+Kết quả hiện tại xác nhận phương pháp thu thập, pipeline tích hợp và khả năng tạo báo cáo từ artifacts. Tiến độ 5.000 ID/người do nhóm cung cấp được ghi nhận; mức thu thập thành công và chất lượng được công bố đúng phạm vi có bằng chứng. Chưa kết luận toàn bộ dữ liệu MS1 đạt yêu cầu chỉ từ việc kết thúc notebook.
+
+Để hoàn thiện nghiệm thu, nhóm cần bổ sung audit/thống kê toàn dải còn thiếu, xử lý hoặc giải thích các lỗi kiểm định, xác minh lại audit không nhất quán và hoàn thiện benchmark CPU-only với biên đo rõ ràng. Sau đó có thể cập nhật tỷ lệ thành công toàn nhóm và chốt snapshot đầu vào cho MS2.

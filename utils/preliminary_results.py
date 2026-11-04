@@ -1,6 +1,7 @@
 """Evidence-scoped report tables. Missing observations remain missing, never zero."""
 import hashlib
 import json
+from collections import Counter
 from pathlib import Path
 
 SNAPSHOT = 'preliminary-20261104'
@@ -147,3 +148,87 @@ def performance_rows(members):
                      'Giới hạn RAM': 'Chỉ là mẫu quan sát' if usable_ram else 'Không đủ mẫu; không diễn giải peak/mean',
                      'Disk final GiB': b['disk']['final_bytes']/1024**3 if b['disk'].get('final_bytes') is not None else None})
     return rows
+
+
+def progress_rows(members):
+    """Group-reported completion and artifact verification are separate observations."""
+    rows = []
+    for m in members:
+        a = m['audit'] if m['verified'] else None
+        rows.append({'Thành viên': m['member'], 'ID được giao': 5000,
+                     'Đã chạy theo báo cáo nhóm': 5000,
+                     'ID có kết quả ghi nhận': a['discovered_assigned_ids'] if a else None,
+                     'ID chưa ghi nhận': len(a['unseen_ids']) if a else None,
+                     'Lookup còn lỗi': len(a['unresolved_discovery_ids']) if a else None})
+    return rows
+
+
+def assignment_outcomes(members):
+    """Never fill assignment-scale results from a shorter benchmark session."""
+    rows = []
+    for m in members:
+        a = m['audit'] if m['verified'] else None
+        rows.append({'Thành viên': m['member'],
+                     'Paper phát hiện thành công': a['discovery_statuses'].get('success', 0) if a else None,
+                     'ID không tìm thấy': a['discovery_statuses'].get('not_found', 0) if a else None,
+                     'Version đọc được từ kiểm định': a['known_version_count'] if a else None})
+    return rows
+
+
+def quality_rows(members):
+    rows = []
+    for m in members:
+        a = m['audit'] if m['verified'] else None
+        passed = a['validation_pass_papers'] if a else None
+        failed = a['validation_fail_papers'] if a else None
+        total = passed + failed if a else None
+        rows.append({'Thành viên': m['member'], 'Paper đã kiểm định': total,
+                     'Đạt': passed, 'Còn lỗi': failed,
+                     'Tỷ lệ đạt (%)': 100*passed/total if total else None})
+    return rows
+
+
+ERROR_LABELS = {
+    'upstream_failure': 'Stage thu thập/xử lý chưa thành công',
+    'artifact_location': 'Đường dẫn đầu ra chưa đúng hợp đồng',
+    'invalid_artifact': 'Tệp đầu ra thiếu hoặc không hợp lệ',
+    'invalid_source': 'Source thiếu, rỗng hoặc không hợp lệ',
+    'invalid_corpus_file': 'Tệp corpus bị báo rỗng/nhị phân',
+    'inconsistent_status': 'Trạng thái các bước chưa nhất quán',
+    'validation_read_error': 'Không đọc/diễn giải được dữ liệu kiểm định',
+}
+
+
+def error_groups(members):
+    rows = []
+    for m in members:
+        if not m['audit'] or not m['verified']:
+            continue
+        counts = Counter()
+        for paper in m['audit']['paper_results']:
+            if paper['valid']:
+                continue
+            codes = {e['code'] for e in paper.get('errors', [])}
+            if 'error' in paper:
+                codes.add('validation_read_error')
+            counts.update(codes)
+        rows.extend({'Thành viên': m['member'], 'Nhóm vấn đề': ERROR_LABELS.get(k, k),
+                     'Paper bị ảnh hưởng': v} for k, v in counts.most_common())
+    return rows
+
+
+def session_members(root, members):
+    """Expose earlier TV4 sessions separately; never sum overlapping runs."""
+    result = [dict(m, session=m['member'] + ' — lượt đã nộp') for m in members if m['benchmark']]
+    base = Path(root) / 'summaries/milestone1/supplementary-20261104'
+    for directory in sorted(base.glob('TV4-*')):
+        provenance = read(directory / 'provenance.json')
+        for name, hashes in provenance['files'].items():
+            if hashlib.sha256((directory / name).read_bytes()).hexdigest() != hashes['published_sha256']:
+                raise ValueError(f'Evidence hash mismatch: {directory.name}/{name}')
+        paths = list(directory.glob('*/benchmark.json'))
+        if len(paths) != 1:
+            raise ValueError('Expected one benchmark per supplementary session')
+        result.append(dict(member='TV4', session=directory.name, directory=paths[0].parent,
+                           benchmark=read(paths[0]), provenance=provenance))
+    return result
