@@ -1,18 +1,14 @@
-# arXiv Project — Nhóm 6
+# arXiv Project, nhóm 6
 
-Báo cáo trình bày quá trình xây dựng corpus bài báo khoa học từ arXiv, gồm source LaTeX theo phiên bản, metadata và tài liệu tham khảo từ Semantic Scholar. Corpus này là đầu vào cho các bước parsing và matching ở các milestone tiếp theo.
+Nhóm xây dựng corpus bài báo arXiv gồm source LaTeX theo phiên bản, metadata và tài liệu tham khảo từ Semantic Scholar. Corpus phục vụ parsing ở Milestone 2 và matching ở Milestone 3.
 
 ## Milestone 1: Thu thập dữ liệu
 
-Nhóm được giao **25.000 arXiv ID**, chia thành năm dải, mỗi thành viên chạy **5.000 ID**. Theo tổng hợp tiến độ do nhóm cung cấp, các thành viên đã chạy hết phạm vi cá nhân. Báo cáo tách tiến độ này khỏi kết quả thu thập thành công và chất lượng dữ liệu; các chỉ số thực nghiệm chỉ công bố trong phạm vi artifacts đã đối chiếu.
+Phạm vi được giao là 25.000 arXiv ID, chia đều cho năm thành viên. Nhóm báo cáo đã chạy hết các dải cá nhân. Audit được nộp đến ngày 06/11/2026 xác nhận đủ record cho bốn dải TV2–TV5, tương ứng 20.000 ID. TV3 và TV4 đã bổ sung audit toàn dải; cả hai không còn ID chưa ghi nhận hoặc lookup chưa giải quyết trong lần kiểm tra ngày 04/11.
 
-```{note}
-Kết quả được cập nhật ngày **04/11/2026**. Bản hiện tại trình bày kết quả sơ bộ: tiến độ nhóm báo cáo và mức kiểm chứng từ dữ liệu thực nghiệm được phân biệt rõ. Chưa công bố tỷ lệ thành công cuối cùng của toàn bộ 25.000 ID.
-```
+Kết quả thu thập và chất lượng được trình bày theo ngày kiểm tra. Một số paper vẫn còn lỗi validation; thống kê kích thước và references toàn corpus chưa được xuất. Các lượt resume riêng được giữ trong phần hiệu năng để mô tả những phiên thực sự đã đo.
 
-Nội dung gồm mục tiêu và dữ liệu, phương pháp, thiết lập thực nghiệm, kết quả thu thập và chất lượng, hiệu năng, thảo luận và đóng góp thành viên. Mã nguồn, cấu hình chi tiết và nguồn artifacts được liên kết riêng để hỗ trợ tái lập.
-
-- [Đọc báo cáo Milestone 1](milestone1/index.md)
-- [Repository mã nguồn](https://github.com/LeoTkiet/arxiv-data-science)
+- [Báo cáo Milestone 1](milestone1/index.md)
+- [Mã nguồn pipeline](https://github.com/LeoTkiet/arxiv-data-science)
 - [Repository báo cáo](https://github.com/HoangLongNha/arxiv-project-report)
 - [Đề bài chính thức](https://hcmus-cs-ta.github.io/lab-book/intro-ds/statement/)

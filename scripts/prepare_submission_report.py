@@ -27,8 +27,7 @@ def table(rows):
         if isinstance(value, int) and not isinstance(value, bool):
             return f'{value:,}'.replace(',', '.')
         return str(value)
-    display(HTML(frame.to_html(index=False, escape=True, border=0, classes='dataframe',
-                              formatters={column:number for column in frame.columns})))
+    display(HTML(frame.map(number).to_html(index=False, escape=True, border=0, classes='dataframe')))
 '''
 
 
@@ -38,6 +37,8 @@ def notebook(name, content):
         cell = nb.v4.new_markdown_cell(text) if kind == 'md' else nb.v4.new_code_cell(text)
         if kind != 'md':
             cell.metadata['tags'] = ['remove-input']
+        import hashlib
+        cell.id = hashlib.sha256((kind + text).encode()).hexdigest()[:12]
         cells.append(cell)
     doc = nb.v4.new_notebook(cells=cells)
     doc.metadata['kernelspec'] = dict(display_name='Python 3', language='python', name='python3')
@@ -246,176 +247,18 @@ Các tài liệu gốc dưới đây được giữ để truy vết quá trình
 }
 
 
+from submission_updates import PAGES as UPDATED_PAGES, build
+PAGES.update(UPDATED_PAGES)
+PAGES['milestone1/methodology.md'] = PAGES['milestone1/methodology.md'].replace(
+    '## Tổng quan hệ thống', '## Tổng quan hệ thống\n\n![Luồng dữ liệu MS1](../_static/pipeline.svg)', 1)
+
+
 def main():
+    import runpy
     for name, text in PAGES.items():
         (ROOT / name).write_text(text, encoding='utf-8')
-
-    notebook('preliminary-results.ipynb', [
-    ('md', '''# Kết quả thu thập và chất lượng dữ liệu
-
-Phần này trình bày lần lượt **tiến độ xử lý đầu vào**, **dữ liệu thu được** và **chất lượng đầu ra**. Ngày đối chiếu artifacts: **04/11/2026**. Những run được lưu trước ngày này mô tả trạng thái tại thời điểm xuất kết quả, không mặc định bao gồm các lần chạy/sửa sau đó.
-
-## 1. Tiến độ xử lý 5.000 ID của từng thành viên
-
-**Theo tổng hợp tiến độ do nhóm cung cấp, năm thành viên đã chạy hết dải cá nhân, tổng cộng 25.000 ID được giao.** Thông tin này được ghi ở cột “Đã chạy theo báo cáo nhóm”. Các cột tiếp theo chỉ điền khi có bằng chứng audit đối chiếu được trên đúng dải, để phân biệt tiến độ nhóm báo cáo với mức xác minh của bộ kết quả hiện có.'''),
-    ('code', SETUP),
-    ('code', 'table(progress_rows(members))'),
-    ('md', '''TV2 và TV5 có record cho đủ 5.000 ID trong audit đã nộp, không còn ID chưa ghi nhận ở hai dải này. TV2 không có lookup chưa giải quyết; TV5 còn bốn lookup lỗi. Đối với TV1/TV3/TV4, bảng chưa điền số xác minh toàn dải vì artifacts hiện có chưa đủ; điều đó **không được diễn giải thành các thành viên chưa chạy**.
-
-“Có record” bao gồm cả lần thử có lỗi. Vì vậy đã chạy qua đủ đầu vào, giải quyết xong mọi lookup và dữ liệu vượt qua validation là những mức hoàn thành khác nhau. Cờ hoàn tất audit có xét validation nên không được dùng thay riêng tiến độ chạy ID.
-
-## 2. Dữ liệu thu được trên phạm vi assignment
-
-Bảng dưới đây sử dụng audit toàn dải đã đối chiếu, không thay số liệu còn thiếu bằng thống kê của run cuối. Số version là số đọc được từ báo cáo kiểm định, có thể chưa đầy đủ nếu kiểm định không đọc được dữ liệu; đây không phải số source tải thành công.'''),
-    ('code', 'table(assignment_outcomes(members))'),
-    ('md', '''### Kích thước corpus và references
-
-Kích thước trước/sau lọc dùng cùng tập paper có đủ cặp đo, tổng các version của mỗi paper. Phần loại bỏ gồm hình và các tệp ngoài TeX/BibTeX. References trung bình tính trên các paper truy vấn được, gồm kết quả rỗng hợp lệ. Các bảng chỉ mô tả phạm vi lượt đo ghi trong từng dòng, chưa phải trung bình trên 5.000 ID/người hoặc toàn bộ nhóm.'''),
-    ('code', '''valid = [m for m in members if m['authenticated']]
-table([{'Thành viên': m['member'], 'Phạm vi lượt đo': run_range(m['benchmark']), 'Paper có cặp đo kích thước': m['statistics']['sizes']['paired_papers'],
-        'Trước lọc (bytes/paper)': m['statistics']['sizes']['mean_uncompressed_before_per_paper_bytes'],
-        'Sau lọc (bytes/paper)': m['statistics']['sizes']['mean_filtered_per_paper_bytes'],
-        'References thu được': m['statistics']['counts']['references'],
-        'References/paper truy vấn được': m['statistics']['references']['mean_per_retrieved_paper']} for m in valid])
-table([{'Thành viên': m['member'],
-        'Truy vấn references thành công (tử/mẫu)': str(m['statistics']['rates']['reference_query_success']['numerator'])+' / '+str(m['statistics']['rates']['reference_query_success']['denominator']),
-        'Reference đủ metadata (tử/mẫu)': str(m['statistics']['references']['complete_metadata_rate']['numerator'])+' / '+str(m['statistics']['references']['complete_metadata_rate']['denominator'])} for m in valid])'''),
-    ('md', '''## 3. Chất lượng dữ liệu sau thu thập
-
-Validator kiểm tra tính nhất quán giữa phiên bản, raw source, corpus, metadata, references và checkpoint. Bảng này chỉ dùng audit toàn dải đã đối chiếu. Tỷ lệ đạt có mẫu số là số paper **đã được kiểm định**, không phải 5.000 ID được giao và không bao gồm các lookup chưa phát hiện paper.'''),
-    ('code', 'table(quality_rows(members))'),
-    ('md', '''Kết quả hiện có cho thấy TV2 và TV5 đã có dữ liệu được kiểm định trên các paper phát hiện được, nhưng còn paper chưa đạt. Validation fail không đồng nghĩa toàn bộ nội dung paper đều mất hoặc không thể dùng: nguyên nhân có thể ở một version, một stage, đường dẫn/checkpoint hoặc quy tắc kiểm tra. Cần rà soát theo nhóm vấn đề trước khi chốt corpus cho MS2.
-
-Audit TV2 ghi cờ hoàn tất chưa nhất quán với số paper fail; chi tiết kỹ thuật được giữ ở phụ lục. Điểm này ảnh hưởng kết luận về chất lượng/hoàn tất audit, không phủ nhận bằng chứng 5.000 ID đã có record.
-
-### Các nhóm vấn đề ghi nhận
-
-Mỗi paper chỉ đếm một lần trong từng nhóm, nhưng một paper có thể thuộc nhiều nhóm. Vì vậy không cộng các cột để suy tổng paper fail. Đây là phân loại thông báo validator, chưa khẳng định nguyên nhân gốc hoặc trách nhiệm của người chạy.'''),
-    ('code', '''groups = error_groups(members)
-table(groups)
-fig, ax = plt.subplots(figsize=(9, 5))
-labels = [r['Thành viên']+' — '+r['Nhóm vấn đề'] for r in groups]
-ax.barh(labels, [r['Paper bị ảnh hưởng'] for r in groups])
-ax.invert_yaxis(); ax.set_xlabel('Paper bị ảnh hưởng trong từng nhóm (có thể chồng lặp)')
-plt.tight_layout(); plt.show()'''),
-    ('md', '''## 4. Phạm vi kết luận
-
-Nhóm báo cáo đã chạy đủ 5.000 ID/người. Bộ artifacts hiện cho phép đối chiếu đầy đủ record đầu vào của TV2/TV5 và xem kết quả một số phiên của TV3/TV4/TV5. Chưa đủ bằng chứng để công bố số paper/source hợp lệ và tỷ lệ thành công cuối cùng cho toàn bộ 25.000 ID. Bổ sung audit và thống kê toàn dải sẽ hoàn thiện phần xác minh mà không cần mặc định thu thập lại toàn bộ dữ liệu.
-
-Xem [hiệu năng pipeline](performance.ipynb) để phân biệt số đo từng phiên với tổng thời gian thu thập; [phụ lục](audit-appendix.ipynb) lưu nguồn artifacts, run ID và đối chiếu audit.'''),
-    ])
-
-    notebook('performance.ipynb', [
-    ('md', '''# Hiệu năng pipeline
-
-## Phạm vi đo
-
-Các benchmark được nộp đều sử dụng chạy tiếp. Bảng trình bày từng phiên cùng phạm vi và trạng thái, không cộng thời gian các phiên chồng lặp và không so sánh tốc độ giữa các thành viên như những thí nghiệm tương đương. Hai phiên TV4 bổ sung ngày 04/11 là phiên trước lượt cuối, có số đo nhưng chưa có snapshot thống kê hoàn tất.
-
-Thông tin CPU-only lấy từ môi trường benchmark tự ghi nhận; không suy việc hoàn tất thu thập chỉ từ việc notebook đã chạy tới cell benchmark.'''),
-    ('code', SETUP),
-    ('code', '''rows = []
-for s in sessions:
-    b = s['benchmark']
-    rows.append({'Phiên': s['session'], 'Phạm vi': run_range(b),
-                 'Wall time (giây)': b['wall_seconds'],
-                 'Kết thúc': 'Bị ngắt' if b['exit_code']==130 else ('Exit 0' if b['exit_code']==0 else 'Có lỗi (exit '+str(b['exit_code'])+')'),
-                 'Số mẫu RAM': b['sample_count']})
-table(rows)'''),
-    ('md', '''## Thời gian thực thi
-
-Wall time là giá trị được lưu cho từng lượt đo, không phải tổng thời gian đã dùng để thu thập dải cá nhân. Khoảng thời gian giữa timestamp bắt đầu/kết thúc có thể lớn hơn trường wall time; cần xác minh biên đo và overhead trước khi dùng làm benchmark tổng cuối cùng. Không ngoại suy thời gian của run sáu ID thành thời gian 5.000 ID.
-
-Bảng dưới được tính trực tiếp từ các event đã hoàn tất. Thời gian từng paper có thể bao gồm thời gian stage; không cộng các loại event thành tổng runtime. Event đang dở lúc gián đoạn có thể chưa được ghi.'''),
-    ('code', '''timing_rows = []
-for s in sessions:
-    path = s['directory']/'timings.jsonl'
-    events = [json.loads(line) for line in path.read_text(encoding='utf-8').splitlines() if line.strip()]
-    discovery = [e for e in events if e['kind']=='discovery']
-    papers = [e for e in events if e['kind']=='paper']
-    timing_rows.append({'Phiên': s['session'],
-        'Discovery: tổng giây event': sum(e['elapsed_seconds'] for e in discovery) if discovery else None,
-        'Số event paper hoàn tất': len(papers),
-        'Paper: trung bình giây/event': sum(e['elapsed_seconds'] for e in papers)/len(papers) if papers else None,
-        'Event dùng cache': sum(e.get('cached') is True for e in events)})
-table(timing_rows)'''),
-    ('md', '''## Bộ nhớ và dung lượng đĩa
-
-Peak RAM là cực đại RSS quan sát trên cây tiến trình; mean RAM là trung bình có trọng số thời gian. Phiên không có mẫu hoặc chỉ có một mẫu và không có khoảng quan sát được ghi **không đủ mẫu**. Disk là logical bytes của output root; dữ liệu các phiên trước có thể đã tồn tại, nên final disk không phải số byte riêng phiên đó tải mới.'''),
-    ('code', '''rows = []
-for s in sessions:
-    b=s['benchmark']; ram=b['ram']; disk=b['disk']
-    usable=b['sample_count']>=2 and ram['observed_seconds']>0
-    rows.append({'Phiên': s['session'],
-        'Peak RAM (MiB)': ram['peak_rss_bytes']/1024**2 if usable and ram['peak_rss_bytes'] is not None else 'Không đủ mẫu',
-        'Mean RAM (MiB)': ram['time_weighted_mean_rss_bytes']/1024**2 if usable and ram['time_weighted_mean_rss_bytes'] is not None else 'Không đủ mẫu',
-        'Peak disk (GiB)': disk['peak_observed_bytes']/1024**3 if disk.get('peak_observed_bytes') is not None else None,
-        'Final disk (GiB)': disk['final_bytes']/1024**3 if disk.get('final_bytes') is not None else None})
-table(rows)
-chosen = next(s for s in sessions if s['member']=='TV3')
-samples=[json.loads(line) for line in (chosen['directory']/'samples.jsonl').read_text().splitlines() if line.strip()]
-if len(samples)>1:
-    fig,ax=plt.subplots(figsize=(8,4))
-    ax.plot([v['elapsed_seconds']/60 for v in samples],[v['rss_bytes']/1024**2 for v in samples])
-    ax.set_xlabel('Thời gian lấy mẫu (phút)');ax.set_ylabel('Tổng RSS (MiB)')
-    ax.set_title('RAM quan sát — riêng lượt resume TV3 đã nộp')
-    plt.tight_layout();plt.show()'''),
-    ('md', '''Biểu đồ chỉ minh họa diễn biến trong một phiên có đủ mẫu, không đại diện toàn bộ quá trình thu thập hoặc phép so sánh giữa người chạy. Số mẫu thực tế quan trọng hơn interval cấu hình: thao tác trên Drive và quét disk có thể làm khoảng lấy mẫu dài hơn dự kiến.
-
-## Kết luận về hiệu năng
-
-Bằng chứng hiện có mô tả được các lượt chạy thực tế, chi phí xử lý/chờ và biến động tài nguyên ở những phiên có mẫu. Chưa đủ cơ sở xác nhận benchmark toàn assignment đồng nhất hoặc tổng thời gian thu thập toàn nhóm. Run ID, môi trường và thời điểm của từng phiên được lưu ở [phụ lục tái lập](audit-appendix.ipynb).'''),
-    ])
-
-    notebook('audit-appendix.ipynb', [
-    ('md', '''# Phụ lục: Bằng chứng và khả năng tái lập
-
-## Nguồn dữ liệu
-
-Báo cáo giữ nguyên artifacts đã nhập; dữ liệu mới được bổ sung thành bộ riêng, không ghi đè ZIP/corpus gốc. SHA-256 được kiểm khi build để bảo đảm bảng dựa đúng tệp đã lưu. Kiểm tra hash artifact không thay cho tái kiểm corpus sống trên Drive. Bộ TV5 hiện dùng ZIP cục bộ cùng tên/kích thước bản Drive, chưa đối chiếu hash cloud.
-
-Nguồn phân công là workbook đăng ký nhóm. Tiến độ “đã chạy 5.000 ID/người” là thông tin nhóm cung cấp khi trao đổi ngày 04/11/2026; đó không phải số được suy từ benchmark hoặc tự tạo từ artifacts.
-
-Thư mục chia sẻ: [arxiv_ms1_data](https://drive.google.com/drive/folders/123TUmjXMX38gKRLnJIKDl2yZF8jK6e9n).'''),
-    ('code', SETUP),
-    ('code', '''for s in sessions:
-    p=s['provenance']
-    display(Markdown('**'+s['session']+'**: ['+p['archive_name']+']('+p['drive_url']+')'))
-    display(Markdown('SHA-256 ZIP: `'+p['archive_sha256']+'`'))
-table([{'Phiên': s['session'], 'Run ID': s['benchmark'].get('run_id'),
-        'Bắt đầu (UTC)': s['benchmark']['started_at'], 'Kết thúc (UTC)': s['benchmark']['finished_at'],
-        'Source commit': s['benchmark']['environment'].get('source_commit'),
-        'CPU logic': s['benchmark']['environment'].get('logical_cpu_count'),
-        'CPU-only ghi nhận': s['benchmark']['environment'].get('cpu_only_confirmation')} for s in sessions])'''),
-    ('md', '''## Đối chiếu audit và phạm vi
-
-Trong hai commit source được bộ benchmark chính khai báo (`3985747` và `4ea44c4`), cờ hoàn tất audit yêu cầu không còn ID chưa thấy, Discovery chưa giải quyết, validation fail và diagnostics. Vì vậy cờ này chặt hơn điều kiện “đã chạy qua đủ ID”. Trường `discovered_assigned_ids` ở hai phiên bản đếm ID có record, kể cả lỗi; Discovery thành công được đọc riêng từ bảng trạng thái.
-
-Phạm vi TV2 được xác minh từ đủ 5.000 định danh trong kết quả paper; TV5 được đối chiếu thêm với tệp input đi cùng audit lồng trùng nội dung. TV3 có input dải đầy đủ nhưng ZIP/thư mục audit đã kiểm tra chưa có kết quả audit. Bản TV4 cuối đã lưu và hai ZIP bổ sung chưa chứa audit toàn dải.
-
-TV2 báo `audit_complete=true` đồng thời có 2.579 paper fail, mâu thuẫn công thức source được khai báo. Giữ nguyên giá trị gốc, cần xác minh code thực dùng và chạy lại audit; không chuyển cờ này thành kết luận hoàn tất chất lượng. Snapshot TV5 còn bốn Discovery lỗi: 2410.04689, 2410.04690, 2410.05043, 2410.05044.'''),
-    ('code', 'table(coverage_rows(members))'),
-    ('md', '''## Vai trò artifacts
-
-| Tệp | Vai trò |
-|---|---|
-| assignment-audit | Coverage và validation trên dải audit |
-| inputs | Cấu hình phạm vi; không chứng minh audit đã chạy |
-| statistics | Số liệu theo snapshot/run; phải kiểm tra phạm vi và run ID |
-| summary | Tổng hợp pipeline một run; không cộng chồng lặp |
-| benchmark, samples, timings | Số đo môi trường, tài nguyên và event theo run |
-| validation từng paper | Chi tiết kiểm định cần đối chiếu với dữ liệu thật |
-| run | Cấu hình lúc bắt đầu; trạng thái kết thúc đọc trong benchmark |
-| provenance | Nguồn ZIP và hash gốc/bản công bố |
-
-Statistics TV2 và hai phiên TV4 bổ sung chưa có snapshot hoàn tất của run hiện tại; lỗi này được giữ trong bộ bằng chứng và không thay bằng manifest cũ. TV3–TV5 ở các run chính có statistics khớp run ID/label; đây là kiểm tra nội bộ artifacts, chưa xác thực lại hash manifest trên Drive.
-
-## Tái lập báo cáo
-
-README của repository báo cáo hướng dẫn cài môi trường và build. Jupyter Book thực thi notebook khi build; các cell tính toán được ẩn khỏi HTML nhưng vẫn lưu trong notebook nguồn. Script `scripts/prepare_submission_report.py` tạo lại nội dung đã biên tập. Hai snapshot artifacts được lưu riêng trong thư mục summaries; không cần gọi arXiv hoặc Drive khi build.
-
-Các tài liệu gốc của thành viên được liên kết ở [Đóng góp thành viên](member-contributions.md). Các mẫu demo/smoke ngày 28/10 được giữ trong repository làm lịch sử và không được cộng vào kết quả thực nghiệm hiện tại.'''),
-    ])
+    build(notebook, SETUP)
+    runpy.run_path(str(ROOT / 'scripts/prepare_cumulative_notebook.py'), run_name='__main__')
 
 
 if __name__ == '__main__':

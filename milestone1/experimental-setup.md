@@ -1,39 +1,42 @@
 # Thiết lập thực nghiệm và cách đánh giá
 
-## Thiết kế thực nghiệm
+## Dữ liệu và môi trường
 
-Mỗi thành viên chạy cùng pipeline tích hợp trên dải 5.000 ID cá nhân. Theo thông tin nhóm cung cấp, các thành viên đã chạy hết dải và sử dụng notebook benchmark mới nhất. Tiến độ do nhóm xác nhận được trình bày riêng với mức kiểm chứng từ các tệp kết quả đã nộp.
+Mỗi thành viên xử lý dải 5.000 ID được phân công. Các phiên có thể bị gián đoạn rồi chạy tiếp từ checkpoint. Audit TV3 và TV4 được bổ sung ngày 04/11; báo cáo cập nhật các tệp này ngày 06/11/2026. Audit TV2 và TV5 vẫn là các bản đã nộp trước đó.
 
-Bộ bằng chứng hiện đọc được gồm ZIP của TV2, TV3, TV5, bản TV4 đã lưu và hai ZIP phiên TV4 bổ sung ngày 04/11/2026. Các phiên bổ sung có số đo hiệu năng nhưng chưa có thống kê snapshot hoàn tất. Ngày nộp ZIP không nhất thiết là ngày chạy; danh sách nguồn và thời điểm từng phiên được ghi ở phụ lục.
+Môi trường benchmark theo đề bài là Google Colab CPU-only. Cấu hình, commit source, mốc thời gian và xác nhận CPU-only do từng run ghi lại được trình bày ở phụ lục. Các run có chế độ cache và phạm vi khác nhau, nên chưa dùng để xếp hạng tốc độ giữa thành viên.
 
-## Ba cấp đánh giá
+## Tiến độ, kết quả và chất lượng
 
-| Cấp | Câu hỏi | Cách đánh giá |
-|---|---|---|
-| Tiến độ đầu vào | Đã chạy qua hết 5.000 ID chưa? | Đối chiếu dải, số ID có record, số chưa ghi nhận và lookup còn lỗi |
-| Kết quả thu thập | Thu được bao nhiêu paper/version/source/references? | Thống kê dữ liệu trên phạm vi cụ thể, phân biệt thành công, không có source và lỗi |
-| Chất lượng | Đầu ra có phù hợp quy tắc kiểm định không? | Số paper đã kiểm định, pass/fail, nhóm lỗi và cảnh báo |
+| Cấp đánh giá | Đơn vị và cách xác định |
+|---|---|
+| Tiến độ đầu vào | ID có record, ID chưa ghi nhận và lookup chưa giải quyết trên đúng dải 5.000 ID |
+| Kết quả thu thập | Paper phát hiện được, version đã biết, source/corpus và metadata/references đã lưu |
+| Chất lượng | Paper được kiểm định, số đạt/chưa đạt, loại lỗi và cảnh báo |
 
-Một ID có record lỗi đã được thử xử lý nhưng chưa có kết quả lookup được giải quyết. Validation fail không làm mất việc ID đã được thử xử lý. Cờ hoàn tất audit trong source còn xét validation/diagnostics, nên không dùng riêng cờ đó để kết luận tiến độ chạy ID.
+Một record lỗi cho biết ID đã được thử xử lý. Lookup chỉ được xem là giải quyết khi có kết quả thành công hoặc không tìm thấy hợp lệ. Cờ hoàn tất audit còn xét validation và diagnostics, nên được đọc riêng với tiến độ chạy ID.
 
-## Chỉ số và mẫu số
+## Thống kê corpus tích lũy
+
+Thống kê toàn dải phải đọc checkpoint Discovery của mọi ID được giao, dùng manifest làm dữ liệu dự phòng khi không có checkpoint, rồi đối chiếu các stage và tệp hiện có. Mỗi paper được nhận diện bằng arXiv ID; source/corpus dùng cặp ID và version. References lấy từ tệp hiện hành của từng paper để tránh đếm lại qua các phiên.
+
+Công cụ thống kê cũ chỉ chọn paper trong manifest của một lượt hoàn tất. Vì vậy một lượt resume sáu ID có thể tạo statistics sáu ID dù thư mục dữ liệu đã tích lũy gần đủ assignment. Bản thống kê mới có phạm vi riêng cho toàn dải và không mang nhãn benchmark của lượt cuối.
 
 | Chỉ số | Mẫu số/phạm vi |
 |---|---|
-| Bao phủ đầu vào | Số ID có record / số ID được giao, trên đúng dải |
-| Discovery thành công | Số paper phát hiện được / số ID đầu vào của phạm vi xét |
-| Tải source thành công | Số version tải thành công / số version đã biết |
-| Validation pass | Số paper đạt / số paper đã được kiểm định; báo riêng paper chưa kiểm định |
-| Kích thước trước/sau lọc | Cùng tập paper có đủ cặp đo; cộng các version của từng paper |
-| References trung bình | Các paper truy vấn được, gồm kết quả rỗng hợp lệ; không gán lỗi API bằng 0 |
-| Tỷ lệ metadata references đầy đủ | Số reference đủ trường / tổng số reference đã đọc |
+| Bao phủ đầu vào | ID có record / ID được giao |
+| Discovery thành công | Paper phát hiện được / ID được giao của dải xét |
+| Tải source | Version download thành công theo checkpoint; số có tệp thực tế được ghi riêng |
+| Paper đủ source | Mọi version đã biết có source và corpus, theo quy tắc kiểm tra |
+| Validation pass | Paper đạt / paper đã kiểm định; báo riêng paper chưa được kiểm định |
+| Kích thước trước/sau lọc | Cùng tập paper có đủ cặp đo, cộng các version của từng paper |
+| References trung bình | Tổng references / paper có kết quả truy vấn đọc được, gồm danh sách rỗng hợp lệ |
+| Metadata references đầy đủ | References đủ trường / references đã đọc |
 
-## Đo hiệu năng
+Giá trị thiếu không được thay bằng 0. Kích thước trước lọc lấy từ sidecar trích xuất; nếu sidecar không còn thì chưa tính được cặp đo. Thống kê đọc các báo cáo validation đã lưu; muốn kết luận về chất lượng hiện tại phải audit lại.
 
-Môi trường benchmark cuối theo đề bài là Google Colab CPU-only. Báo cáo giữ thông tin môi trường thực tế do từng run ghi nhận. Thời gian được đo cho pipeline và từng event; RAM được lấy mẫu trên cây tiến trình; disk là logical bytes trong output root, gồm dữ liệu/checkpoint và tệp tạm thuộc phạm vi đo.
+## Thời gian, RAM và dung lượng
 
-Mỗi phép đo phải được đọc cùng phạm vi, chế độ chạy mới/chạy tiếp, dữ liệu cache, số mẫu và trạng thái kết thúc. Không cộng thời gian các run chồng lặp, không lấy số đo phiên resume cuối làm tổng thời gian nhiều phiên. RAM trung bình chỉ diễn giải khi có đủ khoảng lấy mẫu; đỉnh là cực đại quan sát được.
+Thời gian và RAM mô tả các phiên được đo. Khi tổng hợp, chỉ đếm mỗi run ID một lần; chi phí xử lý lại ID vẫn là thời gian đã sử dụng. Tổng thời gian hoạt động của các phiên khác với thời gian lịch có cả lúc nghỉ/ngắt máy. Số liệu từ một phần phiên chạy được ghi rõ là một phần lịch sử.
 
-## Quy tắc tổng hợp
-
-Chỉ cộng dữ liệu giữa những dải không giao nhau sau khi xác minh định danh và phạm vi. Audit toàn dải và statistics của một run ngắn là hai góc nhìn của cùng dữ liệu, không phải hai tập paper độc lập. Giá trị thiếu được ghi rõ là chưa đủ bằng chứng; tỷ lệ không có mẫu số được coi là không áp dụng. Các mẫu demo/smoke lịch sử không được cộng vào kết quả thu thập thật.
+RAM gộp được tính từ các phiên có đủ mẫu, theo trọng số thời gian quan sát; peak là cực đại đã quan sát. Không thể khôi phục RAM hoặc runtime của phiên không có log từ corpus cuối. Final disk đo cả output root tại mốc kết thúc, có thể gồm dữ liệu tích lũy, raw source, corpus, checkpoint và sidecar. Nó không phải riêng kích thước corpus TeX/BibTeX.

@@ -35,11 +35,12 @@ def main():
             assert archive.testzip() is None
         target = DEST / member
         target.mkdir(parents=True, exist_ok=True)
-        provenance = dict(checked_on='2026-11-04', archive_name=filename,
+        provenance = dict(checked_on=globals().get('CHECKED_ON', '2026-11-04'),
+                          archive_name=globals().get('ARCHIVE_TITLES', {}).get(member, filename),
                           drive_url=f'https://drive.google.com/file/d/{drive_id}/view',
                           archive_sha256=digest(raw), files={},
-                          note='Archive evidence only; no independent revalidation of live corpus. '
-                               'TV5 uses the local ZIP with the same name/size as the shared Drive file.')
+                          note=globals().get('NOTE', 'Archive evidence only; no independent revalidation of live corpus. '
+                               'TV5 uses the local ZIP with the same name/size as the shared Drive file.'))
         for name in archive.namelist():
             path = Path(name)
             if path.name not in ALLOWED:

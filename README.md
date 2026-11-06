@@ -1,6 +1,6 @@
 # arXiv Project Report — Nhóm 6
 
-Repository Jupyter Book riêng, chỉ chứa báo cáo và artifacts kiểm chứng, không chứa corpus. Kết quả sơ bộ ngày 04/11/2026 đã đối chiếu bộ nộp của TV2–TV5; chưa nghiệm thu toàn nhóm. MS2 sẽ nối tiếp MS1 trong cùng book sau khi nhóm bàn giao.
+Repository Jupyter Book riêng, chỉ chứa báo cáo và artifacts kiểm chứng, không chứa corpus. Cập nhật ngày 06/11/2026 đã dùng audit bổ sung của TV3/TV4: cả hai có đủ record cho 5.000 ID, không có unseen/unresolved; validation lần lượt 4.820/180 và 4.882/118 pass/fail. Audit TV2/TV5 giữ nguyên theo bộ đã nộp. Chưa nghiệm thu toàn nhóm.
 
 Cấu trúc bản nộp gồm giới thiệu/phạm vi, phương pháp, thiết lập thực nghiệm, kết quả thu thập và chất lượng, hiệu năng, thảo luận/kết luận, đóng góp thành viên, tài liệu tham khảo và phụ lục. Các notebook vẫn thực thi khi build nhưng ẩn input code trên HTML bằng tag `remove-input`. Tiến độ 5.000 ID/người do nhóm cung cấp được phân biệt với số liệu kiểm chứng từ artifacts; không suy hoàn tất dữ liệu từ việc notebook kết thúc.
 
@@ -16,11 +16,37 @@ jupyter-book build . --all --warningiserror
 
 Mở `_build/html/index.html`. `execute_notebooks: force` buộc chạy notebook khi build; lỗi notebook làm build thất bại. Ba notebook kết quả, hiệu năng và phụ lục chỉ đọc artifacts đã lưu và kiểm hash, không gọi arXiv/Drive trong CI, không phụ thuộc `TV5_RUN`.
 
-Để tạo lại toàn bộ nội dung đã biên tập, chạy `python scripts/prepare_submission_report.py`. Script này là nguồn nội dung Markdown/notebook của bản nộp; sửa nội dung tại đây rồi tạo lại để tránh mất thay đổi. `scripts/prepare_preliminary_results.py` là tên tương thích và gọi cùng generator mới.
+Để tạo lại nội dung, chạy `python scripts/prepare_submission_report.py`. Phần biên tập hiện nằm trong `scripts/submission_updates.py`, được generator dùng để tạo Markdown và ba notebook báo cáo. `scripts/prepare_preliminary_results.py` là tên tương thích. Notebook xuất thống kê tích lũy cũng được tạo lại, với hash code tương ứng phiên bản hiện tại.
 
 `scripts/import_member_artifacts.py` nhập các ZIP đã tải về workspace cha, kiểm CRC/SHA-256, không sửa ZIP/corpus và từ chối ghi đè bằng nội dung khác. Bộ nộp TV2 có một lớp ZIP lồng; script xử lý cả hai lớp. `scripts/import_supplementary_artifacts.py` nhập riêng hai phiên TV4 bổ sung vào `supplementary-20261104`, không thay kết quả phiên cuối đã lưu. Nguồn Drive và hash nằm trong `provenance.json`. Import chỉ lược đường dẫn cục bộ trong `run.json`/`benchmark.json`; các artifacts còn lại giữ nguyên bytes. Snapshot không tự cập nhật khi Drive thay đổi; dữ liệu mới cần nhập thành bộ riêng và đối chiếu phạm vi trước khi chọn vào báo cáo.
 
 ## Xuất artifacts từ pipeline
+
+### Thống kê toàn corpus tích lũy
+
+Mở [notebook xuất thống kê trên Colab](https://colab.research.google.com/github/HoangLongNha/arxiv-project-report/blob/main/colab/MS1_Cumulative_Statistics.ipynb), dừng các tiến trình ghi dữ liệu, chọn đúng thành viên và đường dẫn `data/`. Công cụ chỉ đọc dữ liệu hiện có; không gọi API crawl, không sửa manifest/checkpoint và không tạo benchmark giả. Tệp JSON được ghi mới vào `artifacts/cumulative_<UUID>/` và có thể tải về để gửi TV5.
+
+Hoặc chạy trên máy có corpus:
+
+```powershell
+python scripts/export_cumulative_ms1.py --member TV3 --output 'D:/corpus/tv3/data' --save 'D:/corpus/tv3/artifacts/cumulative-statistics.json' --writers-stopped
+```
+
+`--writers-stopped` là xác nhận của người chạy, không phải công cụ tự phát hiện tiến trình. Export kiểm lại hash JSON và metadata tệp đã đọc; nếu có thay đổi thì dừng và không tạo báo cáo. Các sidecar kích thước có thể thiếu; số mẫu ghép cặp và diagnostics phải được xem cùng kết quả. Validation được đọc từ báo cáo đã lưu, không phải một lượt audit mới. Code notebook được tải từ repository và đối chiếu SHA-256 trước khi chạy; nếu code đã đổi, dùng bản notebook mới.
+
+Nhận JSON từ thành viên rồi kiểm tra và nhập vào báo cáo:
+
+```powershell
+python scripts/import_cumulative_statistics.py --member TV3 --input 'D:/received/TV3-cumulative-statistics.json'
+```
+
+Importer xác minh member, dải, số lượng/định danh, snapshot và lưu hash tệp gốc. Nó từ chối ghi đè dữ liệu đã nhập. Các trang báo cáo chỉ dùng bản có provenance hợp lệ ở `summaries/milestone1/cumulative/TV3/`; khi chưa có, phần kích thước/references toàn dải tiếp tục ghi đang chờ xuất. Không dùng statistics 828/6/6 ID hoặc cộng các statistics resume để thay thế.
+
+### Bằng chứng audit đã sửa
+
+`scripts/import_updated_artifacts.py` nhập ba ZIP TV3/TV4 vào `updated-20261106`, giữ nguyên byte artifacts ngoài phần lược đường dẫn trong benchmark/run. Mỗi thành viên chọn một audit; hai audit TV4 cho cùng dải không được cộng. `session_members()` khử trùng lặp benchmark theo run ID, giữ các phiên cũ để phân tích chi phí thực tế.
+
+### Xuất một run benchmark
 
 Từ repository source sau khi có benchmark:
 

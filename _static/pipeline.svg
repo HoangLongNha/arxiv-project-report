@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="150" viewBox="0 0 1000 150" role="img" aria-labelledby="title desc">
+  <title id="title">Luồng dữ liệu Milestone 1</title>
+  <desc id="desc">Từ Discovery, tải source, trích xuất corpus, metadata và references, đến validation và báo cáo.</desc>
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#546579"/></marker></defs>
+  <g fill="#edf4fa" stroke="#7c9bb7" stroke-width="1.5">
+    <rect x="8" y="25" width="140" height="85" rx="8"/><rect x="176" y="25" width="140" height="85" rx="8"/>
+    <rect x="344" y="25" width="140" height="85" rx="8"/><rect x="512" y="25" width="140" height="85" rx="8"/>
+    <rect x="680" y="25" width="140" height="85" rx="8"/><rect x="848" y="25" width="140" height="85" rx="8"/>
+  </g>
+  <g stroke="#546579" stroke-width="2" marker-end="url(#arrow)">
+    <path d="M150 67 H170"/><path d="M318 67 H338"/><path d="M486 67 H506"/><path d="M654 67 H674"/><path d="M822 67 H842"/>
+  </g>
+  <g font-family="Arial, sans-serif" text-anchor="middle" fill="#21374c" font-size="16">
+    <text x="78" y="60">Discovery</text><text x="78" y="84" font-size="13">ID và version</text>
+    <text x="246" y="60">Download</text><text x="246" y="84" font-size="13">Source từng version</text>
+    <text x="414" y="60">Extract</text><text x="414" y="84" font-size="13">Corpus TeX/BibTeX</text>
+    <text x="582" y="60">Metadata</text><text x="582" y="84">và references</text>
+    <text x="750" y="60">Validation</text><text x="750" y="84" font-size="13">Kiểm định đầu ra</text>
+    <text x="918" y="60">Thống kê</text><text x="918" y="84" font-size="13">Jupyter Book</text>
+  </g>
+</svg>

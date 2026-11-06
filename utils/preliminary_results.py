@@ -57,11 +57,32 @@ def audit_assessment(audit, verified):
     return 'Chưa đạt: còn lỗi Discovery/validation hoặc diagnostics'
 
 
+def validate_cumulative(doc, member):
+    expected = expected_ids(RANGES[member])
+    if (doc.get('scope') != 'on_disk_assignment_statistics' or doc.get('member') != member
+            or doc.get('assigned_range') != RANGES[member] or doc.get('assigned_input_count') != len(expected)
+            or doc.get('snapshot_stable') is not True or len(doc.get('input_fingerprint', '')) != 64):
+        raise ValueError(f'Cumulative statistics scope/snapshot mismatch: {member}')
+    counts, papers, versions = doc['counts'], doc['papers'], doc['versions']
+    identities = [p['paper_id'] for p in papers]
+    pairs = [(v['paper_id'], v['version']) for v in versions]
+    unseen = doc['unseen_ids']
+    if (counts['assigned_ids'] != len(expected) or len(set(unseen)) != len(unseen)
+            or not set(unseen).issubset(expected) or counts['recorded_ids']+len(unseen) != len(expected)
+            or sum(doc['discovery_statuses'].values()) != counts['recorded_ids']
+            or len(identities) != len(set(identities)) or not set(identities).issubset(expected)
+            or counts['discovery_success_papers'] != len(papers)
+            or counts['expected_versions'] != len(versions) or len(pairs) != len(set(pairs))
+            or any(identifier not in identities or type(version) is not int or version < 1 for identifier,version in pairs)):
+        raise ValueError(f'Cumulative statistics identity/count mismatch: {member}')
+
+
 def load_members(root):
     base = Path(root) / 'summaries/milestone1' / SNAPSHOT
     result = []
     for member, spec in RANGES.items():
-        directory = base / member
+        updated = Path(root) / 'summaries/milestone1/updated-20261106' / member
+        directory = updated if (updated / 'provenance.json').is_file() else base / member
         provenance = read(directory / 'provenance.json')
         if provenance:
             for name, hashes in provenance['files'].items():
@@ -76,9 +97,17 @@ def load_members(root):
                              and statistics.get('run_id') == benchmark['run_id']
                              and statistics.get('label') == benchmark.get('label')
                              and benchmark.get('statistics_status') == 'current_run')
+        cumulative_dir = Path(root) / 'summaries/milestone1/cumulative' / member
+        cumulative = read(cumulative_dir / 'cumulative-statistics.json')
+        if cumulative:
+            validate_cumulative(cumulative, member)
+            receipt = read(cumulative_dir / 'provenance.json')
+            digest = hashlib.sha256((cumulative_dir / 'cumulative-statistics.json').read_bytes()).hexdigest()
+            if not receipt or receipt.get('sha256') != digest:
+                raise ValueError(f'Cumulative statistics provenance mismatch: {member}')
         result.append(dict(member=member, assigned_range=spec, directory=directory,
                            provenance=provenance, benchmark=benchmark, statistics=statistics,
-                           audit=audit, verified=verified, authenticated=authenticated,
+                           audit=audit, verified=verified, authenticated=authenticated, cumulative=cumulative,
                            assessment=audit_assessment(audit, verified)))
     return result
 
@@ -194,6 +223,7 @@ ERROR_LABELS = {
     'invalid_artifact': 'Tệp đầu ra thiếu hoặc không hợp lệ',
     'invalid_source': 'Source thiếu, rỗng hoặc không hợp lệ',
     'invalid_corpus_file': 'Tệp corpus bị báo rỗng/nhị phân',
+    'invalid_corpus': 'Corpus thiếu hoặc không hợp lệ',
     'inconsistent_status': 'Trạng thái các bước chưa nhất quán',
     'validation_read_error': 'Không đọc/diễn giải được dữ liệu kiểm định',
 }
@@ -219,7 +249,19 @@ def error_groups(members):
 
 def session_members(root, members):
     """Expose earlier TV4 sessions separately; never sum overlapping runs."""
-    result = [dict(m, session=m['member'] + ' — lượt đã nộp') for m in members if m['benchmark']]
+    result = [dict(m, session=m['member'] + ' (' + m['benchmark']['started_at'][:10] + ')')
+              for m in members if m['benchmark']]
+    seen = {m['benchmark']['run_id'] for m in result}
+    corrected = Path(root) / 'summaries/milestone1/updated-20261106/TV4-session-20261102'
+    if corrected.is_dir():
+        provenance = read(corrected / 'provenance.json')
+        for name, hashes in provenance['files'].items():
+            if hashlib.sha256((corrected / name).read_bytes()).hexdigest() != hashes['published_sha256']:
+                raise ValueError('Corrected session evidence hash mismatch')
+        b = read(corrected / 'benchmark.json')
+        result.append(dict(member='TV4', session='TV4 (2026-11-02)', directory=corrected,
+                           benchmark=b, provenance=provenance))
+        seen.add(b['run_id'])
     base = Path(root) / 'summaries/milestone1/supplementary-20261104'
     for directory in sorted(base.glob('TV4-*')):
         provenance = read(directory / 'provenance.json')
@@ -229,6 +271,27 @@ def session_members(root, members):
         paths = list(directory.glob('*/benchmark.json'))
         if len(paths) != 1:
             raise ValueError('Expected one benchmark per supplementary session')
-        result.append(dict(member='TV4', session=directory.name, directory=paths[0].parent,
-                           benchmark=read(paths[0]), provenance=provenance))
+        b = read(paths[0])
+        if b['run_id'] not in seen:
+            result.append(dict(member='TV4', session=directory.name, directory=paths[0].parent,
+                               benchmark=b, provenance=provenance))
+            seen.add(b['run_id'])
+    historical = Path(root) / 'summaries/milestone1/preliminary-20261104/TV4'
+    b = read(historical / 'benchmark.json')
+    if b and b['run_id'] not in seen:
+        p = read(historical / 'provenance.json')
+        for name, hashes in p['files'].items():
+            if hashlib.sha256((historical / name).read_bytes()).hexdigest() != hashes['published_sha256']:
+                raise ValueError('Historical session evidence hash mismatch')
+        result.append(dict(member='TV4', session='TV4 (2026-11-03)', directory=historical,
+                           benchmark=b, provenance=p))
     return result
+
+
+def cumulative_rows(members):
+    return [{'Thành viên': m['member'],
+             'Paper phát hiện': m['cumulative']['counts']['discovery_success_papers'] if m['cumulative'] else None,
+             'Version đã biết': m['cumulative']['counts']['expected_versions'] if m['cumulative'] else None,
+             'Source có tệp': m['cumulative']['counts']['source_versions_verified'] if m['cumulative'] else None,
+             'References': m['cumulative']['counts']['references'] if m['cumulative'] else None,
+             'Thống kê tích lũy': m['cumulative']['generated_at'] if m['cumulative'] else 'Chưa xuất từ corpus'} for m in members]

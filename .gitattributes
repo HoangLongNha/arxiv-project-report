@@ -1,3 +1,5 @@
 # Evidence hashes require identical bytes on Windows and Linux checkouts.
 summaries/milestone1/preliminary-20261104/** -text
 summaries/milestone1/supplementary-20261104/** -text
+summaries/milestone1/updated-20261106/** -text
+summaries/milestone1/cumulative/** -text

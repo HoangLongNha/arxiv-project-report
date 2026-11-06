@@ -2,6 +2,8 @@
 
 ## Tổng quan hệ thống
 
+![Luồng dữ liệu MS1](../_static/pipeline.svg)
+
 Pipeline tích hợp sáu bước: **Discovery → Download → Extract → Metadata/References → Validation → Thống kê và báo cáo**. Metadata sử dụng lại thông tin Discovery; References được lấy từ Semantic Scholar. Checkpoint lưu kết quả từng bước để hỗ trợ chạy tiếp sau gián đoạn.
 
 | Bước | Phương pháp | Đầu ra chính |

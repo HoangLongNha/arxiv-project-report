@@ -1,29 +1,27 @@
 # Thảo luận, hạn chế và kết luận
 
-## Tiến độ và kết quả đạt được
+## Kết quả đã xác minh
 
-Nhóm đã xây dựng pipeline tích hợp để tìm phiên bản, tải source, tạo corpus TeX/BibTeX, chuẩn hóa metadata, lấy references và kiểm định đầu ra. Theo tổng hợp tiến độ do nhóm cung cấp, năm thành viên đã chạy hết dải 5.000 ID/người. Phần kết quả ghi nhận tiến độ này và tách rõ số liệu đối chiếu được từ artifacts.
+Audit TV2–TV5 xác nhận mỗi dải đã có record cho đủ 5.000 ID. TV3 và TV4 có thêm bằng chứng toàn dải: mọi lookup đều thành công trong audit ngày 04/11, với lần lượt 4.820 và 4.882 paper đạt validation. TV5 còn bốn lookup lỗi trong bản ngày 03/11. Phần assignment của TV1 mới có thông tin tiến độ do nhóm cung cấp.
 
-Trong bộ bằng chứng hiện có, audit TV2 và TV5 ghi nhận đủ 5.000 ID đúng dải. Điều này xác nhận việc xử lý đầu vào ở hai dải, đồng thời không bảo đảm tất cả lookup và đầu ra đều thành công. TV3/TV4 có thống kê của các lượt resume, nhưng chưa có kết quả audit toàn dải trong các ZIP đã đọc; chưa đủ cơ sở công bố chỉ số cuối cùng cho toàn bộ 25.000 ID.
+Các kết quả này ghi nhận tiến độ đầu vào và những paper đã được kiểm tra. Số source, kích thước và references cần được tổng hợp từ dữ liệu tích lũy. Statistics của lượt resume cuối không đủ để suy các chỉ số đó cho toàn nhóm.
 
-## Chất lượng và nguyên nhân chưa đạt
+## Chất lượng và ảnh hưởng tới MS2
 
-Các lỗi kiểm định tập trung vào stage upstream chưa thành công, đường dẫn/tệp đầu ra và sự nhất quán của checkpoint. Các nhóm lỗi có thể cùng xuất hiện ở một paper. Cần phân biệt dữ liệu thực sự thiếu với checkpoint cũ hoặc quy tắc kiểm định chưa phù hợp; không thể kết luận toàn bộ paper validation fail đều không có dữ liệu sử dụng được.
+TV3 còn 180 paper chưa đạt, TV4 còn 118, theo audit được nộp. Validator có thể báo lỗi do stage upstream, tệp/đường dẫn hoặc trạng thái checkpoint chưa nhất quán. Mỗi paper cần được xem theo version và loại lỗi trước khi quyết định chạy lại bước nào. Một lỗi references cũng có thể làm paper fail dù source LaTeX vẫn hiện diện.
 
-Audit TV2 ghi cờ hoàn tất không khớp số paper fail theo công thức tại commit được benchmark khai báo. Đây là vấn đề cần tái kiểm ở báo cáo audit; không phủ nhận việc file đó liệt kê đủ 5.000 ID. TV5 vẫn có bốn lookup lỗi và các paper validation fail trong snapshot đã nộp. Các con số này mô tả trạng thái tại ngày audit, chưa khẳng định trạng thái của corpus sau những lần sửa/chạy tiếp chưa được xuất artifacts.
+Audit TV2 vẫn có mâu thuẫn giữa cờ hoàn tất và số paper fail. TV5 còn lỗi Discovery và validation. Những bản này cần được xác minh lại trước khi chốt chất lượng cuối cùng. Các số đếm trong báo cáo giữ nguyên theo nguồn và ngày audit, không tự chuyển thành trạng thái của corpus ngày 06/11.
 
-## Hiệu năng và giới hạn đo
+Trước MS2, nhóm cần kiểm tra các version thiếu source/corpus và liên kết metadata. Trường hợp PDF-only được giữ trạng thái riêng. Những tệp bị báo rỗng/nhị phân cần kiểm tra mẫu; validator không biên dịch LaTeX và không kiểm chứng toàn bộ ngữ nghĩa nội dung.
 
-Các run được nộp có phạm vi khác nhau và đều dùng chạy tiếp. Số đo chịu ảnh hưởng của cache, retry, thời gian chờ dịch vụ và quét file trên Drive. Những yếu tố này giải thích vì sao không dùng bảng benchmark hiện tại để xếp hạng tốc độ giữa thành viên hoặc ngoại suy tổng thời gian toàn nhóm. Các phiên TV4 bổ sung có nhiều mẫu hơn nhưng bị gián đoạn và chồng lặp phạm vi, nên vẫn được trình bày riêng.
+## Giới hạn của phép đo
 
-Lấy mẫu RAM có thể bỏ lỡ đỉnh ngắn; RSS cộng tiến trình có thể đếm shared pages nhiều lần. Disk chỉ đo trong output root và có thể chứa dữ liệu các phiên trước. Kích thước trước/sau lọc chỉ có ý nghĩa khi đo cùng tập dữ liệu đã giải nén; không suy tỷ lệ loại hình từ package nén.
+Benchmark hiện có ghi lại một số phiên resume. Các run đã được khử trùng lặp theo định danh; tổng thời gian được ghi là thời gian của các phiên đã nộp. Chưa có đủ lịch sử để coi đó là toàn bộ chi phí thu thập 25.000 ID hoặc một benchmark fresh thống nhất.
 
-## Mức sẵn sàng cho MS2
+Mẫu RAM có thể bỏ lỡ đỉnh ngắn. RSS của cây tiến trình có thể đếm shared pages nhiều lần; thao tác quét file trên Drive cũng làm khoảng lấy mẫu dài hơn cấu hình. Dung lượng output được đo theo mốc thời gian, gồm cả dữ liệu các phiên trước. Kích thước trước/sau lọc phải dùng cùng tập dữ liệu giải nén.
 
-Corpus đã tạo là nền tảng cho parsing, nhưng cần rà soát source/corpus thiếu, version chưa hoàn tất và metadata liên kết trước khi chốt đầu vào MS2. Validator không biên dịch LaTeX và không kiểm chứng toàn bộ ngữ nghĩa; các trường hợp rỗng/nhị phân cần kiểm tra mẫu thực tế. References phụ thuộc độ phủ và giới hạn của Semantic Scholar; thiếu dữ liệu ở đây cần được giữ nhãn khi chuyển sang matching.
+## Phần cần hoàn thiện
 
-## Kết luận và phần cần hoàn thiện
+Nhóm cần bổ sung audit TV1, rà soát các lỗi còn mở và xuất thống kê tích lũy trên các dải cá nhân. Công cụ đọc checkpoint/corpus đã được chuẩn bị trong repository báo cáo; thao tác này không crawl lại dữ liệu. Những tệp thống kê được xuất sẽ cung cấp số source/corpus, cặp đo kích thước và references cho phần kết quả.
 
-Kết quả hiện tại xác nhận phương pháp thu thập, pipeline tích hợp và khả năng tạo báo cáo từ artifacts. Tiến độ 5.000 ID/người do nhóm cung cấp được ghi nhận; mức thu thập thành công và chất lượng được công bố đúng phạm vi có bằng chứng. Chưa kết luận toàn bộ dữ liệu MS1 đạt yêu cầu chỉ từ việc kết thúc notebook.
-
-Để hoàn thiện nghiệm thu, nhóm cần bổ sung audit/thống kê toàn dải còn thiếu, xử lý hoặc giải thích các lỗi kiểm định, xác minh lại audit không nhất quán và hoàn thiện benchmark CPU-only với biên đo rõ ràng. Sau đó có thể cập nhật tỷ lệ thành công toàn nhóm và chốt snapshot đầu vào cho MS2.
+Pipeline đã tích hợp các bước thu thập và QA. Bốn assignment có bằng chứng bao phủ record đầy đủ, nhưng chất lượng và thống kê cuối cùng của cả nhóm vẫn cần các bước trên trước khi nghiệm thu.

@@ -1,7 +1,7 @@
-# Milestone 1 — Thu thập dữ liệu arXiv
+# Milestone 1: Thu thập dữ liệu arXiv
 
-Milestone 1 xây dựng và kiểm tra corpus từ các ID được phân công. Hệ thống xác định toàn bộ phiên bản, tải source, giữ các tệp TeX/BibTeX, chuẩn hóa metadata và thu thập references.
+Pipeline nhận dải ID, xác định phiên bản, tải source, tạo corpus TeX/BibTeX, chuẩn hóa metadata và lấy references. Mỗi thành viên chạy pipeline tích hợp trên dải 5.000 ID cá nhân.
 
-Báo cáo đi từ **phạm vi đầu vào → phương pháp → thực nghiệm → kết quả → phân tích**. Phần kết quả trả lời lần lượt: mỗi thành viên đã chạy đến đâu, thu được gì và dữ liệu có đạt yêu cầu hay không. Hiệu năng được trình bày ở một mục riêng, gắn với phạm vi thực sự được đo.
+Audit hiện có xác nhận đủ record đầu vào cho TV2–TV5. Bốn dải này có 19.996 lookup thành công và bốn lookup còn lỗi, theo các lần audit ngày 02–04/11/2026. TV1 chưa có bộ audit trong nguồn được cung cấp. Các con số về validation mô tả snapshot được kiểm tra, chưa phản ánh những thay đổi sau thời điểm đó.
 
-Các bảng và biểu đồ được sinh từ artifacts khi biên dịch Jupyter Book. Chi tiết đối chiếu audit, định danh phiên chạy và nguồn dữ liệu được đặt trong phụ lục; phần nội dung chính tập trung vào ý nghĩa của kết quả.
+Phần phương pháp giải thích cách hệ thống thu thập và kiểm định dữ liệu. Phần kết quả dùng audit toàn dải; hiệu năng được gắn với từng phiên đo. Nguồn ZIP, thời điểm và định danh run nằm trong phụ lục.
