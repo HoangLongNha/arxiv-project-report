@@ -64,12 +64,27 @@ def summarize(output_dir, assigned_range, member):
             identifier = rec.get('arxiv_id') or rec.get('input_id')
             if identifier in expected:
                 fallback[identifier] = rec
+    checkpoints = {}
+    discovery_dir = path('state/discovery')
+    entries = sorted(discovery_dir.glob('*.json'))
+    directories['state/discovery'] = [p.relative_to(root).as_posix() for p in sorted(discovery_dir.rglob('*'))]
+    for p in entries:
+        rec = read(p.relative_to(root).as_posix())
+        if not isinstance(rec, dict):
+            continue
+        identity = rec.get('arxiv_id') or rec.get('input_id')
+        if identity in expected and isinstance(rec.get('status'), str):
+            previous = checkpoints.get(identity)
+            if previous is None or (rec.get('timestamp') or '') >= (previous.get('timestamp') or ''):
+                checkpoints[identity] = rec
     selected = {}
     for identifier in sorted(expected):
         relative = f'state/discovery/{identifier}.json'
-        record = read(relative)
+        record = checkpoints.get(identifier)
+        if record is None:
+            record = read(relative)
         # A corrupt existing checkpoint must not silently fall back to an older success.
-        if observed[relative][0] is None:
+        if record is None and observed.get(relative, (None,None))[0] is None:
             record = fallback.get(identifier)
         if not isinstance(record, dict) or not isinstance(record.get('status'), str):
             continue

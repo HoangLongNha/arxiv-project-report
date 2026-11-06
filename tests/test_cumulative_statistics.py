@@ -1,5 +1,6 @@
 """Cumulative scans must include earlier sessions and avoid cached-state double counting."""
 import json
+import hashlib
 import contextlib
 import io
 from pathlib import Path
@@ -71,6 +72,17 @@ class CumulativeTests(unittest.TestCase):
         self.assertEqual(report['counts']['references'], 1)
         self.assertEqual(report['references']['duplicate_rows'], 1)
         self.assertEqual(report['unseen_ids'], ['2410.00002'])
+
+    def test_hashed_checkpoint_names_include_previous_sessions(self):
+        for identifier in ['2410.00001','2410.00002']:
+            self.paper(identifier)
+            source=self.root/f'state/discovery/{identifier}.json'
+            source.rename(source.with_name(hashlib.sha256(identifier.encode()).hexdigest()+'.json'))
+        self.write('manifests/discovery.json', [dict(arxiv_id='2410.00002',status='success',versions=[dict(version=1)])])
+        report=self.scan()
+        self.assertEqual(report['counts']['recorded_ids'],2)
+        self.assertEqual(report['unseen_ids'],[])
+        self.assertEqual(report['counts']['source_versions_verified'],2)
 
     def test_checkpoint_error_supersedes_old_success_manifest(self):
         rec = self.paper('2410.00001')
