@@ -2,7 +2,7 @@
 
 ## Dữ liệu và môi trường
 
-Mỗi thành viên xử lý dải 5.000 ID được phân công. Các phiên có thể bị gián đoạn rồi chạy tiếp từ checkpoint. Audit TV3 và TV4 được bổ sung ngày 04/11; báo cáo cập nhật các tệp này ngày 06/11/2026. Audit TV2 và TV5 vẫn là các bản đã nộp trước đó.
+Mỗi thành viên xử lý dải 5.000 ID được phân công. Các phiên có thể bị gián đoạn rồi chạy tiếp từ checkpoint.
 
 Môi trường benchmark theo đề bài là Google Colab CPU-only. Cấu hình, commit source, mốc thời gian và xác nhận CPU-only do từng run ghi lại được trình bày ở phụ lục. Các run có chế độ cache và phạm vi khác nhau, nên chưa dùng để xếp hạng tốc độ giữa thành viên.
 

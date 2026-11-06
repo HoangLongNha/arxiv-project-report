@@ -27,7 +27,7 @@ Phần phương pháp giải thích cách hệ thống thu thập và kiểm đ�
 
 ## Dữ liệu và môi trường
 
-Mỗi thành viên xử lý dải 5.000 ID được phân công. Các phiên có thể bị gián đoạn rồi chạy tiếp từ checkpoint. Audit TV3 và TV4 được bổ sung ngày 04/11; báo cáo cập nhật các tệp này ngày 06/11/2026. Audit TV2 và TV5 vẫn là các bản đã nộp trước đó.
+Mỗi thành viên xử lý dải 5.000 ID được phân công. Các phiên có thể bị gián đoạn rồi chạy tiếp từ checkpoint.
 
 Môi trường benchmark theo đề bài là Google Colab CPU-only. Cấu hình, commit source, mốc thời gian và xác nhận CPU-only do từng run ghi lại được trình bày ở phụ lục. Các run có chế độ cache và phạm vi khác nhau, nên chưa dùng để xếp hạng tốc độ giữa thành viên.
 
@@ -102,11 +102,9 @@ def build(notebook, setup):
     notebook('preliminary-results.ipynb', [
     ('md', '''# Kết quả thu thập và chất lượng dữ liệu
 
-Cập nhật ngày 06/11/2026, sử dụng audit các ngày 02–04/11. Nhóm báo cáo đã chạy hết 5.000 ID/người. Các tệp audit đã nộp xác nhận đủ record trên bốn dải TV2–TV5; TV1 chưa có tệp đối chiếu trong nguồn được cung cấp.
-
 ## Tiến độ xử lý đầu vào
 
-TV3 và TV4 đã bổ sung kết quả audit đúng dải 5.000 ID. Cả hai có 0 ID chưa ghi nhận và 0 lookup chưa giải quyết. TV5 có đủ record nhưng còn bốn lookup lỗi. Một record có thể là lần thử thất bại, nên tiến độ được đọc cùng trạng thái lookup.'''),
+'''),
     ('code', setup),
     ('code', 'table(progress_rows(members))'),
     ('md', '''Bốn dải có audit tương ứng 20.000 ID được ghi nhận, trong đó 19.996 lookup thành công và bốn còn lỗi. Đây là kết quả của các dải đã đối chiếu, chưa phải tổng kết 25.000 ID. Cờ hoàn tất audit còn xét validation và không được dùng thay riêng số ID đã xử lý.
@@ -142,7 +140,7 @@ else:
 
 ## Chất lượng dữ liệu
 
-TV3 có 4.820 paper đạt và 180 chưa đạt; TV4 có 4.882 đạt và 118 chưa đạt. Tỷ lệ dưới đây dùng số paper đã được kiểm định làm mẫu số, không gồm lookup chưa phát hiện được paper. Kết quả phản ánh ngày audit được nộp.'''),
+Tỷ lệ dưới đây dùng số paper đã được kiểm định làm mẫu số, không gồm lookup chưa phát hiện được paper. Kết quả phản ánh ngày audit được nộp.'''),
     ('code', '''quality = quality_rows(members)
 table(quality)
 verified = [r for r in quality if r['Paper đã kiểm định'] is not None]
