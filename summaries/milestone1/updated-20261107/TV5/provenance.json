@@ -1,0 +1,71 @@
+{
+  "checked_on": "2026-11-07",
+  "archive_name": "TV_tv5_MS1_RESULTS_run_20261102T165345Z_4ab59b82a8794c90a708b6f83eaaf7ac.zip",
+  "drive_url": "https://drive.google.com/file/d/1_sN3CUnnL-ROt6vaA6wwklhCQXJtF-hb/view",
+  "archive_sha256": "586c9a7246da8ae268c0185f0da7df8f0d13b2f47b7376e341f6f0c90dc55e06",
+  "files": {
+    "run.json": {
+      "original_sha256": "c865e3b17f920326308d1e219215cda86b67a911e1f298a40811e0a61a3582e8",
+      "published_sha256": "5cd26318e3ff9ab35fa2bc253ee2003c5044a4dfcd299c42cd75d2e85970caac"
+    },
+    "samples.jsonl": {
+      "original_sha256": "2ab732c019abe0151a444a1e402b0108b09e704d7e8d6341ed50515506c31adb",
+      "published_sha256": "2ab732c019abe0151a444a1e402b0108b09e704d7e8d6341ed50515506c31adb"
+    },
+    "timings.jsonl": {
+      "original_sha256": "3dbee354d8151c0aac1f868f1c67f7f0640a9eb13eeb6fa272f0dd5395fc026c",
+      "published_sha256": "3dbee354d8151c0aac1f868f1c67f7f0640a9eb13eeb6fa272f0dd5395fc026c"
+    },
+    "statistics-revalidated.json": {
+      "original_sha256": "2042f5559ef9773f1d42a026d46fd79f0b8218ba6979299cafac5b1769716c46",
+      "published_sha256": "2042f5559ef9773f1d42a026d46fd79f0b8218ba6979299cafac5b1769716c46"
+    },
+    "benchmark.json": {
+      "original_sha256": "2559cf041dc9ded589d8a143b8e21151219af2793ff1b443f0d2817b687ca1a2",
+      "published_sha256": "bf548355ca529a71702bdc1674aaf2e50332581a135cb3467bd2fb95445f5f26"
+    },
+    "statistics.json": {
+      "original_sha256": "3ded0c612d030c6668af84276ea2e19b9aec8621b26d44b8b7599a9f63712a6b",
+      "published_sha256": "3ded0c612d030c6668af84276ea2e19b9aec8621b26d44b8b7599a9f63712a6b"
+    },
+    "assignment-audit.json": {
+      "original_sha256": "eb9d62192a051eb947bc632e563650674ab806bb9a33aea6beb9159c15e4ca48",
+      "published_sha256": "eb9d62192a051eb947bc632e563650674ab806bb9a33aea6beb9159c15e4ca48"
+    },
+    "audit-52728be1677f41e38f983a5193a0113f/inputs.json": {
+      "original_sha256": "6ac1a66fdfdf146bf05cf2d392030b5ad827f1cd58975aec4f7acfa016a15a96",
+      "published_sha256": "6ac1a66fdfdf146bf05cf2d392030b5ad827f1cd58975aec4f7acfa016a15a96"
+    },
+    "audit-1a7cf27528c34dce98b76adaaf598090/inputs.json": {
+      "original_sha256": "6ac1a66fdfdf146bf05cf2d392030b5ad827f1cd58975aec4f7acfa016a15a96",
+      "published_sha256": "6ac1a66fdfdf146bf05cf2d392030b5ad827f1cd58975aec4f7acfa016a15a96"
+    },
+    "audit-1a7cf27528c34dce98b76adaaf598090/assignment-audit.json": {
+      "original_sha256": "df1a2cd51a86a70602402ef99a405a897927b737f461957948b22160c58d169d",
+      "published_sha256": "df1a2cd51a86a70602402ef99a405a897927b737f461957948b22160c58d169d"
+    },
+    "source-retry/source-results.json": {
+      "original_sha256": "7e8d26628aa4ec4b7360403d1dc48355e2c96f0fea27fa04e37832d5302c7c66",
+      "published_sha256": "7e8d26628aa4ec4b7360403d1dc48355e2c96f0fea27fa04e37832d5302c7c66"
+    },
+    "lookup-retry/after-status.json": {
+      "original_sha256": "00faf2fe495ef16808912addb64802433d1c63dcb7d153d4c2212076db1d90db",
+      "published_sha256": "00faf2fe495ef16808912addb64802433d1c63dcb7d153d4c2212076db1d90db"
+    },
+    "lookup-retry/retry-results.json": {
+      "original_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "published_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  },
+  "note": "User-provided local archive; no independent live-corpus inspection. TV1 statistics cover only six IDs; inputs.json is not an executed audit. TV5 retains its historical benchmark and uses the separate full-range audit from 7 November. Private backups and pipeline logs are not published.",
+  "supplementary_archives": [
+    {
+      "archive_name": "tv5_source_retry_ac9dcea108624cf2b9a21cdab969eeeb.zip",
+      "sha256": "88646c206ff8dfd6d1e17e10248d1f0b95377698c75d7e26f9b0d5f25da04809"
+    },
+    {
+      "archive_name": "tv5_lookup_retry_168ecbf77a954f00a7bc67a8118bd98b.zip",
+      "sha256": "cd992507fad5ee2c8b32be51c5feb46f1b5647a0fd7ac792b6108f65e267cebc"
+    }
+  ]
+}

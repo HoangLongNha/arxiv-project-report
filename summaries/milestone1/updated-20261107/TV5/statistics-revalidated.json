@@ -1,0 +1,249 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-11-03T00:42:36.083979+00:00",
+  "counts": {
+    "papers": 6,
+    "discovery_success_papers": 6,
+    "unknown_version_papers": 0,
+    "expected_versions": 12,
+    "references": 274
+  },
+  "rates": {
+    "discovery_success": {
+      "numerator": 6,
+      "denominator": 6,
+      "value": 1.0
+    },
+    "download_success": {
+      "numerator": 12,
+      "denominator": 12,
+      "value": 1.0
+    },
+    "extract_success": {
+      "numerator": 12,
+      "denominator": 12,
+      "value": 1.0
+    },
+    "version_record_coverage": {
+      "numerator": 12,
+      "denominator": 12,
+      "value": 1.0
+    },
+    "source_complete_papers": {
+      "numerator": 6,
+      "denominator": 6,
+      "value": 1.0
+    },
+    "validation_pass": {
+      "numerator": 6,
+      "denominator": 6,
+      "value": 1.0
+    },
+    "reference_query_success": {
+      "numerator": 6,
+      "denominator": 6,
+      "value": 1.0
+    },
+    "reference_nonempty_success": {
+      "numerator": 4,
+      "denominator": 6,
+      "value": 0.6666666666666666
+    }
+  },
+  "sizes": {
+    "paired_papers": 6,
+    "package_complete_papers": 6,
+    "mean_uncompressed_before_per_paper_bytes": 22073046.166666668,
+    "mean_filtered_per_paper_bytes": 455859.0,
+    "mean_download_package_per_paper_bytes": 14542625.666666666
+  },
+  "references": {
+    "mean_per_retrieved_paper": 45.666666666666664,
+    "complete_metadata_rate": {
+      "numerator": 171,
+      "denominator": 274,
+      "value": 0.6240875912408759
+    }
+  },
+  "discovery_statuses": {
+    "success": 6
+  },
+  "download_statuses": {
+    "success": 12
+  },
+  "extract_statuses": {
+    "success": 12
+  },
+  "reference_statuses": {
+    "no_data": 2,
+    "success": 4
+  },
+  "failure_causes": {},
+  "papers": [
+    {
+      "paper_id": "2410.08019",
+      "versions": 3,
+      "metadata": "success",
+      "references": "no_data",
+      "reference_count": 0,
+      "validation_valid": true,
+      "source_complete": true
+    },
+    {
+      "paper_id": "2410.08020",
+      "versions": 3,
+      "metadata": "success",
+      "references": "no_data",
+      "reference_count": 0,
+      "validation_valid": true,
+      "source_complete": true
+    },
+    {
+      "paper_id": "2410.08021",
+      "versions": 2,
+      "metadata": "success",
+      "references": "success",
+      "reference_count": 110,
+      "validation_valid": true,
+      "source_complete": true
+    },
+    {
+      "paper_id": "2410.08022",
+      "versions": 2,
+      "metadata": "success",
+      "references": "success",
+      "reference_count": 15,
+      "validation_valid": true,
+      "source_complete": true
+    },
+    {
+      "paper_id": "2410.08023",
+      "versions": 1,
+      "metadata": "success",
+      "references": "success",
+      "reference_count": 68,
+      "validation_valid": true,
+      "source_complete": true
+    },
+    {
+      "paper_id": "2410.08024",
+      "versions": 1,
+      "metadata": "success",
+      "references": "success",
+      "reference_count": 81,
+      "validation_valid": true,
+      "source_complete": true
+    }
+  ],
+  "versions": [
+    {
+      "paper_id": "2410.08019",
+      "version": 1,
+      "download": "success",
+      "extract": "success",
+      "package_bytes": 91496,
+      "uncompressed_before_bytes": 376652,
+      "filtered_bytes": 371588
+    },
+    {
+      "paper_id": "2410.08019",
+      "version": 2,
+      "download": "success",
+      "extract": "success",
+      "package_bytes": 94096,
+      "uncompressed_before_bytes": 386459,
+      "filtered_bytes": 379321
+    },
+    {
+      "paper_id": "2410.08019",
+      "version": 3,
+      "download": "success",
+      "extract": "success",
+      "package_bytes": 94788,
+      "uncompressed_before_bytes": 388194,
+      "filtered_bytes": 381052
+    },
+    {
+      "paper_id": "2410.08020",
+      "version": 1,
+      "download": "success",
+      "extract": "success",
+      "package_bytes": 1766596,
+      "uncompressed_before_bytes": 2447057,
+      "filtered_bytes": 239782
+    },
+    {
+      "paper_id": "2410.08020",
+      "version": 2,
+      "download": "success",
+      "extract": "success",
+      "package_bytes": 1700012,
+      "uncompressed_before_bytes": 2365093,
+      "filtered_bytes": 211789
+    },
+    {
+      "paper_id": "2410.08020",
+      "version": 3,
+      "download": "success",
+      "extract": "success",
+      "package_bytes": 3112004,
+      "uncompressed_before_bytes": 23431991,
+      "filtered_bytes": 212756
+    },
+    {
+      "paper_id": "2410.08021",
+      "version": 1,
+      "download": "success",
+      "extract": "success",
+      "package_bytes": 6082147,
+      "uncompressed_before_bytes": 6584969,
+      "filtered_bytes": 229522
+    },
+    {
+      "paper_id": "2410.08021",
+      "version": 2,
+      "download": "success",
+      "extract": "success",
+      "package_bytes": 6083335,
+      "uncompressed_before_bytes": 6589944,
+      "filtered_bytes": 234497
+    },
+    {
+      "paper_id": "2410.08022",
+      "version": 1,
+      "download": "success",
+      "extract": "success",
+      "package_bytes": 28851820,
+      "uncompressed_before_bytes": 36577840,
+      "filtered_bytes": 101222
+    },
+    {
+      "paper_id": "2410.08022",
+      "version": 2,
+      "download": "success",
+      "extract": "success",
+      "package_bytes": 33771245,
+      "uncompressed_before_bytes": 46922445,
+      "filtered_bytes": 106882
+    },
+    {
+      "paper_id": "2410.08023",
+      "version": 1,
+      "download": "success",
+      "extract": "success",
+      "package_bytes": 5222298,
+      "uncompressed_before_bytes": 5770273,
+      "filtered_bytes": 95452
+    },
+    {
+      "paper_id": "2410.08024",
+      "version": 1,
+      "download": "success",
+      "extract": "success",
+      "package_bytes": 385917,
+      "uncompressed_before_bytes": 597360,
+      "filtered_bytes": 171291
+    }
+  ],
+  "diagnostics": []
+}

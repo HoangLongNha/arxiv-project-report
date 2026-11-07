@@ -82,7 +82,8 @@ def load_members(root):
     result = []
     for member, spec in RANGES.items():
         updated = Path(root) / 'summaries/milestone1/updated-20261106' / member
-        directory = updated if (updated / 'provenance.json').is_file() else base / member
+        latest = Path(root) / 'summaries/milestone1/updated-20261107' / member
+        directory = latest if (latest / 'provenance.json').is_file() else (updated if (updated / 'provenance.json').is_file() else base / member)
         provenance = read(directory / 'provenance.json')
         if provenance:
             for name, hashes in provenance['files'].items():

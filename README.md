@@ -1,6 +1,6 @@
 # arXiv Project Report — Nhóm 6
 
-Repository Jupyter Book riêng, chỉ chứa báo cáo và artifacts kiểm chứng, không chứa corpus. Cập nhật ngày 06/11/2026 đã dùng audit bổ sung của TV3/TV4: cả hai có đủ record cho 5.000 ID, không có unseen/unresolved; validation lần lượt 4.820/180 và 4.882/118 pass/fail. Audit TV2/TV5 giữ nguyên theo bộ đã nộp. Chưa nghiệm thu toàn nhóm.
+Repository Jupyter Book riêng, chỉ chứa báo cáo và artifacts kiểm chứng, không chứa corpus. Cập nhật ngày 07/11/2026 bổ sung phiên benchmark TV1 và audit mới của TV5: TV5 có đủ 5.000 lookup thành công, 4.620 paper đạt và 380 chưa đạt validation. ZIP TV1 hiện chỉ có statistics của sáu ID cuối và inputs khai báo toàn dải, chưa có assignment-audit.json. Chưa nghiệm thu toàn nhóm.
 
 Cấu trúc bản nộp gồm giới thiệu/phạm vi, phương pháp, thiết lập thực nghiệm, kết quả thu thập và chất lượng, hiệu năng, thảo luận/kết luận, đóng góp thành viên, tài liệu tham khảo và phụ lục. Các notebook vẫn thực thi khi build nhưng ẩn input code trên HTML bằng tag `remove-input`. Tiến độ 5.000 ID/người do nhóm cung cấp được phân biệt với số liệu kiểm chứng từ artifacts; không suy hoàn tất dữ liệu từ việc notebook kết thúc.
 
@@ -19,6 +19,8 @@ Mở `_build/html/index.html`. `execute_notebooks: force` buộc chạy notebook
 Để tạo lại nội dung, chạy `python scripts/prepare_submission_report.py`. Phần biên tập hiện nằm trong `scripts/submission_updates.py`, được generator dùng để tạo Markdown và ba notebook báo cáo. `scripts/prepare_preliminary_results.py` là tên tương thích. Notebook xuất thống kê tích lũy cũng được tạo lại, với hash code tương ứng phiên bản hiện tại.
 
 `scripts/import_member_artifacts.py` nhập các ZIP đã tải về workspace cha, kiểm CRC/SHA-256, không sửa ZIP/corpus và từ chối ghi đè bằng nội dung khác. Bộ nộp TV2 có một lớp ZIP lồng; script xử lý cả hai lớp. `scripts/import_supplementary_artifacts.py` nhập riêng hai phiên TV4 bổ sung vào `supplementary-20261104`, không thay kết quả phiên cuối đã lưu. Nguồn Drive và hash nằm trong `provenance.json`. Import chỉ lược đường dẫn cục bộ trong `run.json`/`benchmark.json`; các artifacts còn lại giữ nguyên bytes. Snapshot không tự cập nhật khi Drive thay đổi; dữ liệu mới cần nhập thành bộ riêng và đối chiếu phạm vi trước khi chọn vào báo cáo.
+
+Bộ bổ sung ngày 07/11 được nhập bằng `scripts/import_nov07_artifacts.py --tv1 <ZIP> --tv5-retry <ZIP> --tv5-audit <ZIP>`. Script kiểm CRC, chọn artifacts cần cho báo cáo và lưu hash vào `updated-20261107`; không công bố pipeline log hoặc bản sao dữ liệu riêng. TV5 dùng audit mới nhưng giữ benchmark lịch sử. TV1 có dữ liệu phiên đo, chưa có audit toàn dải.
 
 ## Xuất artifacts từ pipeline
 

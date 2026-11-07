@@ -23,12 +23,12 @@ class PreliminaryResultsTests(unittest.TestCase):
         self.assertIn('mâu thuẫn', rows['TV2']['Đánh giá'])
         self.assertEqual(rows['TV2']['Dải audit xác minh'], 'Có')
         self.assertEqual(rows['TV5']['Unseen IDs'], 0)
-        self.assertEqual(rows['TV5']['Unresolved IDs'], 4)
-        self.assertEqual(rows['TV5']['Validation Pass/Fail'], '4617 / 379')
+        self.assertEqual(rows['TV5']['Unresolved IDs'], 0)
+        self.assertEqual(rows['TV5']['Validation Pass/Fail'], '4620 / 380')
 
     def test_sparse_ram_is_not_presented_as_representative(self):
         rows = {r['Thành viên']: r for r in performance_rows(load_members(ROOT))}
-        for member in ['TV2', 'TV5']:
+        for member in ['TV1', 'TV2', 'TV5']:
             self.assertIsNone(rows[member]['Peak RSS MiB (quan sát)'])
             self.assertIsNone(rows[member]['Mean RSS MiB'])
         self.assertGreater(rows['TV3']['Peak RSS MiB (quan sát)'], 0)
@@ -47,18 +47,22 @@ class PreliminaryResultsTests(unittest.TestCase):
             self.assertIsNone(rows[member]['ID có kết quả ghi nhận'])
             self.assertIsNone(rows[member]['Lookup còn lỗi'])
         self.assertEqual(rows['TV5']['ID có kết quả ghi nhận'], 5000)
-        self.assertEqual(rows['TV5']['Lookup còn lỗi'], 4)
+        self.assertEqual(rows['TV5']['Lookup còn lỗi'], 0)
         for member in ['TV3','TV4']:
             self.assertEqual(rows[member]['ID có kết quả ghi nhận'], 5000)
             self.assertEqual(rows[member]['ID chưa ghi nhận'], 0)
             self.assertEqual(rows[member]['Lookup còn lỗi'], 0)
+        tv1 = next(m for m in members if m['member']=='TV1')
+        self.assertEqual(tv1['statistics']['counts']['papers'], 6)
+        self.assertIsNone(tv1['audit'])
+        self.assertEqual(next(m for m in members if m['member']=='TV5')['audit']['known_version_count'],8348)
         full = {r['Thành viên']: r for r in assignment_outcomes(members)}
         self.assertEqual(full['TV3']['Paper phát hiện thành công'], 5000)
 
     def test_supplementary_sessions_are_not_added_to_assignment_counts(self):
         members = load_members(ROOT)
         sessions = session_members(ROOT, members)
-        self.assertEqual(len(sessions), 6)
+        self.assertEqual(len(sessions), 7)
         self.assertEqual(sum(s['member'] == 'TV4' for s in sessions), 3)
         self.assertEqual(len({s['benchmark']['run_id'] for s in sessions}), len(sessions))
         self.assertEqual(len(progress_rows(members)), 5)
