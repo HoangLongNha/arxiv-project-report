@@ -1,93 +1,80 @@
-# arXiv Project Report — Nhóm 6
+# arXiv Project Report, nhóm 6
 
-Repository Jupyter Book riêng, chỉ chứa báo cáo và artifacts kiểm chứng, không chứa corpus. Cập nhật ngày 07/11/2026 bổ sung phiên benchmark TV1 và audit mới của TV5: TV5 có đủ 5.000 lookup thành công, 4.620 paper đạt và 380 chưa đạt validation. ZIP TV1 hiện chỉ có statistics của sáu ID cuối và inputs khai báo toàn dải, chưa có assignment-audit.json. Chưa nghiệm thu toàn nhóm.
+Jupyter Book công khai cho MS1 và các milestone tiếp theo, tách khỏi [repository code](https://github.com/LeoTkiet/arxiv-data-science). [GitHub Pages](https://hoanglongnha.github.io/arxiv-project-report/) được build và deploy bằng GitHub Actions.
 
-Cấu trúc bản nộp gồm giới thiệu/phạm vi, phương pháp, thiết lập thực nghiệm, kết quả thu thập và chất lượng, hiệu năng, thảo luận/kết luận, đóng góp thành viên, tài liệu tham khảo và phụ lục. Các notebook vẫn thực thi khi build nhưng ẩn input code trên HTML bằng tag `remove-input`. Tiến độ 5.000 ID/người do nhóm cung cấp được phân biệt với số liệu kiểm chứng từ artifacts; không suy hoàn tất dữ liệu từ việc notebook kết thúc.
+Bộ bằng chứng ngày 09/11/2026 có audit toàn dải của năm thành viên và cumulative TV2–TV5. Audit xác nhận đủ 25.000 record và lookup thành công; còn paper chưa đạt validator. TV1 thiếu cumulative. Cumulative TV5 trước sửa bốn lookup được giữ đúng thời điểm, không trộn với audit mới. Trường tổng version audit TV2 không khớp chi tiết; phần thống kê version dùng cumulative và phụ lục ghi rõ mâu thuẫn.
 
-## Build
+## Môi trường và build
 
-Sử dụng Python 3.12. Cố định Jupyter Book 1.0.4.post1 để phù hợp `_config.yml`/`_toc.yml`; không dùng lệnh/config Book 2 cho project này.
+Dùng Python 3.12. Jupyter Book cố định phiên bản 1.0.4.post1 để phù hợp cấu hình Book 1.
 
 ```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
 python -m ipykernel install --user --name python3
 jupyter-book build . --all --warningiserror
 ```
 
-Mở `_build/html/index.html`. `execute_notebooks: force` buộc chạy notebook khi build; lỗi notebook làm build thất bại. Ba notebook kết quả, hiệu năng và phụ lục chỉ đọc artifacts đã lưu và kiểm hash, không gọi arXiv/Drive trong CI, không phụ thuộc `TV5_RUN`.
+Trên Linux/macOS dùng `source .venv/bin/activate`. Mở `_build/html/index.html` sau build. Notebook bắt buộc thực thi; lỗi làm build thất bại. Bảng, biểu đồ và CSV thời gian từng paper tính lại từ artifacts đã commit; input code được ẩn trên HTML. Build không gọi API crawl/Drive và không cần corpus gốc.
 
-Để tạo lại nội dung, chạy `python scripts/prepare_submission_report.py`. Phần biên tập hiện nằm trong `scripts/submission_updates.py`, được generator dùng để tạo Markdown và ba notebook báo cáo. `scripts/prepare_preliminary_results.py` là tên tương thích. Notebook xuất thống kê tích lũy cũng được tạo lại, với hash code tương ứng phiên bản hiện tại.
+Tạo lại các trang đã biên tập:
 
-`scripts/import_member_artifacts.py` nhập các ZIP đã tải về workspace cha, kiểm CRC/SHA-256, không sửa ZIP/corpus và từ chối ghi đè bằng nội dung khác. Bộ nộp TV2 có một lớp ZIP lồng; script xử lý cả hai lớp. `scripts/import_supplementary_artifacts.py` nhập riêng hai phiên TV4 bổ sung vào `supplementary-20261104`, không thay kết quả phiên cuối đã lưu. Nguồn Drive và hash nằm trong `provenance.json`. Import chỉ lược đường dẫn cục bộ trong `run.json`/`benchmark.json`; các artifacts còn lại giữ nguyên bytes. Snapshot không tự cập nhật khi Drive thay đổi; dữ liệu mới cần nhập thành bộ riêng và đối chiếu phạm vi trước khi chọn vào báo cáo.
+```powershell
+python scripts/prepare_submission_report.py
+```
 
-Bộ bổ sung ngày 07/11 được nhập bằng `scripts/import_nov07_artifacts.py --tv1 <ZIP> --tv5-retry <ZIP> --tv5-audit <ZIP>`. Script kiểm CRC, chọn artifacts cần cho báo cáo và lưu hash vào `updated-20261107`; không công bố pipeline log hoặc bản sao dữ liệu riêng. TV5 dùng audit mới nhưng giữ benchmark lịch sử. TV1 có dữ liệu phiên đo, chưa có audit toàn dải.
+`scripts/final_ms1_sections.py` chứa kết quả và kết luận hiện hành, phối hợp với `scripts/submission_updates.py` và generator. Sửa các nguồn này rồi tạo lại trang để giữ nội dung nhất quán.
 
-## Xuất artifacts từ pipeline
+## Kiểm thử
 
-### Thống kê toàn corpus tích lũy
+Các kiểm thử notebook benchmark cần source pipeline. Cài bản tương thích với CI vào môi trường kiểm thử hoặc dùng checkout cục bộ qua biến TV5_SOURCE:
 
-Mở [notebook xuất thống kê trên Colab](https://colab.research.google.com/github/HoangLongNha/arxiv-project-report/blob/main/colab/MS1_Cumulative_Statistics.ipynb), dừng các tiến trình ghi dữ liệu, chọn đúng thành viên và đường dẫn `data/`. Công cụ chỉ đọc dữ liệu hiện có; không gọi API crawl, không sửa manifest/checkpoint và không tạo benchmark giả. Tệp JSON được ghi mới vào `artifacts/cumulative_<UUID>/` và có thể tải về để gửi TV5.
+```powershell
+python -m pip install "arxiv-data-science[reporting,dev] @ git+https://github.com/LeoTkiet/arxiv-data-science.git@0f8d83b591c89cf085f344f5fb59af671ab43b81"
+python -m unittest discover -s tests -v
+```
 
-Hoặc chạy trên máy có corpus:
+Kiểm thử bảo vệ kết quả khi chạy lại, xác minh run/hash, phạm vi audit, checkpoint nhiều phiên và tổng hợp có trọng số. Chúng không thay audit dữ liệu thực.
+
+## Pipeline và benchmark trên Colab
+
+Mở `colab/MS1_Benchmark_CPU.ipynb`, chọn runtime CPU-only, cấu hình đúng thành viên/dải ID, output và source ref. Notebook cài source riêng và kiểm tra trước khi chạy. Chạy smoke trước khi thực hiện cấu hình full. Hướng dẫn pipeline chi tiết nằm trong README repo code.
+
+Dữ liệu sẵn có dùng AUTO_RESUME=True để tái sử dụng checkpoint. Fresh run cần output riêng. Benchmark resume đo kiểm tra cache và stage thử lại, không phải chi phí tải mới toàn dải. Giữ mỗi run trong thư mục kết quả riêng; dừng tiến trình ghi trước audit hoặc xuất cumulative.
+
+## Thống kê corpus tích lũy
+
+Mở [MS1_Cumulative_Statistics.ipynb trên Colab](https://colab.research.google.com/github/HoangLongNha/arxiv-project-report/blob/main/colab/MS1_Cumulative_Statistics.ipynb), chọn đúng TV và DATA, xác nhận WRITERS_STOPPED=True sau khi dừng pipeline/audit. Notebook không crawl lại hoặc sửa checkpoint. Nếu code tải về không khớp SHA-256, mở notebook mới nhất.
+
+Chạy tương đương trên máy có corpus và nhập kết quả đã nhận:
 
 ```powershell
 python scripts/export_cumulative_ms1.py --member TV3 --output 'D:/corpus/tv3/data' --save 'D:/corpus/tv3/artifacts/cumulative-statistics.json' --writers-stopped
-```
-
-`--writers-stopped` là xác nhận của người chạy, không phải công cụ tự phát hiện tiến trình. Export kiểm lại hash JSON và metadata tệp đã đọc; nếu có thay đổi thì dừng và không tạo báo cáo. Các sidecar kích thước có thể thiếu; số mẫu ghép cặp và diagnostics phải được xem cùng kết quả. Validation được đọc từ báo cáo đã lưu, không phải một lượt audit mới. Code notebook được tải từ repository và đối chiếu SHA-256 trước khi chạy; nếu code đã đổi, dùng bản notebook mới.
-
-Nhận JSON từ thành viên rồi kiểm tra và nhập vào báo cáo:
-
-```powershell
 python scripts/import_cumulative_statistics.py --member TV3 --input 'D:/received/TV3-cumulative-statistics.json'
 ```
 
-Importer xác minh member, dải, số lượng/định danh, snapshot và lưu hash tệp gốc. Nó từ chối ghi đè dữ liệu đã nhập. Các trang báo cáo chỉ dùng bản có provenance hợp lệ ở `summaries/milestone1/cumulative/TV3/`; khi chưa có, phần kích thước/references toàn dải tiếp tục ghi đang chờ xuất. Không dùng statistics 828/6/6 ID hoặc cộng các statistics resume để thay thế.
+Importer giữ byte gốc, kiểm phạm vi/định danh/số đếm và lưu SHA-256. Nó từ chối ghi đè bản đã nhập; bản mới cần một snapshot mới được rà soát. WRITERS_STOPPED là xác nhận của người chạy, không phải phát hiện tiến trình tự động. Export kiểm thay đổi trong lúc đọc; validation lấy từ báo cáo đã lưu, không phải audit mới. Cumulative không khôi phục runtime/RAM/disk peak lịch sử.
 
-### Bằng chứng audit đã sửa
-
-`scripts/import_updated_artifacts.py` nhập ba ZIP TV3/TV4 vào `updated-20261106`, giữ nguyên byte artifacts ngoài phần lược đường dẫn trong benchmark/run. Mỗi thành viên chọn một audit; hai audit TV4 cho cùng dải không được cộng. `session_members()` khử trùng lặp benchmark theo run ID, giữ các phiên cũ để phân tích chi phí thực tế.
-
-### Xuất một run benchmark
-
-Từ repository source sau khi có benchmark:
+Bộ TV1/TV2 bổ sung được nhập bằng:
 
 ```powershell
-python -m arxiv_pipeline.reporting.milestone1.export --run artifacts/ms1-colab-final --book ../arxiv-project-report --name colab-final
+python scripts/import_nov09_artifacts.py --tv1 'D:/received/TV1-results.zip' --tv2-audit 'D:/received/assignment-audit-tv2.json'
 ```
 
-Exporter giữ statistics/samples/timings, loại local argv/path khỏi benchmark công khai và ghi hash nguyên bản trong provenance. Không ghi đè run cũ. Lưu originals và logs trong hồ sơ chạy; không đưa API key hay corpus vào Git. Bản nộp hiện chọn bộ artifacts trong `utils/preliminary_results.py`; chỉ đổi biến `TV5_RUN` không thay dữ liệu trên các trang này. Khi cập nhật cần xác minh dải, run ID, snapshot và các kết luận trong generator trước khi build.
+Các importer cũ giữ snapshot TV2–TV5, các phiên TV4 và bằng chứng sửa TV5 ngày 07/11. Không nhập corpus hoặc pipeline.log vào repo báo cáo. Benchmark/run công khai lược đường dẫn máy; provenance lưu hash gốc và bản công bố. Khi chọn snapshot mới cần kiểm phạm vi, thời điểm và kết luận trước build.
 
-## Google Colab
+## Cấu trúc
 
-Mở `colab/MS1_Benchmark_CPU.ipynb`, chọn CPU-only, cấu hình source ref đã push có code TV5, chạy smoke trước. Cấu hình năm range nhóm 6 được notebook đọc từ source repo. Chỉ chuyển sang full sau khi kiểm tra môi trường, disk và API. Notebook đóng gói kết quả để tải về; không tự trình bày lượt local/demo là benchmark cuối.
+- `milestone1/`: phương pháp, thiết lập, kết quả, hiệu năng, thảo luận, đóng góp và phụ lục.
+- `summaries/milestone1/`: snapshot bất biến, cumulative và provenance; demo/smoke không thay kết quả toàn assignment.
+- `utils/preliminary_results.py`: đọc bằng chứng, kiểm hash/phạm vi và tính bảng tổng hợp.
+- `utils/cumulative_statistics.py`: kiểm kê corpus tích lũy chỉ đọc.
+- `_static/generated/`: CSV timing sinh khi build, không commit.
+- `colab/`: notebook benchmark và cumulative.
 
-## GitHub Pages
+## GitHub Pages và nộp bài
 
-Workflow `.github/workflows/deploy.yml` build trên PR/push, chỉ deploy khi không phải PR. Trên repository GitHub report đặt Settings → Pages → Source = GitHub Actions. Trang đang dùng snapshot artifacts đã commit; không cần cấu hình `TV5_RUN` cho bản nộp hiện tại.
+Workflow `.github/workflows/deploy.yml` kiểm thử, thực thi notebook và build. Push main hoặc workflow_dispatch triển khai Pages; PR chỉ kiểm tra. Settings → Pages chọn GitHub Actions. Kiểm tra trang kết quả, hiệu năng và link tải CSV sau deploy. MS2 bổ sung vào cùng book.
 
-Repository này được chuẩn bị độc lập với source. Nếu cần tạo remote ở tài khoản khác, dùng tài khoản có quyền phù hợp:
-
-```powershell
-git add .
-git commit -m "docs: add MS1 executable Jupyter Book report"
-gh repo create arxiv-project-report --public --source . --remote origin --push
-```
-
-Kiểm tra link GitHub Pages và các trang/biểu đồ sau khi workflow thành công. Trong sandbox có thể không đọc được keyring; kiểm tra đăng nhập bằng môi trường người dùng có quyền hợp lệ. Trạng thái triển khai thực tế được ghi trong tài liệu bàn giao TV5.
-
-## Nội dung
-
-- `milestone1/`: mục tiêu, phương pháp, notebooks thống kê/hiệu năng, phân tích hạn chế.
-- `milestone1/contributions/`: tài liệu bàn giao gốc TV1–TV4, được tải qua trang Đóng góp thành viên; không còn là các chương báo cáo độc lập trong mục lục.
-- `milestone1/experimental-setup.md`: đơn vị đánh giá, mẫu số và thiết kế đo.
-- `milestone1/preliminary-results.ipynb`: tiến độ nhóm báo cáo, kết quả thu thập và chất lượng được kiểm chứng.
-- `milestone1/performance.ipynb`: số đo theo từng phiên, tách các lượt resume/chồng lặp.
-- `milestone1/audit-appendix.ipynb`: định danh run, nguồn, hash và đối chiếu audit.
-- `summaries/milestone1/demo/`: số đo local trên fixtures tổng hợp, có nhãn synthetic_demo.
-- `summaries/milestone1/live-smoke-local/`: smoke một ID thật trên máy hiện tại, nhãn live_unverified; có thể chọn bằng `TV5_RUN=live-smoke-local`, không phải benchmark Colab.
-- `summaries/milestone1/colab-cpu-sample/`: mẫu CPU-only trên Colab, nhãn colab_cpu_sample, run ID, số đo thô và provenance; coverage assignment được ghi riêng trong corpus_coverage.json.
-- `colab/`: notebook tái lập benchmark CPU-only; mẫu một paper đã chạy trong Colab. Chọn source commit `0f8d83b591c89cf085f344f5fb59af671ab43b81` để tái lập phiên bản đã đo.
-- `references.md`: nguồn chính thức và tài liệu kỹ thuật.
-
-Ngôn ngữ hiện tại là tiếng Việt; nếu chương trình học quy định ngôn ngữ khác, cần chuyển trước khi nộp.
+Bản hiện dùng tiếng Việt; nhóm cần đối chiếu ngôn ngữ chính thức chương trình trước nộp Moodle. Liên kết nộp gồm repo code công khai và Jupyter Book trên GitHub Pages.

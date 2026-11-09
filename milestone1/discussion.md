@@ -1,27 +1,31 @@
-# Thảo luận, hạn chế và kết luận
+# Thảo luận và kết luận
 
-## Kết quả đã xác minh
+## Bao phủ đầu vào và mức hoàn thiện corpus
 
-Audit TV2–TV5 xác nhận mỗi dải đã có record và lookup thành công cho đủ 5.000 ID. TV5 đã thử lại bốn Discovery lỗi; audit ngày 07/11 ghi nhận 8.348 version, 4.620 paper đạt và 380 chưa đạt. TV1 đã có kết quả một phiên resume sáu ID cuối, chưa có audit toàn assignment trong ZIP được gửi.
+Năm audit xác nhận đủ 25.000 record và 25.000 lookup thành công. Checkpoint giúp nhóm tiếp tục sau gián đoạn và thử lại riêng ID hoặc stage lỗi. Lookup thành công cho biết đã nhận diện bài báo và version; source/corpus và kiểm định còn có thể chưa đạt.
 
-Các kết quả này ghi nhận tiến độ đầu vào và những paper đã được kiểm tra. Số source, kích thước và references cần được tổng hợp từ dữ liệu tích lũy. Statistics của lượt resume cuối không đủ để suy các chỉ số đó cho toàn nhóm.
+Cumulative TV2–TV5 thống kê dữ liệu tích lũy qua nhiều phiên. Tỷ lệ paper đủ source thấp hơn bao phủ Discovery vì mỗi paper có thể có nhiều version, gặp lỗi tải/giải nén hoặc không có source TeX. Trạng thái no_source được giữ riêng để không coi mọi trường hợp thiếu TeX là lỗi mạng. Số download success và số source có tệp còn chênh lệch; cần kiểm tra checkpoint, đường dẫn và tệp trước khi dùng số trạng thái làm số source thực có.
 
-## Chất lượng và ảnh hưởng tới MS2
+## Kích thước và references
 
-TV3 còn 180 paper chưa đạt, TV4 còn 118, theo audit được nộp. Validator có thể báo lỗi do stage upstream, tệp/đường dẫn hoặc trạng thái checkpoint chưa nhất quán. Mỗi paper cần được xem theo version và loại lỗi trước khi quyết định chạy lại bước nào. Một lỗi references cũng có thể làm paper fail dù source LaTeX vẫn hiện diện.
+Chỉ giữ TeX/BibTeX làm giảm dung lượng trên tập paper có đủ cặp đo. So sánh dùng kích thước giải nén trước lọc và corpus sau lọc; không so gói nén với dữ liệu đã giải nén. Cặp đo thiếu được loại khỏi mẫu số, còn số paper được tính luôn đi kèm kết quả.
 
-Audit TV2 vẫn có mâu thuẫn giữa cờ hoàn tất và số paper fail. TV5 đã hết lỗi Discovery nhưng còn lỗi validation. Riêng 2410.05044, việc tải source bị ngắt trước khi đủ dữ liệu sau năm lần thử; metadata và references đã có không thay thế source còn thiếu. Các số đếm giữ nguyên theo nguồn và ngày audit.
+References được đếm theo paper trích dẫn, loại dòng trùng trong cùng paper. Cùng tài liệu được nhiều paper trích dẫn vẫn được đếm ở mỗi quan hệ. Trung bình bao gồm danh sách rỗng hợp lệ; truy vấn lỗi hoặc chưa được index không được coi là danh sách rỗng. Tỷ lệ truy vấn đọc được và tỷ lệ reference đủ metadata là hai chỉ số riêng.
 
-Trước MS2, nhóm cần kiểm tra các version thiếu source/corpus và liên kết metadata. Trường hợp PDF-only được giữ trạng thái riêng. Những tệp bị báo rỗng/nhị phân cần kiểm tra mẫu; validator không biên dịch LaTeX và không kiểm chứng toàn bộ ngữ nghĩa nội dung.
+TV2 có mức bao phủ references thấp hơn các dải còn lại; cần xem checkpoint references lỗi trước khi dùng cho matching. Tiêu chí đủ năm trường khá chặt vì nhiều tài liệu không có arXiv ID. Nó không thay độ chính xác nội dung do Semantic Scholar cung cấp.
 
-## Giới hạn của phép đo
+## Chất lượng và chuẩn bị MS2
 
-Benchmark hiện có ghi lại một số phiên resume. Các run đã được khử trùng lặp theo định danh; tổng thời gian được ghi là thời gian của các phiên đã nộp. Chưa có đủ lịch sử để coi đó là toàn bộ chi phí thu thập 25.000 ID hoặc một benchmark fresh thống nhất.
+Một paper có thể vướng nhiều loại lỗi: stage upstream, artifact, corpus hoặc metadata/references. Cần phân loại theo paper/version rồi thử lại stage cần thiết. Paper chưa đạt validator vẫn có thể có TeX sử dụng được; có TeX cũng không bảo đảm mọi trường khác hợp lệ.
 
-Mẫu RAM có thể bỏ lỡ đỉnh ngắn. RSS của cây tiến trình có thể đếm shared pages nhiều lần; thao tác quét file trên Drive cũng làm khoảng lấy mẫu dài hơn cấu hình. Dung lượng output được đo theo mốc thời gian, gồm cả dữ liệu các phiên trước. Kích thước trước/sau lọc phải dùng cùng tập dữ liệu giải nén.
+Audit TV2 mới đã thống nhất cờ hoàn tất với số paper fail, nhưng known_version_count ghi 3.887 trong khi cộng versions của 5.000 paper trong chính audit được 7.987, khớp cumulative. Báo cáo giữ tệp gốc, dùng cumulative cho số version và ghi mâu thuẫn trong phụ lục. TV5 đã giải quyết bốn lookup, nhưng lần thử source 2410.05044 trong bộ bằng chứng sửa lỗi vẫn bị IncompleteRead.
 
-## Phần cần hoàn thiện
+Validator kiểm tra cấu trúc, định danh, trạng thái và tệp; chưa biên dịch LaTeX hay đánh giá toàn bộ ngữ nghĩa. MS2 cần giữ liên kết paper/version, xử lý record không có source và dùng danh sách lỗi để tránh coi đầu vào thiếu là kết quả parsing rỗng hợp lệ.
 
-Nhóm cần bổ sung kết quả audit TV1 (ZIP hiện chỉ có inputs), rà soát các lỗi còn mở và xuất thống kê tích lũy trên các dải cá nhân. Công cụ đọc checkpoint/corpus đã được chuẩn bị trong repository báo cáo; thao tác này không crawl lại dữ liệu. Những tệp thống kê được xuất sẽ cung cấp số source/corpus, cặp đo kích thước và references cho phần kết quả.
+## Giới hạn thực nghiệm
 
-Pipeline đã tích hợp các bước thu thập và QA. Bốn assignment có bằng chứng bao phủ record đầy đủ, nhưng chất lượng và thống kê cuối cùng của cả nhóm vẫn cần các bước trên trước khi nghiệm thu.
+TV1 còn thiếu cumulative. Cumulative TV5 trước sửa lookup chưa phản ánh sáu version mới xác định và các thay đổi sau đó. Tổng TV2–TV5 mô tả các snapshot đã nộp, không phải số liệu đồng thời mới nhất hay tổng corpus năm thành viên.
+
+Benchmark chủ yếu chạy resume. Phiên TV1 mới có toàn dải đầu vào và mẫu RAM trên Colab CPU-only nhưng dùng cache, nên chưa đo chi phí tải mới toàn dải. TV2/TV5 thiếu mẫu RAM đại diện trong các phiên đã nộp. Không thể khôi phục runtime, RAM hay disk peak của phiên không có log từ cumulative JSON.
+
+Để chốt số liệu corpus hiện tại của cả nhóm, cần cumulative TV1 và bản TV5 sau sửa. Để kết luận hiệu năng end-to-end của toàn quá trình, cần lịch sử đo đầy đủ hoặc benchmark Colab CPU-only có biên đo thống nhất. Báo cáo trình bày các số đo có bằng chứng và giữ rõ những giới hạn này.

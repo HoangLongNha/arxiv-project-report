@@ -1,6 +1,7 @@
 """Evidence-scoped report tables. Missing observations remain missing, never zero."""
 import hashlib
 import json
+import math
 from collections import Counter
 from pathlib import Path
 
@@ -12,6 +13,17 @@ RANGES = dict(TV1='2508.12872:2508.17871', TV2='2506.15788:2506.20787',
 
 def read(path):
     return json.loads(path.read_text(encoding='utf-8')) if path.is_file() else None
+
+
+def read_benchmark(path):
+    benchmark = read(path)
+    if benchmark and not benchmark.get('run_id'):
+        command = benchmark.get('command', [])
+        if '--run-id' not in command or command.index('--run-id')+1 >= len(command):
+            raise ValueError(f'Cannot identify benchmark run: {path}')
+        # Some older benchmark writers keep the UUID only in argv; preserve source bytes.
+        benchmark = dict(benchmark, run_id=command[command.index('--run-id')+1])
+    return benchmark
 
 
 def expected_ids(spec):
@@ -52,6 +64,10 @@ def audit_assessment(audit, verified):
         return 'Audit mâu thuẫn với định nghĩa source; cần chạy lại'
     if not verified:
         return 'Chưa xác minh đúng dải audit'
+    details = audit.get('paper_results', [])
+    if (details and all(type(p.get('counts', {}).get('versions')) is int for p in details)
+            and sum(p['counts']['versions'] for p in details) != audit.get('known_version_count')):
+        return 'Tổng version audit không khớp chi tiết; coverage/validation đọc riêng'
     if audit['audit_complete'] is True:
         return 'Đủ điều kiện theo audit được cung cấp; chưa tái kiểm corpus độc lập'
     return 'Chưa đạt: còn lỗi Discovery/validation hoặc diagnostics'
@@ -75,6 +91,20 @@ def validate_cumulative(doc, member):
             or counts['expected_versions'] != len(versions) or len(pairs) != len(set(pairs))
             or any(identifier not in identities or type(version) is not int or version < 1 for identifier,version in pairs)):
         raise ValueError(f'Cumulative statistics identity/count mismatch: {member}')
+    if (counts['source_versions_verified'] != sum(v['source_exists'] for v in versions)
+            or counts['source_complete_papers'] != sum(p['source_complete'] for p in papers)
+            or counts['references'] != sum(p['references'] for p in papers if p['references'] is not None)
+            or counts['retrieved_reference_papers'] != sum(p['references'] is not None for p in papers)
+            or dict(Counter(v['download'] for v in versions)) != doc['download_statuses']
+            or dict(Counter(v['extract'] for v in versions)) != doc['extract_statuses']
+            or doc['references']['complete_denominator'] != counts['references']
+            or not 0 <= doc['references']['complete_numerator'] <= counts['references']):
+        raise ValueError(f'Cumulative statistics totals mismatch: {member}')
+    retrieved = counts['retrieved_reference_papers']
+    mean = doc['references']['mean_per_retrieved_paper']
+    if (retrieved and (not isinstance(mean, (int, float)) or not math.isclose(mean, counts['references']/retrieved))
+            or not retrieved and mean is not None):
+        raise ValueError(f'Cumulative reference mean mismatch: {member}')
 
 
 def load_members(root):
@@ -83,14 +113,16 @@ def load_members(root):
     for member, spec in RANGES.items():
         updated = Path(root) / 'summaries/milestone1/updated-20261106' / member
         latest = Path(root) / 'summaries/milestone1/updated-20261107' / member
-        directory = latest if (latest / 'provenance.json').is_file() else (updated if (updated / 'provenance.json').is_file() else base / member)
+        newest = Path(root) / 'summaries/milestone1/updated-20261109' / member
+        directory = next((p for p in (newest, latest, updated, base/member)
+                          if (p/'provenance.json').is_file()), base/member)
         provenance = read(directory / 'provenance.json')
         if provenance:
             for name, hashes in provenance['files'].items():
                 data = (directory / name).read_bytes()
                 if hashlib.sha256(data).hexdigest() != hashes['published_sha256']:
                     raise ValueError(f'Evidence hash mismatch: {member}/{name}')
-        benchmark = read(directory / 'benchmark.json')
+        benchmark = read_benchmark(directory / 'benchmark.json')
         statistics = read(directory / 'statistics.json')
         audit = read(directory / 'assignment-audit.json')
         verified = range_verified(directory, audit, spec)
@@ -259,7 +291,7 @@ def session_members(root, members):
         for name, hashes in provenance['files'].items():
             if hashlib.sha256((corrected / name).read_bytes()).hexdigest() != hashes['published_sha256']:
                 raise ValueError('Corrected session evidence hash mismatch')
-        b = read(corrected / 'benchmark.json')
+        b = read_benchmark(corrected / 'benchmark.json')
         result.append(dict(member='TV4', session='TV4 (2026-11-02)', directory=corrected,
                            benchmark=b, provenance=provenance))
         seen.add(b['run_id'])
@@ -272,13 +304,13 @@ def session_members(root, members):
         paths = list(directory.glob('*/benchmark.json'))
         if len(paths) != 1:
             raise ValueError('Expected one benchmark per supplementary session')
-        b = read(paths[0])
+        b = read_benchmark(paths[0])
         if b['run_id'] not in seen:
             result.append(dict(member='TV4', session=directory.name, directory=paths[0].parent,
                                benchmark=b, provenance=provenance))
             seen.add(b['run_id'])
     historical = Path(root) / 'summaries/milestone1/preliminary-20261104/TV4'
-    b = read(historical / 'benchmark.json')
+    b = read_benchmark(historical / 'benchmark.json')
     if b and b['run_id'] not in seen:
         p = read(historical / 'provenance.json')
         for name, hashes in p['files'].items():
@@ -286,7 +318,84 @@ def session_members(root, members):
                 raise ValueError('Historical session evidence hash mismatch')
         result.append(dict(member='TV4', session='TV4 (2026-11-03)', directory=historical,
                            benchmark=b, provenance=p))
+        seen.add(b['run_id'])
+    # A new selected audit/run must not erase an earlier measured TV1 session.
+    for directory in sorted((Path(root)/'summaries/milestone1').glob('updated-*/TV1')):
+        b = read_benchmark(directory/'benchmark.json')
+        if not b or b['run_id'] in seen:
+            continue
+        p = read(directory/'provenance.json')
+        for name, hashes in p['files'].items():
+            if hashlib.sha256((directory/name).read_bytes()).hexdigest() != hashes['published_sha256']:
+                raise ValueError('TV1 historical evidence hash mismatch')
+        result.append(dict(member='TV1', session='TV1 ('+b['started_at'][:10]+')', directory=directory,
+                           benchmark=b, provenance=p))
+        seen.add(b['run_id'])
     return result
+
+
+def percentage(numerator, denominator):
+    return 100*numerator/denominator if denominator else None
+
+
+def corpus_metrics(members):
+    """Aggregate only matching inventory snapshots, never substitute a newer audit."""
+    available = [m for m in members if m['cumulative']]
+    rows = []
+    documents = []
+    for m in available:
+        d = m['cumulative']
+        c, sizes, refs = d['counts'], d['sizes'], d['references']
+        documents.append(d)
+        rows.append(dict(member=m['member'], assigned=c['assigned_ids'], discovered=c['discovery_success_papers'],
+            versions=c['expected_versions'], download_success=d['download_statuses'].get('success', 0),
+            source_files=c['source_versions_verified'], corpus_versions=sum(v['corpus_exists'] for v in d['versions']),
+            complete_papers=c['source_complete_papers'], paired=sizes['paired_papers'],
+            mean_before=sizes['mean_before_bytes'], mean_after=sizes['mean_after_bytes'],
+            references=c['references'], retrieved=c['retrieved_reference_papers'],
+            mean_references=refs['mean_per_retrieved_paper'], complete_references=refs['complete_numerator'],
+            reference_denominator=refs['complete_denominator'],
+            reference_statuses=dict(Counter(p['reference_status'] for p in d['papers']))))
+    if not rows:
+        return rows
+    total = dict(member='TV2–TV5 (các snapshot đã nộp)' if {m['member'] for m in available}=={'TV2','TV3','TV4','TV5'}
+                 else 'Gộp '+', '.join(m['member'] for m in available))
+    for key in ('assigned','discovered','versions','download_success','source_files','corpus_versions','complete_papers',
+                'paired','references','retrieved','complete_references','reference_denominator'):
+        total[key] = sum(r[key] for r in rows)
+    for key in ('mean_before','mean_after'):
+        total[key] = (sum(r[key]*r['paired'] for r in rows if r['paired'])/total['paired']
+                      if total['paired'] else None)
+    total['mean_references'] = total['references']/total['retrieved'] if total['retrieved'] else None
+    counts = Counter()
+    for r in rows:
+        counts.update(r['reference_statuses'])
+    total['reference_statuses'] = dict(counts)
+    return rows+[total]
+
+
+def snapshot_rows(members):
+    return [{'Thành viên':m['member'],
+             'Audit (UTC)':m['audit']['generated_at'] if m['audit'] else None,
+             'Cumulative (UTC)':m['cumulative']['generated_at'] if m['cumulative'] else None,
+             'Discovery trong audit':m['audit']['discovery_statuses'].get('success',0) if m['audit'] else None,
+             'Discovery trong cumulative':m['cumulative']['counts']['discovery_success_papers'] if m['cumulative'] else None,
+             'Phạm vi': 'Thiếu cumulative' if not m['cumulative'] else
+                 ('Cumulative trước audit; không ghép thành một snapshot' if m['audit'] and
+                  m['cumulative']['generated_at'] < m['audit']['generated_at'] else
+                  'Hai phép kiểm tra ở thời điểm riêng')}
+            for m in members]
+
+
+def paper_timings(sessions):
+    rows = []
+    for s in sessions:
+        events = [json.loads(line) for line in (s['directory']/'timings.jsonl').read_text(encoding='utf-8').splitlines() if line.strip()]
+        for event in events:
+            if event.get('kind') == 'paper':
+                rows.append(dict(member=s['member'], run_id=s['benchmark']['run_id'],
+                                 paper_id=event['paper_id'], elapsed_seconds=event['elapsed_seconds']))
+    return rows
 
 
 def cumulative_rows(members):

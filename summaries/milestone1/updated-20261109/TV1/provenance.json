@@ -1,0 +1,37 @@
+{
+  "checked_on": "2026-11-09",
+  "archive_name": "TV_tv1_MS1_RESULTS_run_20261107T230720Z_e5fde4a52962403596b9fdaca9082581.zip",
+  "archive_sha256": "956e10fb2bc64f5822c9fcb8b978c2735a434baf3815c7b0202e3801602f7e00",
+  "drive_url": "",
+  "files": {
+    "run.json": {
+      "original_sha256": "90e1cdde5ff2970c43ad3c9e11c8a2abb3ad6e3c6884f9f55255c2d9a9858ef0",
+      "published_sha256": "15ba5b76b571d4420f9d5de5b691282a41b58f876e47d81ba718dc9a2625760b"
+    },
+    "samples.jsonl": {
+      "original_sha256": "153fe04ff6e3abb58a87d76d552b7b4e36401c826f807ee869ab90d52d7b4db6",
+      "published_sha256": "153fe04ff6e3abb58a87d76d552b7b4e36401c826f807ee869ab90d52d7b4db6"
+    },
+    "timings.jsonl": {
+      "original_sha256": "404e836eb840c617881e0030cb898b9e80e4719fef63bb24c9cce447f3008d20",
+      "published_sha256": "404e836eb840c617881e0030cb898b9e80e4719fef63bb24c9cce447f3008d20"
+    },
+    "benchmark.json": {
+      "original_sha256": "2f507652249b925f9dfc0162fc264418bb6882f10b49b19b48a475aee568e7af",
+      "published_sha256": "a0e4ee8749e7e74dbc691e6e48c05ea906c27a4a7b6f87d1b34cb52d2a26ec7b"
+    },
+    "assignment-audit.json": {
+      "original_sha256": "e2d015d8412edef486041f30c0ae17cdaeef99e5614bb3a19b207f6a0595ca67",
+      "published_sha256": "e2d015d8412edef486041f30c0ae17cdaeef99e5614bb3a19b207f6a0595ca67"
+    },
+    "audit-da6d083b53644bd2bebbbcd0e8964462/inputs.json": {
+      "original_sha256": "2ab09bdf82847ed13e956fbe20735eb2c337d4004e9d9068a029ba9b8dafc224",
+      "published_sha256": "2ab09bdf82847ed13e956fbe20735eb2c337d4004e9d9068a029ba9b8dafc224"
+    },
+    "audit-da6d083b53644bd2bebbbcd0e8964462/assignment-audit.json": {
+      "original_sha256": "e2d015d8412edef486041f30c0ae17cdaeef99e5614bb3a19b207f6a0595ca67",
+      "published_sha256": "e2d015d8412edef486041f30c0ae17cdaeef99e5614bb3a19b207f6a0595ca67"
+    }
+  },
+  "note": "User-provided evidence. Audit and benchmark dates/scopes remain separate. No private logs or corpus are published."
+}

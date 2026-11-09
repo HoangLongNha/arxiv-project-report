@@ -268,3 +268,11 @@ Kết quả `cumulative-statistics.json` cần được gửi lại cho TV5 đ�
 
 README hướng dẫn cài môi trường, export và build. Notebook báo cáo vẫn thực thi khi build; code tính toán được ẩn khỏi HTML.'''),
     ])
+
+
+from final_ms1_sections import PAGES as FINAL_PAGES, build as build_final
+PAGES.update(FINAL_PAGES)
+_previous_build = build
+
+def build(notebook, setup):
+    build_final(notebook, setup, _previous_build)

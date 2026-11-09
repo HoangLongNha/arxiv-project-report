@@ -1,7 +1,14 @@
 # Milestone 1: Thu thập dữ liệu arXiv
 
-Pipeline nhận dải ID, xác định phiên bản, tải source, tạo corpus TeX/BibTeX, chuẩn hóa metadata và lấy references. Mỗi thành viên chạy pipeline tích hợp trên dải 5.000 ID cá nhân.
+Pipeline xác định version, tải source, trích xuất TeX/BibTeX, chuẩn hóa metadata, truy vấn references và kiểm định đầu ra. Mỗi thành viên xử lý một dải 5.000 ID; tổng phạm vi là 25.000 ID.
 
-Audit hiện có xác nhận đủ record và 20.000 lookup thành công trên bốn dải TV2–TV5. Bản TV5 ngày 07/11 ghi nhận 4.620 paper đạt và 380 paper chưa đạt kiểm định. ZIP TV1 bổ sung benchmark cùng statistics của sáu ID cuối; tệp inputs khai báo dải 5.000 ID nhưng chưa có assignment-audit.json để xác nhận kết quả toàn dải. Các số liệu được đọc theo thời điểm của từng tệp.
+Năm audit toàn dải xác nhận không còn ID chưa ghi nhận hoặc lookup chưa giải quyết. Kết quả này chứng minh bao phủ Discovery; số paper đạt kiểm định và mức đầy đủ source được báo riêng. Audit TV2 mới đã sửa cờ hoàn tất về false, phù hợp việc còn paper chưa đạt, nhưng trường tổng version vẫn chưa khớp chi tiết.
 
-Phần phương pháp giải thích cách hệ thống thu thập và kiểm định dữ liệu. Phần kết quả dùng audit toàn dải; hiệu năng được gắn với từng phiên đo. Nguồn ZIP, thời điểm và định danh run nằm trong phụ lục.
+Báo cáo phân tích cumulative TV2–TV5 và các phiên Colab đã nộp. Cumulative TV5 trước sửa lookup không được ghép với audit sau sửa thành một snapshot. TV1 chưa có cumulative nên chưa được tính vào tổng kích thước và references.
+
+- [Phương pháp](methodology.md)
+- [Thiết lập và mẫu số](experimental-setup.md)
+- [Kết quả thu thập và chất lượng](preliminary-results.ipynb)
+- [Hiệu năng](performance.ipynb)
+- [Thảo luận và hạn chế](discussion.md)
+- [Bằng chứng và tái lập](audit-appendix.ipynb)
