@@ -131,6 +131,9 @@ def load_members(root):
                              and statistics.get('label') == benchmark.get('label')
                              and benchmark.get('statistics_status') == 'current_run')
         cumulative_dir = Path(root) / 'summaries/milestone1/cumulative' / member
+        newer_cumulative = Path(root) / 'summaries/milestone1/cumulative-20261110' / member
+        if (newer_cumulative / 'provenance.json').is_file():
+            cumulative_dir = newer_cumulative
         cumulative = read(cumulative_dir / 'cumulative-statistics.json')
         if cumulative:
             validate_cumulative(cumulative, member)
@@ -141,6 +144,7 @@ def load_members(root):
         result.append(dict(member=member, assigned_range=spec, directory=directory,
                            provenance=provenance, benchmark=benchmark, statistics=statistics,
                            audit=audit, verified=verified, authenticated=authenticated, cumulative=cumulative,
+                           cumulative_directory=cumulative_dir,
                            assessment=audit_assessment(audit, verified)))
     return result
 
@@ -340,7 +344,9 @@ def percentage(numerator, denominator):
 
 def corpus_metrics(members):
     """Aggregate only matching inventory snapshots, never substitute a newer audit."""
-    available = [m for m in members if m['cumulative']]
+    available = [m for m in members if m['cumulative']
+                 and m['cumulative']['counts']['recorded_ids'] == m['cumulative']['assigned_input_count']
+                 and not m['cumulative']['unseen_ids']]
     rows = []
     documents = []
     for m in available:
@@ -378,12 +384,15 @@ def snapshot_rows(members):
     return [{'Thành viên':m['member'],
              'Audit (UTC)':m['audit']['generated_at'] if m['audit'] else None,
              'Cumulative (UTC)':m['cumulative']['generated_at'] if m['cumulative'] else None,
+             'Record trong cumulative':m['cumulative']['counts']['recorded_ids'] if m['cumulative'] else None,
+             'ID chưa ghi nhận trong cumulative':len(m['cumulative']['unseen_ids']) if m['cumulative'] else None,
              'Discovery trong audit':m['audit']['discovery_statuses'].get('success',0) if m['audit'] else None,
              'Discovery trong cumulative':m['cumulative']['counts']['discovery_success_papers'] if m['cumulative'] else None,
              'Phạm vi': 'Thiếu cumulative' if not m['cumulative'] else
+                 ('Cumulative chưa bao phủ dải; không gộp số liệu corpus' if m['cumulative']['unseen_ids'] else
                  ('Cumulative trước audit; không ghép thành một snapshot' if m['audit'] and
                   m['cumulative']['generated_at'] < m['audit']['generated_at'] else
-                  'Hai phép kiểm tra ở thời điểm riêng')}
+                  'Hai phép kiểm tra ở thời điểm riêng'))}
             for m in members]
 
 

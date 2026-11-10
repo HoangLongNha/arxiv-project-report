@@ -3,6 +3,7 @@ import argparse
 from datetime import datetime, timezone
 import hashlib
 import json
+import re
 from pathlib import Path
 import sys
 
@@ -15,10 +16,14 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--member', choices=RANGES, required=True)
     parser.add_argument('--input', type=Path, required=True)
+    parser.add_argument('--snapshot', default='cumulative',
+                        help='Immutable destination: cumulative or cumulative-YYYYMMDD')
     args = parser.parse_args()
+    if not re.fullmatch(r'cumulative(?:-\d{8})?', args.snapshot):
+        parser.error('Invalid cumulative snapshot name')
     raw = args.input.read_bytes()
     validate_cumulative(json.loads(raw), args.member)
-    folder = ROOT / 'summaries/milestone1/cumulative' / args.member
+    folder = ROOT / 'summaries/milestone1' / args.snapshot / args.member
     if folder.exists():
         parser.error('An import already exists; preserve it and choose a new reviewed snapshot')
     folder.mkdir(parents=True)

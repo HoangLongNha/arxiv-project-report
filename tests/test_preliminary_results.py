@@ -70,23 +70,27 @@ class PreliminaryResultsTests(unittest.TestCase):
         self.assertEqual(len({s['benchmark']['run_id'] for s in sessions}), len(sessions))
         self.assertEqual(len(progress_rows(members)), 5)
 
-    def test_weighted_inventory_totals_keep_tv5_snapshot_separate(self):
+    def test_weighted_inventory_totals_use_repaired_tv5_snapshot(self):
         members=load_members(ROOT)
         rows=corpus_metrics(members)
         total=rows[-1]
         self.assertEqual(total['assigned'],20000)
-        self.assertEqual(total['discovered'],19996)
-        self.assertEqual(total['versions'],32825)
-        self.assertEqual(total['references'],700714)
-        self.assertEqual(total['source_files'],29865)
-        self.assertEqual(total['paired'],17738)
-        self.assertAlmostEqual(total['mean_references'],700714/17384)
-        expected=sum(r['mean_before']*r['paired'] for r in rows[:-1])/17738
+        self.assertEqual(total['discovered'],20000)
+        self.assertEqual(total['versions'],32831)
+        self.assertEqual(total['references'],700832)
+        self.assertEqual(total['source_files'],29870)
+        self.assertEqual(total['paired'],17741)
+        self.assertAlmostEqual(total['mean_references'],700832/17388)
+        expected=sum(r['mean_before']*r['paired'] for r in rows[:-1])/17741
         self.assertAlmostEqual(total['mean_before'],expected)
         self.assertNotAlmostEqual(total['mean_before'],sum(r['mean_before'] for r in rows[:-1])/4)
         tv5=next(m for m in members if m['member']=='TV5')
         self.assertEqual(tv5['audit']['discovery_statuses']['success'],5000)
-        self.assertEqual(tv5['cumulative']['counts']['discovery_success_papers'],4996)
+        self.assertEqual(tv5['cumulative']['counts']['discovery_success_papers'],5000)
+        self.assertEqual(tv5['cumulative']['unresolved_discovery_ids'],[])
+        old=ROOT/'summaries/milestone1/cumulative/TV5/cumulative-statistics.json'
+        import json
+        self.assertEqual(json.loads(old.read_bytes())['counts']['discovery_success_papers'],4996)
 
     def test_inconsistent_inventory_totals_are_rejected(self):
         import copy
@@ -97,8 +101,13 @@ class PreliminaryResultsTests(unittest.TestCase):
 
     def test_resume_statistics_are_not_promoted_to_cumulative(self):
         members = load_members(ROOT)
-        self.assertIsNone(next(m for m in members if m['member']=='TV1')['cumulative'])
-        self.assertEqual(sum(m['cumulative'] is not None for m in members),4)
+        tv1=next(m for m in members if m['member']=='TV1')
+        self.assertEqual(tv1['cumulative']['counts']['recorded_ids'],0)
+        self.assertEqual(len(tv1['cumulative']['unseen_ids']),5000)
+        self.assertTrue(tv1['verified'])
+        self.assertEqual(tv1['audit']['discovered_assigned_ids'],5000)
+        self.assertNotIn('TV1',[r['member'] for r in corpus_metrics(members)])
+        self.assertEqual(sum(m['cumulative'] is not None for m in members),5)
         tv3 = next(m for m in members if m['member']=='TV3')
         self.assertEqual(tv3['statistics']['counts']['papers'], 828)
         self.assertTrue(tv3['verified'])

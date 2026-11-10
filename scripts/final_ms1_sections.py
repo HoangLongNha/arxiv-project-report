@@ -8,7 +8,7 @@ Nhóm xây dựng corpus source LaTeX theo phiên bản, metadata bài báo và 
 
 Năm audit xác nhận đủ 25.000 ID và lookup thành công trên các dải được giao. Kiểm định vẫn ghi nhận paper chưa đạt; mức bao phủ Discovery được đọc riêng với mức hoàn thiện source và chất lượng.
 
-Thống kê tích lũy đã có cho TV2–TV5, còn thiếu TV1. Cumulative TV5 được tạo trước lần sửa bốn lookup nên được ghi theo thời điểm riêng. Kích thước và references hiện phản ánh bốn snapshot đã nộp, chưa phải toàn bộ corpus năm thành viên.
+TV1 đã được đối chiếu trực tiếp trên Drive: đủ 5.000 Discovery thành công và 7.852 version; mẫu corpus có TeX/BibTeX. Thống kê kích thước và references hiện tổng hợp TV2–TV5. Bản cumulative TV1 chưa phản ánh dữ liệu Drive nên các chỉ số này của TV1 chưa được đưa vào tổng.
 
 - [Báo cáo Milestone 1](milestone1/index.md)
 - [Mã nguồn pipeline](https://github.com/LeoTkiet/arxiv-data-science)
@@ -21,7 +21,7 @@ Pipeline xác định version, tải source, trích xuất TeX/BibTeX, chuẩn h
 
 Năm audit toàn dải xác nhận không còn ID chưa ghi nhận hoặc lookup chưa giải quyết. Kết quả này chứng minh bao phủ Discovery; số paper đạt kiểm định và mức đầy đủ source được báo riêng. Audit TV2 mới đã sửa cờ hoàn tất về false, phù hợp việc còn paper chưa đạt, nhưng trường tổng version vẫn chưa khớp chi tiết.
 
-Báo cáo phân tích cumulative TV2–TV5 và các phiên Colab đã nộp. Cumulative TV5 trước sửa lookup không được ghép với audit sau sửa thành một snapshot. TV1 chưa có cumulative nên chưa được tính vào tổng kích thước và references.
+Báo cáo phân tích cumulative TV2–TV5 và các phiên Colab đã nộp. TV5 đã có cumulative sau sửa lookup; audit và cumulative vẫn ghi ngày riêng. TV1 được xác nhận trực tiếp từ manifest trên Drive có 5.000 Discovery thành công và 7.852 version. Tệp cumulative TV1 ghi 0 record chưa phản ánh dữ liệu này, nên chưa dùng các số 0 đó làm thống kê kích thước/references thực tế.
 
 - [Phương pháp](methodology.md)
 - [Thiết lập và mẫu số](experimental-setup.md)
@@ -56,11 +56,11 @@ Validator kiểm tra cấu trúc, định danh, trạng thái và tệp; chưa b
 
 ## Giới hạn thực nghiệm
 
-TV1 còn thiếu cumulative. Cumulative TV5 trước sửa lookup chưa phản ánh sáu version mới xác định và các thay đổi sau đó. Tổng TV2–TV5 mô tả các snapshot đã nộp, không phải số liệu đồng thời mới nhất hay tổng corpus năm thành viên.
+Ngày 10/11, đối chiếu trực tiếp Drive xác nhận TV1 có manifest đủ 5.000 Discovery thành công, 7.852 version và mẫu corpus có TeX/BibTeX. Bao phủ TV1 đã được xác nhận; các chỉ số kích thước và references vẫn cần bản cumulative đọc đúng dữ liệu này. Bản TV5 ngày 10/11 có đủ 5.000 Discovery thành công và 8.348 version. Tổng TV2–TV5 mô tả các snapshot đủ coverage, không phải số liệu đồng thời hay tổng corpus năm thành viên. Cumulative đọc validation đã lưu, không thay audit mới.
 
 Benchmark chủ yếu chạy resume. Phiên TV1 mới có toàn dải đầu vào và mẫu RAM trên Colab CPU-only nhưng dùng cache, nên chưa đo chi phí tải mới toàn dải. TV2/TV5 thiếu mẫu RAM đại diện trong các phiên đã nộp. Không thể khôi phục runtime, RAM hay disk peak của phiên không có log từ cumulative JSON.
 
-Để chốt số liệu corpus hiện tại của cả nhóm, cần cumulative TV1 và bản TV5 sau sửa. Để kết luận hiệu năng end-to-end của toàn quá trình, cần lịch sử đo đầy đủ hoặc benchmark Colab CPU-only có biên đo thống nhất. Báo cáo trình bày các số đo có bằng chứng và giữ rõ những giới hạn này.
+Để chốt số liệu corpus của cả nhóm, cần xuất lại cumulative TV1 từ đúng thư mục dữ liệu đã audit. Để kết luận hiệu năng end-to-end của toàn quá trình, cần lịch sử đo đầy đủ hoặc benchmark Colab CPU-only có biên đo thống nhất. Báo cáo trình bày các số đo có bằng chứng và giữ rõ những giới hạn này.
 ''',
 }
 
@@ -91,7 +91,7 @@ table([{'Chỉ số theo audit toàn nhóm':'Discovery thành công','Số paper
         'Mẫu số':passed+failed,'Tỷ lệ (%)':percentage(failed,passed+failed)}])'''),
         ('md', '''## Source và corpus tích lũy
 
-Số liệu sau lấy từ cumulative TV2–TV5 trên bốn dải 5.000 ID. TV1 chưa có cumulative. Bản TV5 trước sửa bốn lookup có 4.996 Discovery thành công, còn audit sau sửa xác nhận 5.000. Dòng gộp chỉ cộng các snapshot cumulative cùng loại, chưa phải tổng corpus năm thành viên.
+Số liệu sau lấy từ cumulative TV2–TV5 trên bốn dải 5.000 ID. Tệp TV1 đã nhận nhưng ghi 0 record và 5.000 ID chưa ghi nhận, nên không đưa các số 0 đó vào tổng corpus. Bản TV5 ngày 10/11 ghi đủ 5.000 Discovery thành công, không còn lookup lỗi. Dòng gộp chỉ cộng các snapshot đủ coverage, chưa phải tổng corpus năm thành viên.
 
 Download success là trạng thái checkpoint. Source có tệp cần đúng đường dẫn và tệp khác rỗng; corpus có TeX/Bib cần extract thành công và có tệp phù hợp. Paper đủ source/corpus yêu cầu mọi version đã biết đáp ứng cả hai điều kiện.'''),
         ('code', '''metrics=corpus_metrics(members)
@@ -144,8 +144,21 @@ ax.set_ylabel('Paper đã kiểm định');ax.legend();plt.tight_layout();plt.sh
         ('code','table(error_groups(members))'),
         ('md', '''## Thời điểm và phạm vi số liệu
 
-TV1 có audit toàn dải nhưng chưa có cumulative. TV5 dùng audit sau sửa lookup và cumulative trước sửa; hai số Discovery khác nhau do thời điểm. Không sửa tệp gốc hoặc cộng thêm bốn paper vào trung bình cũ. Các mốc UTC cho phép đối chiếu từng phép kiểm tra.'''),
+TV1 có audit đủ 5.000 ID; manifest trên Drive cũng xác nhận đủ 5.000 Discovery thành công và 7.852 version. Tệp cumulative ghi 0 record không thay kết quả đối chiếu này. TV5 dùng audit ngày 07/11 và cumulative ngày 10/11; cả hai ghi 5.000 Discovery thành công. Validation vẫn lấy từ audit đã nộp, không coi cumulative là phép kiểm định mới. Các mốc UTC cho phép đối chiếu từng phép kiểm tra.'''),
         ('code','table(snapshot_rows(members))'),
+        ('md','''### Đối chiếu trực tiếp dữ liệu TV1
+
+Manifest trong [thư mục data TV1](https://drive.google.com/drive/folders/1uBRPdHxO2MTn2ahAkRtNSkxd4Rcu1DHv) được đọc ngày 10/11. Kiểm tra mẫu corpus 2508.17481/v1 thấy main.tex, references.bib và các tệp TeX khác. Đây là xác nhận Discovery và một mẫu corpus, chưa phải phép đo kích thước/references toàn TV1.'''),
+        ('code','''import hashlib
+folder=ROOT/'summaries/milestone1/drive-inspection-20261110/TV1'
+receipt=json.loads((folder/'provenance.json').read_text(encoding='utf-8'))
+for name,digest in receipt['files'].items():
+    assert hashlib.sha256((folder/name).read_bytes()).hexdigest()==digest, 'TV1 Drive evidence changed'
+inspection=json.loads((folder/'inspection.json').read_text(encoding='utf-8'))
+table([{'Thành viên':'TV1','Trạng thái bao phủ':'Đã xác nhận trên Drive',
+        'Discovery thành công':inspection['discovery_statuses']['success'],
+        'Version trong manifest':inspection['versions'],
+        'ID chưa ghi nhận':inspection['unseen_ids'],'ID ngoài dải':inspection['out_of_range']}])'''),
     ])
 
     performance=captured['performance.ipynb']
@@ -174,7 +187,7 @@ Khoảng lấy mẫu có thể dài hơn cấu hình vì quét output trên Driv
 
 ## Bộ bằng chứng được sử dụng
 
-Báo cáo chọn audit toàn dải mới của TV1/TV2 và giữ audit TV3/TV4/TV5 đã đối chiếu. Cumulative TV2–TV5 được nhập nguyên byte, kiểm phạm vi, định danh và hash. Snapshot cũ và benchmark trước được giữ để truy vết, không cộng trùng cùng run ID.
+Báo cáo chọn audit toàn dải mới của TV1/TV2 và giữ audit TV3/TV4/TV5 đã đối chiếu. Cumulative của cả năm thành viên được nhập nguyên byte, kiểm phạm vi, định danh và hash. Tệp TV1 hợp lệ về cấu trúc nhưng không có record, nên chỉ ghi nhận bằng chứng và không gộp các số corpus của tệp này. Snapshot cũ và benchmark trước được giữ để truy vết, không cộng trùng cùng run ID.
 
 ZIP/JSON bổ sung do thành viên gửi trực tiếp; pipeline log và bản sao dữ liệu riêng không được công bố. Kiểm hash bảo đảm đúng tệp đã nhập, chưa thay việc kiểm định độc lập corpus trên Drive.'''),
         ('code',setup),
@@ -188,7 +201,7 @@ for m in members:
     for item in (m['provenance'] or {}).get('supplementary_files',[]):
         display(Markdown(m['member']+': '+item['filename']+'; SHA-256: `'+item['sha256']+'`'))
     if m['cumulative']:
-        receipt=json.loads((ROOT/'summaries/milestone1/cumulative'/m['member']/'provenance.json').read_text(encoding='utf-8'))
+        receipt=json.loads((m['cumulative_directory']/'provenance.json').read_text(encoding='utf-8'))
         display(Markdown(m['member']+' cumulative — '+receipt['original_filename']+'; SHA-256: `'+receipt['sha256']+'`'))
 table(snapshot_rows(members))'''),
         ('md','''## Phạm vi và nhất quán audit
@@ -223,5 +236,5 @@ Cài môi trường theo README, chạy kiểm thử rồi build Jupyter Book. B
 
 ## Dữ liệu còn cần bổ sung
 
-TV1 cần cumulative toàn dải. TV5 cần xuất lại sau sửa lookup để đồng bộ thời điểm với audit mới. Muốn kết luận benchmark thu thập ban đầu, cần lịch sử đo đầy đủ hoặc phép đo mới với biên đo và môi trường Colab CPU-only được xác nhận.'''),
+TV1 cần xuất lại cumulative từ đúng data đã audit; bản đã gửi ghi 0 record và 5.000 unseen dù audit trước xác nhận đủ dải. Không cần suy rằng phải crawl lại: trước hết đối chiếu DATA và checkpoint. TV5 đã bổ sung bản sau sửa lookup ngày 10/11. Muốn kết luận benchmark thu thập ban đầu, cần lịch sử đo đầy đủ hoặc phép đo mới với biên đo và môi trường Colab CPU-only được xác nhận.'''),
     ])

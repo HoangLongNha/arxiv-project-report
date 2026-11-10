@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "run_id": "2ad5e0c9-b12b-4464-a347-641166e66007",
+  "timestamp": "2026-11-07T23:48:06.678399+00:00",
+  "mode": "crawl",
+  "papers": 5000,
+  "inputs": 5000,
+  "versions": 7852,
+  "discovery_statuses": {
+    "success": 5000
+  },
+  "stage_statuses": {
+    "success": 28455,
+    "no_source": 531,
+    "skipped": 749,
+    "no_data": 265,
+    "api_error": 28,
+    "data_error": 676
+  },
+  "complete": false
+}

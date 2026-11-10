@@ -6,7 +6,7 @@ Nhóm xây dựng corpus source LaTeX theo phiên bản, metadata bài báo và 
 
 Năm audit xác nhận đủ 25.000 ID và lookup thành công trên các dải được giao. Kiểm định vẫn ghi nhận paper chưa đạt; mức bao phủ Discovery được đọc riêng với mức hoàn thiện source và chất lượng.
 
-Thống kê tích lũy đã có cho TV2–TV5, còn thiếu TV1. Cumulative TV5 được tạo trước lần sửa bốn lookup nên được ghi theo thời điểm riêng. Kích thước và references hiện phản ánh bốn snapshot đã nộp, chưa phải toàn bộ corpus năm thành viên.
+TV1 đã được đối chiếu trực tiếp trên Drive: đủ 5.000 Discovery thành công và 7.852 version; mẫu corpus có TeX/BibTeX. Thống kê kích thước và references hiện tổng hợp TV2–TV5. Bản cumulative TV1 chưa phản ánh dữ liệu Drive nên các chỉ số này của TV1 chưa được đưa vào tổng.
 
 - [Báo cáo Milestone 1](milestone1/index.md)
 - [Mã nguồn pipeline](https://github.com/LeoTkiet/arxiv-data-science)
