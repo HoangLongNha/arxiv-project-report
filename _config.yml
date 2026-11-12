@@ -1,7 +1,8 @@
-title: "arXiv — Milestone 1: Data Crawling"
+title: "arXiv — Milestone 1 & 2: Crawling & Hierarchical Parsing"
 author: "Nhóm 6 — Introduction to Data Science"
 copyright: "2026"
 only_build_toc_files: true
+exclude_patterns: [".pytest_cache/*", "tests/*", "scripts/*", "colab/*", "utils/*"]
 execute:
   execute_notebooks: force
   timeout: 180

@@ -10,5 +10,12 @@ chapters:
       - file: milestone1/performance
       - file: milestone1/discussion
       - file: milestone1/member-contributions
-      - file: references
       - file: milestone1/audit-appendix
+  - file: milestone2/index
+    sections:
+      - file: milestone2/introduction
+      - file: milestone2/methodology
+      - file: milestone2/statistics
+      - file: milestone2/performance
+      - file: milestone2/discussion
+  - file: references
