@@ -4,7 +4,7 @@
 
 Năm audit xác nhận đủ 25.000 record và 25.000 lookup thành công. Checkpoint giúp nhóm tiếp tục sau gián đoạn và thử lại riêng ID hoặc stage lỗi. Lookup thành công cho biết đã nhận diện bài báo và version; source/corpus và kiểm định còn có thể chưa đạt.
 
-Cumulative TV2–TV5 thống kê dữ liệu tích lũy qua nhiều phiên. Tỷ lệ paper đủ source thấp hơn bao phủ Discovery vì mỗi paper có thể có nhiều version, gặp lỗi tải/giải nén hoặc không có source TeX. Trạng thái no_source được giữ riêng để không coi mọi trường hợp thiếu TeX là lỗi mạng. Số download success và số source có tệp còn chênh lệch; cần kiểm tra checkpoint, đường dẫn và tệp trước khi dùng số trạng thái làm số source thực có.
+Cumulative của cả năm thành viên thống kê dữ liệu tích lũy qua nhiều phiên. Tỷ lệ paper đủ source thấp hơn bao phủ Discovery vì mỗi paper có thể có nhiều version, gặp lỗi tải/giải nén hoặc không có source TeX. Trạng thái no_source được giữ riêng để không coi mọi trường hợp thiếu TeX là lỗi mạng. Số download success và số source có tệp còn chênh lệch; cần kiểm tra checkpoint, đường dẫn và tệp trước khi dùng số trạng thái làm số source thực có.
 
 ## Kích thước và references
 
@@ -24,8 +24,8 @@ Validator kiểm tra cấu trúc, định danh, trạng thái và tệp; chưa b
 
 ## Giới hạn thực nghiệm
 
-Ngày 10/11, đối chiếu trực tiếp Drive xác nhận TV1 có manifest đủ 5.000 Discovery thành công, 7.852 version và mẫu corpus có TeX/BibTeX. Bao phủ TV1 đã được xác nhận; các chỉ số kích thước và references vẫn cần bản cumulative đọc đúng dữ liệu này. Bản TV5 ngày 10/11 có đủ 5.000 Discovery thành công và 8.348 version. Tổng TV2–TV5 mô tả các snapshot đủ coverage, không phải số liệu đồng thời hay tổng corpus năm thành viên. Cumulative đọc validation đã lưu, không thay audit mới.
+Cumulative mới của TV1 ghi đủ 5.000 record, 5.000 Discovery thành công, 7.852 version và không có diagnostics. Dữ liệu này khớp bao phủ Discovery đã đối chiếu trên Drive. Tổng toàn nhóm hiện bao gồm cả năm dải; các snapshot được xuất ở các thời điểm riêng. Cumulative đọc validation đã lưu, không thay audit mới.
 
 Benchmark chủ yếu chạy resume. Phiên TV1 mới có toàn dải đầu vào và mẫu RAM trên Colab CPU-only nhưng dùng cache, nên chưa đo chi phí tải mới toàn dải. TV2/TV5 thiếu mẫu RAM đại diện trong các phiên đã nộp. Không thể khôi phục runtime, RAM hay disk peak của phiên không có log từ cumulative JSON.
 
-Để chốt số liệu corpus của cả nhóm, cần xuất lại cumulative TV1 từ đúng thư mục dữ liệu đã audit. Để kết luận hiệu năng end-to-end của toàn quá trình, cần lịch sử đo đầy đủ hoặc benchmark Colab CPU-only có biên đo thống nhất. Báo cáo trình bày các số đo có bằng chứng và giữ rõ những giới hạn này.
+Thống kê corpus đã có đủ snapshot bao phủ năm dải cá nhân. Để kết luận hiệu năng end-to-end của toàn quá trình, vẫn cần lịch sử đo đầy đủ hoặc benchmark Colab CPU-only có biên đo thống nhất. Các phép đo và hạn chế hiện có được trình bày riêng.
