@@ -1,3 +1,10 @@
+if globals().get('RESULTS') is None or not (RESULTS / 'benchmark.json').is_file():
+    valid_runs = sorted([p for p in RESULTS_ROOT.glob('run_*') if (p / 'benchmark.json').is_file()])
+    if valid_runs:
+        RESULTS = valid_runs[-1]
+        print(f"📁 Tự động khôi phục lượt benchmark gần nhất trên Drive: {RESULTS.name}")
+    else:
+        raise AssertionError('Cần có lượt benchmark trước; chưa tìm thấy run_* có benchmark.json trên Drive.')
 assert RESULTS is not None and (RESULTS / 'benchmark.json').is_file(), 'Cần có lượt benchmark trước.'
 from arxiv_pipeline.reporting.milestone1.benchmark import current_snapshot
 from arxiv_pipeline.common.utils import atomic_json
@@ -37,7 +44,7 @@ def run_assignment_audit(output, definition, filename, scope):
     saved = attempt / filename
     process = subprocess.run([sys.executable, '-m', 'arxiv_pipeline.reporting.milestone1.audit',
                               '--output', str(output), '--assignment', str(definition_path),
-                              '--save', str(saved)], cwd=str(SOURCE))
+                              '--save', str(saved), '--workers', '32'], cwd=str(SOURCE))
     if process.returncode not in (0, 1) or not saved.is_file():
         raise RuntimeError(f'Audit {scope} không tạo được báo cáo mới.')
     data = json.loads(saved.read_text(encoding='utf-8'))

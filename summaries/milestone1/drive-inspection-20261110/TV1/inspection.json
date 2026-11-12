@@ -1,0 +1,21 @@
+{
+  "scope": "Drive manifest and one checkpoint/corpus sample; not a full live-corpus audit",
+  "inspected_date": "2026-11-10",
+  "data_folder": "https://drive.google.com/drive/folders/1uBRPdHxO2MTn2ahAkRtNSkxd4Rcu1DHv",
+  "manifest_records": 5000,
+  "unique_ids": 5000,
+  "expected_ids_found": 5000,
+  "unseen_ids": 0,
+  "out_of_range": 0,
+  "discovery_statuses": {
+    "success": 5000
+  },
+  "versions": 7852,
+  "checkpoint_sample": {
+    "paper_id": "2508.17481",
+    "status": "success",
+    "versions": 2
+  },
+  "manifest_sha256": "840c5594bd0592141cf637a1845817db0259b0d2f636ba4a25bde1847872bf4f",
+  "note": "Corpus sample 2508.17481/v1 contains main.tex, references.bib and other .tex files. No corpus files changed."
+}

@@ -1,0 +1,43 @@
+{
+  "paper_id": "2410.05044",
+  "stages": [
+    {
+      "stage": "download",
+      "paper_id": "2410.05044",
+      "version": 1,
+      "status": "api_error",
+      "timestamp": "2026-11-07T02:18:58.516697+00:00",
+      "artifacts": {
+        "download_metadata": "raw/2410.05044/v1/download_metadata.json"
+      },
+      "error": {
+        "kind": "api_error",
+        "message": "('Connection broken: IncompleteRead(17825792 bytes read, 5238698 more expected)', IncompleteRead(17825792 bytes read, 5238698 more expected))",
+        "retryable": true,
+        "http_status": null
+      },
+      "attempts": 5,
+      "size_bytes": 0,
+      "schema_version": "1.0"
+    },
+    {
+      "stage": "validate",
+      "paper_id": "2410.05044",
+      "version": null,
+      "status": "data_error",
+      "timestamp": "2026-11-07T02:18:59.200071+00:00",
+      "artifacts": {
+        "validation": "validation/2410.05044.json"
+      },
+      "error": {
+        "kind": "validation_failed",
+        "message": "1 validation issue(s)",
+        "retryable": false,
+        "http_status": null
+      },
+      "attempts": 1,
+      "size_bytes": 1389,
+      "schema_version": "1.0"
+    }
+  ]
+}

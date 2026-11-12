@@ -1,45 +1,44 @@
-# Phương pháp triển khai
+# Phương pháp thu thập và xử lý
 
-## Pipeline
+## Tổng quan hệ thống
 
-Danh sách ID → discovery → download từng version → extract từng version → metadata → references → validate. TV1 điều phối/discovery; TV2 download; TV3 extract; TV4 metadata/references; TV5 QA, đo đạc và báo cáo.
+![Luồng dữ liệu MS1](../_static/pipeline.svg)
 
-Discovery dùng API arXiv trả Atom XML, đọc latest version và truy vấn các version trước để có đủ v1…vn. ID sai, không tồn tại, lỗi API và lỗi dữ liệu có trạng thái riêng. Pacing và retry có thể chiếm phần lớn wall time; chúng được tính vào runtime thực tế.
+Pipeline tích hợp sáu bước: **Discovery → Download → Extract → Metadata/References → Validation → Thống kê và báo cáo**. Metadata sử dụng lại thông tin Discovery; References được lấy từ Semantic Scholar. Checkpoint lưu kết quả từng bước để hỗ trợ chạy tiếp sau gián đoạn.
 
-Downloader dùng requests session, endpoint `export.arxiv.org/src/<ID>vN`, stream theo chunk, SHA-256 và tệp tạm trước atomic rename. Phân biệt PDF-only, HTTP/network lỗi và source thành công. Retry/backoff giảm tác động lỗi tạm thời nhưng không bảo đảm không gặp 429. Cache nội bộ có thể được tái sử dụng ngay cả khi orchestrator chạy lại; fresh benchmark cần output mới.
+| Bước | Phương pháp | Đầu ra chính |
+|---|---|---|
+| Discovery | Chuẩn hóa ID, đọc arXiv Atom API, xác định và kiểm tra các version | Danh sách phiên bản và metadata ban đầu |
+| Download | Tải source riêng từng version qua streaming, ghi tạm rồi hoàn tất nguyên tử | Source thô và thông tin tải |
+| Extract | Kiểm tra đường dẫn archive, chỉ giữ TeX/BibTeX, không sửa nội dung | Corpus theo paper/version |
+| Metadata | Chuẩn hóa dữ liệu Discovery và giữ thông tin riêng từng version | Metadata liên kết theo paper |
+| References | Truy vấn Semantic Scholar, phân trang/batch khi phù hợp, chuẩn hóa và loại trùng | References và nguồn truy xuất |
+| Validation | Đối chiếu định danh, version, checkpoint, đường dẫn và tệp dữ liệu | Kết quả kiểm định từng paper |
 
-Extractor nhận đường dẫn từ download artifact, xử lý tar/gzip/plain TeX, kiểm tra đường dẫn khi giải nén, giữ `.tex`/`.bib`. Sidecar `extract_metadata.json` lưu kích thước trước/sau lọc. Vì có fallback plain text và heuristic định dạng, kết quả success của module vẫn phải được QA; validator không phải trình biên dịch LaTeX.
+## Discovery và tải source
 
-Metadata được chuẩn hóa từ discovery mà không gọi mạng thêm. References từ Semantic Scholar, giữ reference thiếu arXiv ID trong dữ liệu nội bộ, kèm `missing_fields` và provenance. Lỗi API, chưa được index và không có references được tách riêng.
+Hệ thống chấp nhận ID hoặc khoảng ID, chuẩn hóa định danh trước khi truy vấn. Discovery phân biệt ID không hợp lệ, không tìm thấy, lỗi API, lỗi dữ liệu và thành công. Phiên bản mới nhất cho biết số version cần kiểm tra; từng version được xác minh và tải qua endpoint source có hậu tố phiên bản.
 
-## Validator
+Downloader sử dụng HTTP streaming để hạn chế bộ đệm, tính SHA-256 trong lúc tải, ghi vào tệp tạm và chỉ công nhận đầu ra sau khi tải hoàn tất. Phiên bản PDF-only hoặc không có source được ghi nhận riêng. Timeout, pacing và retry/backoff giúp xử lý lỗi mạng và giới hạn tần suất; HTTP 429 được xem là tín hiệu cần giảm tốc hoặc chờ thử lại.
 
-Validator đọc checkpoint đã ghi của từng stage, không đọc manifest đang chờ tổng hợp ở cuối pipeline. Nó kiểm tra version liên tục, metadata khớp discovery, file/đường dẫn/artifact, checksum nếu có, dấu hiệu corpus rỗng/binary, schema và định danh references. File trùng nội dung được cảnh báo vì có thể hợp lệ giữa version. Không sửa corpus.
+## Tạo corpus và chuẩn hóa metadata
 
-`validate=success` nghĩa dữ liệu và trạng thái nhất quán, có thể bao gồm PDF-only; không được dùng thay source success rate.
+Extractor xử lý các dạng source được hỗ trợ như tar/gzip và TeX thuần. Đường dẫn thành viên archive được kiểm tra để tránh ghi ra ngoài thư mục đích. Chỉ các tệp `.tex` và `.bib` được đưa vào corpus. Việc loại hình không chỉnh sửa các lệnh trong nội dung LaTeX.
 
-## Định nghĩa thống kê
+Metadata sử dụng lại Discovery để tránh truy vấn arXiv trùng lặp. Thông tin cấp paper và thông tin từng version được phân biệt; các trường tùy chọn thiếu được đánh dấu thay vì suy đoán giá trị.
 
-Mỗi tỷ lệ lưu cả tử số, mẫu số, giá trị. Không có mẫu số → null. Paper được đếm theo ID duy nhất trong manifest lượt chạy đã hoàn tất; không đếm lẫn corpus cache ngoài manifest.
+## Thu thập references
 
-| Chỉ số | Tử số / mẫu số |
-|---|---|
-| Discovery success | Paper discovery thành công / paper đầu vào duy nhất |
-| Download success | Version download success / version đã biết từ discovery thành công |
-| Extract success | Version extract success / version đã biết |
-| Version record coverage | Version có checkpoint download đúng identity / version đã biết |
-| Source-complete paper | Paper có mọi version download/extract success / paper đầu vào duy nhất |
-| Validation pass | Paper có report valid / paper discovery thành công |
-| Reference query success | Paper có JSON references đọc được ở success/no_data / paper discovery thành công |
-| Reference nonempty success | Paper success có JSON references / paper discovery thành công |
-| Reference metadata completeness | Reference đủ ID/title/authors/date/S2 ID / tổng reference đọc được |
+Semantic Scholar cung cấp định danh và metadata tài liệu tham khảo. Client hỗ trợ batch, retry và phân trang để xử lý giới hạn API và danh sách dài. References được loại trùng theo định danh khi có; mục thiếu arXiv ID vẫn được giữ trong dữ liệu làm việc. Không có references, chưa được index và lỗi API là những kết quả khác nhau.
 
-Version count của discovery lỗi là **chưa biết**, không tự đặt bằng 0 cho tỷ lệ version coverage toàn bộ assignment. Trung bình số references chỉ tính paper truy vấn được (gồm no_data=0), không gán not_indexed bằng 0. Kích thước trước/sau lọc lấy cùng tập paper có đủ số đo đã giải nén trên mọi version; kích thước package nén báo riêng.
+Một thí nghiệm references riêng được TV4 mô tả trong tài liệu bàn giao sử dụng dải tháng 08/2025. Đó là thí nghiệm của module, không phải kết quả assignment tháng 10/2024 của người chạy TV4, và không được cộng vào thống kê toàn nhóm ở phần kết quả này.
 
-## Đo hiệu năng
+## Kiểm định và khả năng chạy tiếp
 
-Wrapper chạy pipeline ở tiến trình riêng; observer dùng `time.perf_counter()` ghi thời gian discovery, stage và paper, kể cả cached flag. Wall time bao gồm toàn pipeline, startup/import, retries, chờ mạng, QA và ghi dữ liệu, không gồm cài môi trường. Chỉ event hoàn tất mới có timing; nếu ngắt, paper đang dở chưa có full duration.
+Validator đối chiếu số version, schema/định danh, đường dẫn tệp, raw source, corpus, metadata và references với checkpoint từng bước. Nó phát hiện dữ liệu thiếu, trạng thái không nhất quán và những tệp bị báo rỗng/nhị phân; một số nội dung trùng giữa các version chỉ là cảnh báo.
 
-psutil lấy mẫu tổng RSS của pipeline và tiến trình con. Mean dùng giá trị giữ từ mẫu trước và trọng số thời gian. Shared pages có thể bị đếm nhiều lần; tiến trình ngắn hơn chu kỳ lấy mẫu có thể không được thấy. Disk đo logical bytes của output gồm staging, sidecars, state và logs, loại trừ thư mục results của sampler. Peak RAM/disk là cực đại **quan sát được**, không phải cực đại tức thời bảo đảm.
+Chạy tiếp sử dụng checkpoint để tái dùng kết quả đã có. Vì vậy một lượt cuối chỉ xử lý vài ID không có nghĩa corpus cá nhân chỉ chứa vài paper. Ngược lại, exit code thành công của lượt cuối cũng không chứng minh toàn bộ corpus đã hợp lệ. Tiến độ lookup, kết quả thu thập và validation được đánh giá riêng.
 
-Lượt nghiệm thu cuối phải trên Colab CPU-only. Notebook lưu versions, commit/dirty flag, môi trường và số đo thô; không ghi giá trị API key. Source dirty phải được chốt commit hoặc lưu diff nội bộ để tái lập. Theo [đề chính thức](https://hcmus-cs-ta.github.io/lab-book/intro-ds/statement/crawling/), báo cáo dùng số đo kiểm chứng được và bảng/biểu đồ phát sinh khi biên dịch book.
+## Công cụ chính
+
+Python được dùng cho pipeline; arXiv API/Atom XML cho Discovery; `requests` và HTTP streaming cho tải nguồn; `tarfile`/`gzip` cho giải nén; Semantic Scholar API cho references; `psutil` và bộ đếm thời gian cho benchmark; pandas, matplotlib và Jupyter Book cho báo cáo. Chi tiết cài đặt và lệnh chạy nằm trong README của hai repository.

@@ -1,0 +1,38 @@
+{
+  "archive_name": "TV_tv1_MS1_RESULTS_run_20261106T164140Z_fcf739ee017e45b0b291e1524048be29.zip",
+  "archive_sha256": "cdc8b32f71a2bb6d176a756714faa06be81aed1c51f846353fa12f9ec38f848c",
+  "drive_url": "",
+  "files": {
+    "run.json": {
+      "original_sha256": "b46e87a5cfbf654de163a737c31eb04ad64baf59a1d1c3db9be10b7ee66ce69f",
+      "published_sha256": "89107464d9bddaf50cf96851dd5883fb577381a5b422999d66cc366e4a2b6036"
+    },
+    "samples.jsonl": {
+      "original_sha256": "66d885a02272acca039e9b913f80dbc37c395765a4218467e39cb3d29f1185ae",
+      "published_sha256": "66d885a02272acca039e9b913f80dbc37c395765a4218467e39cb3d29f1185ae"
+    },
+    "timings.jsonl": {
+      "original_sha256": "1fceafa1399e043fc034bf06ef1b57b431d760cf30fe11f0dc9b9477e49adf92",
+      "published_sha256": "1fceafa1399e043fc034bf06ef1b57b431d760cf30fe11f0dc9b9477e49adf92"
+    },
+    "benchmark.json": {
+      "original_sha256": "f010eeeb8d6eb7d710cae3a79e2df46b665ae6d6707a51f94bb60fd150886ec0",
+      "published_sha256": "4b4659209ac47ba2a11a8501a0c345c36820bfc4fe4570a2893d6806bc6ac52f"
+    },
+    "statistics.json": {
+      "original_sha256": "e0bf01d2b3bd1479c00d77898c785fc4f42409ad1cfd4053fec8bc5b00c3f738",
+      "published_sha256": "e0bf01d2b3bd1479c00d77898c785fc4f42409ad1cfd4053fec8bc5b00c3f738"
+    },
+    "statistics-revalidated.json": {
+      "original_sha256": "6473b9c80a25d9a2a32542059a2a76d881ec80d44c85e0e7cf441d3258b76bf1",
+      "published_sha256": "6473b9c80a25d9a2a32542059a2a76d881ec80d44c85e0e7cf441d3258b76bf1"
+    },
+    "audit-ab2a4e847a8d46a8a5c6b826d65a3e29/inputs.json": {
+      "original_sha256": "2ab09bdf82847ed13e956fbe20735eb2c337d4004e9d9068a029ba9b8dafc224",
+      "published_sha256": "2ab09bdf82847ed13e956fbe20735eb2c337d4004e9d9068a029ba9b8dafc224"
+    }
+  },
+  "checked_on": "2026-11-07",
+  "supplementary_archives": [],
+  "note": "User-provided local archive; no independent live-corpus inspection. TV1 statistics cover only six IDs; inputs.json is not an executed audit. TV5 retains its historical benchmark and uses the separate full-range audit from 7 November. Private backups and pipeline logs are not published."
+}

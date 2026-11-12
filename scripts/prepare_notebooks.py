@@ -58,3 +58,6 @@ notebook('milestone1/performance.ipynb', [
 # Colab cells are maintained separately; preserve its member/Drive workflow.
 import runpy
 runpy.run_path(str(ROOT / 'scripts/sync_colab_notebook.py'), run_name='__main__')
+
+# Restore reader-facing pages after regenerating legacy examples.
+runpy.run_path(str(ROOT / "scripts/prepare_submission_report.py"), run_name="__main__")

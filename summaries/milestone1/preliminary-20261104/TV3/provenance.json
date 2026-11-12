@@ -1,0 +1,37 @@
+{
+  "checked_on": "2026-11-04",
+  "archive_name": "tv3-artifacts.zip",
+  "drive_url": "https://drive.google.com/file/d/1BOHcygxqjmWErfJLAYJT2qpbq23Q4mJy/view",
+  "archive_sha256": "84fc091b5dc9a67153036b45d5367c33d348865aeb935472ab1d3198b47f87a1",
+  "files": {
+    "run.json": {
+      "original_sha256": "f9e708f07137970b33db4eb092b3bdc240ddcddfb95cc0d6f59a6db7e54f0c77",
+      "published_sha256": "7807411e5f784bd7acdf6c534017347901414e6172bd338da327f32533a3ea66"
+    },
+    "samples.jsonl": {
+      "original_sha256": "e32c066437fc422d446797ca2435f291d19dc39e47af28c00fc6c1749d142b20",
+      "published_sha256": "e32c066437fc422d446797ca2435f291d19dc39e47af28c00fc6c1749d142b20"
+    },
+    "timings.jsonl": {
+      "original_sha256": "afa3df4926d229346249513122e18961dd1d6e0237150d0e47e130375dfdc3d3",
+      "published_sha256": "afa3df4926d229346249513122e18961dd1d6e0237150d0e47e130375dfdc3d3"
+    },
+    "benchmark.json": {
+      "original_sha256": "edac056da4ea85cab808056d190d487d1408ca3e46e002367604e1c78ac87631",
+      "published_sha256": "f4837c6a37af295fd324620f1a84e6daa2684acaccc3f833c0a958222950e7b3"
+    },
+    "statistics.json": {
+      "original_sha256": "04d9cf59360e95a9e3f22cbaddbb14ef3ba02e21b217cb0dabe0a389ecb50cf3",
+      "published_sha256": "04d9cf59360e95a9e3f22cbaddbb14ef3ba02e21b217cb0dabe0a389ecb50cf3"
+    },
+    "statistics-revalidated.json": {
+      "original_sha256": "c6646c56d9f4863ee6bb87346fed89a6b49afb6f1a1d8f340f8458ad4f1b3309",
+      "published_sha256": "c6646c56d9f4863ee6bb87346fed89a6b49afb6f1a1d8f340f8458ad4f1b3309"
+    },
+    "audit-c382050ff4594370a67d0505c469044d/inputs.json": {
+      "original_sha256": "8b2c89fe5cdb954847bb0f28b14e63c845b86e410c0d0bfffb05c5f2fbbf6e36",
+      "published_sha256": "8b2c89fe5cdb954847bb0f28b14e63c845b86e410c0d0bfffb05c5f2fbbf6e36"
+    }
+  },
+  "note": "Archive evidence only; no independent revalidation of live corpus. TV5 uses the local ZIP with the same name/size as the shared Drive file."
+}

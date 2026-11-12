@@ -1,0 +1,241 @@
+{
+  "2410.04689": {
+    "input_id": "2410.04689",
+    "arxiv_id": "2410.04689",
+    "requested_version": null,
+    "status": "success",
+    "timestamp": "2026-11-07T02:00:47.848720+00:00",
+    "metadata": {
+      "arxiv_id": "2410.04689",
+      "title": "Low-Rank Continual Pyramid Vision Transformer: Incrementally Segment Whole-Body Organs in CT with Light-Weighted Adaptation",
+      "authors": [
+        "Vince Zhu",
+        "Zhanghexuan Ji",
+        "Dazhou Guo",
+        "Puyang Wang",
+        "Yingda Xia",
+        "Le Lu",
+        "Xianghua Ye",
+        "Wei Zhu",
+        "Dakai Jin"
+      ],
+      "submission_date": "2024-10-07T02:00:13Z",
+      "venue": null,
+      "abstract": "Deep segmentation networks achieve high performance when trained on specific datasets. However, in clinical practice, it is often desirable that pretrained segmentation models can be dynamically extended to enable segmenting new organs without access to previous training datasets or without training from scratch. This would ensure a much more efficient model development and deployment paradigm accounting for the patient privacy and data storage issues. This clinically preferred process can be viewed as a continual semantic segmentation (CSS) problem. Previous CSS works would either experience catastrophic forgetting or lead to unaffordable memory costs as models expand. In this work, we propose a new continual whole-body organ segmentation model with light-weighted low-rank adaptation (LoRA). We first train and freeze a pyramid vision transformer (PVT) base segmentation model on the initial task, then continually add light-weighted trainable LoRA parameters to the frozen model for each new learning task. Through a holistically exploration of the architecture modification, we identify three most important layers (i.e., patch-embedding, multi-head attention and feed forward layers) that are critical in adapting to the new segmentation tasks, while retaining the majority of the pretrained parameters fixed. Our proposed model continually segments new organs without catastrophic forgetting and meanwhile maintaining a low parameter increasing rate. Continually trained and tested on four datasets covering different body parts of a total of 121 organs, results show that our model achieves high segmentation accuracy, closely reaching the PVT and nnUNet upper bounds, and significantly outperforms other regularization-based CSS methods. When comparing to the leading architecture-based CSS method, our model has a substantial lower parameter increasing rate while achieving comparable performance.",
+      "categories": [
+        "cs.CV"
+      ],
+      "doi": null,
+      "latest_version": 1,
+      "revised_dates": [],
+      "source": "arxiv_api",
+      "retrieved_at": "2026-11-07T02:00:47.848720+00:00"
+    },
+    "versions": [
+      {
+        "version": 1,
+        "versioned_id": "2410.04689v1",
+        "source_url": "https://arxiv.org/src/2410.04689v1",
+        "source_path": "raw/2410.04689/v1/source",
+        "corpus_path": "corpus/2410.04689/v1",
+        "submission_date": "2024-10-07T02:00:13Z",
+        "updated_date": "2024-10-07T02:00:13Z",
+        "title": "Low-Rank Continual Pyramid Vision Transformer: Incrementally Segment Whole-Body Organs in CT with Light-Weighted Adaptation",
+        "authors": [
+          "Vince Zhu",
+          "Zhanghexuan Ji",
+          "Dazhou Guo",
+          "Puyang Wang",
+          "Yingda Xia",
+          "Le Lu",
+          "Xianghua Ye",
+          "Wei Zhu",
+          "Dakai Jin"
+        ],
+        "venue": null
+      }
+    ],
+    "error": null,
+    "attempts": 1,
+    "schema_version": "1.0"
+  },
+  "2410.04690": {
+    "input_id": "2410.04690",
+    "arxiv_id": "2410.04690",
+    "requested_version": null,
+    "status": "success",
+    "timestamp": "2026-11-07T02:02:24.045033+00:00",
+    "metadata": {
+      "arxiv_id": "2410.04690",
+      "title": "SegINR: Segment-wise Implicit Neural Representation for Sequence Alignment in Neural Text-to-Speech",
+      "authors": [
+        "Minchan Kim",
+        "Myeonghun Jeong",
+        "Joun Yeop Lee",
+        "Nam Soo Kim"
+      ],
+      "submission_date": "2024-10-07T02:04:58Z",
+      "venue": null,
+      "abstract": "We present SegINR, a novel approach to neural Text-to-Speech (TTS) that addresses sequence alignment without relying on an auxiliary duration predictor and complex autoregressive (AR) or non-autoregressive (NAR) frame-level sequence modeling. SegINR simplifies the process by converting text sequences directly into frame-level features. It leverages an optimal text encoder to extract embeddings, transforming each into a segment of frame-level features using a conditional implicit neural representation (INR). This method, named segment-wise INR (SegINR), models temporal dynamics within each segment and autonomously defines segment boundaries, reducing computational costs. We integrate SegINR into a two-stage TTS framework, using it for semantic token prediction. Our experiments in zero-shot adaptive TTS scenarios demonstrate that SegINR outperforms conventional methods in speech quality with computational efficiency.",
+      "categories": [
+        "eess.AS",
+        "cs.LG"
+      ],
+      "doi": null,
+      "latest_version": 1,
+      "revised_dates": [],
+      "source": "arxiv_api",
+      "retrieved_at": "2026-11-07T02:02:24.045033+00:00"
+    },
+    "versions": [
+      {
+        "version": 1,
+        "versioned_id": "2410.04690v1",
+        "source_url": "https://arxiv.org/src/2410.04690v1",
+        "source_path": "raw/2410.04690/v1/source",
+        "corpus_path": "corpus/2410.04690/v1",
+        "submission_date": "2024-10-07T02:04:58Z",
+        "updated_date": "2024-10-07T02:04:58Z",
+        "title": "SegINR: Segment-wise Implicit Neural Representation for Sequence Alignment in Neural Text-to-Speech",
+        "authors": [
+          "Minchan Kim",
+          "Myeonghun Jeong",
+          "Joun Yeop Lee",
+          "Nam Soo Kim"
+        ],
+        "venue": null
+      }
+    ],
+    "error": null,
+    "attempts": 1,
+    "schema_version": "1.0"
+  },
+  "2410.05043": {
+    "input_id": "2410.05043",
+    "arxiv_id": "2410.05043",
+    "requested_version": null,
+    "status": "success",
+    "timestamp": "2026-11-07T02:09:42.983633+00:00",
+    "metadata": {
+      "arxiv_id": "2410.05043",
+      "title": "Scalar polynomial vector fields in real and complex time",
+      "authors": [
+        "Bernold Fiedler"
+      ],
+      "submission_date": "2024-10-07T13:56:43Z",
+      "venue": null,
+      "abstract": "In the present paper, the simplest scalar ODE case is studied for polynomials $$ \\dot{w}=f(w)=(w-e_0)\\cdot\\ldots\\cdot(w-e_{d-1}) $$ of degree $d$ with $d$ simple complex zeros. The explicit solution by separation of variables and explicit integration is an almost trivial matter. In a classical spirit, indeed, we describe the complex Riemann surface $\\mathcal{R}$ of the global nontrivial solution $(t,w(t))$ in complex time, as an unbranched cover of the punctured Riemann sphere. The flow property, however, fails at $w=\\infty$. The global consequences depend on the period map of the residues $2π\\mathrm{i}/f'(e_j)$ of $1/f$ at the punctures, in detail. We therefore show that polynomials $f$ exist for arbitrarily prescribed residues with zero sum. This result is not covered by standard interpolation theory. Motivated by the PDE case, we also classify the planar real-time phase portraits of the above ODE. Poincaré compactification of $w$ regularizes $w=\\infty$ by $2(d-1)$ equilibria, alternatingly stable and unstable within the invariant circle boundary at infinity. In structurally stable cases, we classify all compactified phase portraits, up to orientation preserving orbit equivalence and time reversal. Combinatorially, their connection graphs are equivalent to certain unrooted, unlabeled, undirected planar trees of $d$ vertices or, dually, to certain chord diagrams with $d-1$ nonintersecting chords. We sketch a proof that all planar trees are actually realized by Poincaré compactifications. Not least, we offer a 1,000 Euro reward for the discovery, or refutation, of complex entire homoclinic orbits.",
+      "categories": [
+        "math.DS"
+      ],
+      "doi": null,
+      "latest_version": 3,
+      "revised_dates": [
+        "2024-12-23T08:38:24Z",
+        "2025-04-29T07:19:03Z"
+      ],
+      "source": "arxiv_api",
+      "retrieved_at": "2026-11-07T02:09:42.983633+00:00"
+    },
+    "versions": [
+      {
+        "version": 1,
+        "versioned_id": "2410.05043v1",
+        "source_url": "https://arxiv.org/src/2410.05043v1",
+        "source_path": "raw/2410.05043/v1/source",
+        "corpus_path": "corpus/2410.05043/v1",
+        "submission_date": "2024-10-07T13:56:43Z",
+        "updated_date": "2024-10-07T13:56:43Z",
+        "title": "Scalar polynomial vector fields in real and complex time",
+        "authors": [
+          "Bernold Fiedler"
+        ],
+        "venue": null
+      },
+      {
+        "version": 2,
+        "versioned_id": "2410.05043v2",
+        "source_url": "https://arxiv.org/src/2410.05043v2",
+        "source_path": "raw/2410.05043/v2/source",
+        "corpus_path": "corpus/2410.05043/v2",
+        "submission_date": "2024-10-07T13:56:43Z",
+        "updated_date": "2024-12-23T08:38:24Z",
+        "title": "Scalar polynomial vector fields in real and complex time",
+        "authors": [
+          "Bernold Fiedler"
+        ],
+        "venue": null
+      },
+      {
+        "version": 3,
+        "versioned_id": "2410.05043v3",
+        "source_url": "https://arxiv.org/src/2410.05043v3",
+        "source_path": "raw/2410.05043/v3/source",
+        "corpus_path": "corpus/2410.05043/v3",
+        "submission_date": "2024-10-07T13:56:43Z",
+        "updated_date": "2025-04-29T07:19:03Z",
+        "title": "Scalar polynomial vector fields in real and complex time",
+        "authors": [
+          "Bernold Fiedler"
+        ],
+        "venue": null
+      }
+    ],
+    "error": null,
+    "attempts": 3,
+    "schema_version": "1.0"
+  },
+  "2410.05044": {
+    "input_id": "2410.05044",
+    "arxiv_id": "2410.05044",
+    "requested_version": null,
+    "status": "success",
+    "timestamp": "2026-11-07T02:10:01.426654+00:00",
+    "metadata": {
+      "arxiv_id": "2410.05044",
+      "title": "PhotoReg: Photometrically Registering 3D Gaussian Splatting Models",
+      "authors": [
+        "Ziwen Yuan",
+        "Tianyi Zhang",
+        "Matthew Johnson-Roberson",
+        "Weiming Zhi"
+      ],
+      "submission_date": "2024-10-07T13:58:40Z",
+      "venue": null,
+      "abstract": "Building accurate representations of the environment is critical for intelligent robots to make decisions during deployment. Advances in photorealistic environment models have enabled robots to develop hyper-realistic reconstructions, which can be used to generate images that are intuitive for human inspection. In particular, the recently introduced \\ac{3DGS}, which describes the scene with up to millions of primitive ellipsoids, can be rendered in real time. \\ac{3DGS} has rapidly gained prominence. However, a critical unsolved problem persists: how can we fuse multiple \\ac{3DGS} into a single coherent model? Solving this problem will enable robot teams to jointly build \\ac{3DGS} models of their surroundings. A key insight of this work is to leverage the {duality} between photorealistic reconstructions, which render realistic 2D images from 3D structure, and \\emph{3D foundation models}, which predict 3D structure from image pairs. To this end, we develop PhotoReg, a framework to register multiple photorealistic \\ac{3DGS} models with 3D foundation models. As \\ac{3DGS} models are generally built from monocular camera images, they have \\emph{arbitrary scale}. To resolve this, PhotoReg actively enforces scale consistency among the different \\ac{3DGS} models by considering depth estimates within these models. Then, the alignment is iteratively refined with fine-grained photometric losses to produce high-quality fused \\ac{3DGS} models. We rigorously evaluate PhotoReg on both standard benchmark datasets and our custom-collected datasets, including with two quadruped robots. The code is released at \\url{ziweny11.github.io/photoreg}.",
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.CV",
+        "cs.LG"
+      ],
+      "doi": null,
+      "latest_version": 1,
+      "revised_dates": [],
+      "source": "arxiv_api",
+      "retrieved_at": "2026-11-07T02:10:01.426654+00:00"
+    },
+    "versions": [
+      {
+        "version": 1,
+        "versioned_id": "2410.05044v1",
+        "source_url": "https://arxiv.org/src/2410.05044v1",
+        "source_path": "raw/2410.05044/v1/source",
+        "corpus_path": "corpus/2410.05044/v1",
+        "submission_date": "2024-10-07T13:58:40Z",
+        "updated_date": "2024-10-07T13:58:40Z",
+        "title": "PhotoReg: Photometrically Registering 3D Gaussian Splatting Models",
+        "authors": [
+          "Ziwen Yuan",
+          "Tianyi Zhang",
+          "Matthew Johnson-Roberson",
+          "Weiming Zhi"
+        ],
+        "venue": null
+      }
+    ],
+    "error": null,
+    "attempts": 1,
+    "schema_version": "1.0"
+  }
+}

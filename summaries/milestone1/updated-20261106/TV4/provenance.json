@@ -1,0 +1,49 @@
+{
+  "checked_on": "2026-11-06",
+  "archive_name": "TV_tv4_MS1_RESULTS_run_20261101T061837Z_c93066d96e6c499a992556f59190e689.zip",
+  "drive_url": "https://drive.google.com/file/d/1djrLWYgC2Ck-y9GfLZ-6sm9D8zDR8zm5/view",
+  "archive_sha256": "55f7543475e199739020081ee1c7b6313e436dc6a8f64bdacf2c75c039ec17bf",
+  "files": {
+    "run.json": {
+      "original_sha256": "ffdb21f5e0ea469ced657b8ec0e66bd63aeb4e7ee7e68d7ef64752bbffe134ec",
+      "published_sha256": "fff01ef922743ea3f1697600301439da5c01266e473ed67ca9a387e942f49451"
+    },
+    "samples.jsonl": {
+      "original_sha256": "62fae43aaf226f60e53567601930edce23d46ff3a5b26e7d021d948fa6c664f7",
+      "published_sha256": "62fae43aaf226f60e53567601930edce23d46ff3a5b26e7d021d948fa6c664f7"
+    },
+    "timings.jsonl": {
+      "original_sha256": "f74a9c7513f93799fe393bf0bdce2aaf67d138a6b836e353a2de3372d23bb4b6",
+      "published_sha256": "f74a9c7513f93799fe393bf0bdce2aaf67d138a6b836e353a2de3372d23bb4b6"
+    },
+    "statistics_error.json": {
+      "original_sha256": "468a0d2ff1f134e1ee7a83efdeb56e36ec75319b23e23c19775449c3d1f3ce02",
+      "published_sha256": "468a0d2ff1f134e1ee7a83efdeb56e36ec75319b23e23c19775449c3d1f3ce02"
+    },
+    "benchmark.json": {
+      "original_sha256": "28e5070e8fd9bf26d8463076b61fcca9c486f69c0e52e90e50dd3fe999725b83",
+      "published_sha256": "246fbf02d64c5f02849827224ba007d9ee2c1971adab8f8c8a503d24b9a6c1f3"
+    },
+    "assignment-audit.json": {
+      "original_sha256": "f5971149f7e393f8cd01de7e1741da62847d43de2fecdf29ebbe32cdb3457eb4",
+      "published_sha256": "f5971149f7e393f8cd01de7e1741da62847d43de2fecdf29ebbe32cdb3457eb4"
+    },
+    "audit-5496a96ad4144afcbc0a196901d97e96/inputs.json": {
+      "original_sha256": "313dba4bf64a247502aad86d8824a118383bd80e593f831d0f2064b788023431",
+      "published_sha256": "313dba4bf64a247502aad86d8824a118383bd80e593f831d0f2064b788023431"
+    },
+    "audit-5496a96ad4144afcbc0a196901d97e96/assignment-audit.json": {
+      "original_sha256": "e7dbd56c038484c710209c868671e2d48bc8fb3705168d87f859e5fb30cda076",
+      "published_sha256": "e7dbd56c038484c710209c868671e2d48bc8fb3705168d87f859e5fb30cda076"
+    },
+    "audit-cdd0af29ce9e43979f1577571f573b19/inputs.json": {
+      "original_sha256": "313dba4bf64a247502aad86d8824a118383bd80e593f831d0f2064b788023431",
+      "published_sha256": "313dba4bf64a247502aad86d8824a118383bd80e593f831d0f2064b788023431"
+    },
+    "audit-cdd0af29ce9e43979f1577571f573b19/assignment-audit.json": {
+      "original_sha256": "f5971149f7e393f8cd01de7e1741da62847d43de2fecdf29ebbe32cdb3457eb4",
+      "published_sha256": "f5971149f7e393f8cd01de7e1741da62847d43de2fecdf29ebbe32cdb3457eb4"
+    }
+  },
+  "note": "Downloaded corrected archive from the shared Drive; original ZIP and earlier snapshots preserved."
+}

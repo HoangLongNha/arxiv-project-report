@@ -1,0 +1,11 @@
+{
+  "checked_on": "2026-11-10",
+  "data_folder": "https://drive.google.com/drive/folders/1uBRPdHxO2MTn2ahAkRtNSkxd4Rcu1DHv",
+  "discovery_manifest_url": "https://drive.google.com/file/d/1VqqeeSBMlc2cCRartc3n9u2g765nQ9DN/view",
+  "manifest_sha256": "840c5594bd0592141cf637a1845817db0259b0d2f636ba4a25bde1847872bf4f",
+  "files": {
+    "inspection.json": "c7049d21acdfc4596e573602ad5e3883b6ecdab59d453beef590e2facb1683e7",
+    "summary.json": "01e0e5e74cf70a49c317bedac1abbc598e2d090e6de8c325787b0f95d1487df6"
+  },
+  "scope": "Full Discovery manifest plus one corpus sample; not cumulative size/reference statistics or fresh corpus audit."
+}

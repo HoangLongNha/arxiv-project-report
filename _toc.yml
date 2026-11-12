@@ -5,9 +5,12 @@ chapters:
     sections:
       - file: milestone1/introduction
       - file: milestone1/methodology
-      - file: milestone1/statistics
+      - file: milestone1/experimental-setup
+      - file: milestone1/preliminary-results
       - file: milestone1/performance
       - file: milestone1/discussion
+      - file: milestone1/member-contributions
+      - file: milestone1/audit-appendix
   - file: milestone2/index
     sections:
       - file: milestone2/introduction

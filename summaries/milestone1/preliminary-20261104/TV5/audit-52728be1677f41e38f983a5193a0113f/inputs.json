@@ -1,0 +1,10 @@
+{
+  "ranges": [
+    {
+      "range": "2410.03025:2410.08024"
+    }
+  ],
+  "assigned_input_count": 5000,
+  "scope": "TV5",
+  "note": "ID lookup inputs, not a count of existing publications"
+}

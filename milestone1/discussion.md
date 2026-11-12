@@ -1,25 +1,31 @@
-# Phân tích và hạn chế
+# Thảo luận và kết luận
 
-Bản hiện tại xác nhận code có thể tạo corpus mẫu, kiểm tra chất lượng, thu thập số đo, tổng hợp và sinh bảng/biểu đồ bằng notebook. Lượt smoke cục bộ với `2508.12872` cũng đã hoàn tất: một version, 97 references, validator pass. Nó chưa chứng minh độ bao phủ 25.000 ID hay hiệu năng toàn corpus/Colab.
+## Bao phủ đầu vào và mức hoàn thiện corpus
 
-## Mẫu thực nghiệm Colab CPU-only đã chạy
+Năm audit xác nhận đủ 25.000 record và 25.000 lookup thành công. Checkpoint giúp nhóm tiếp tục sau gián đoạn và thử lại riêng ID hoặc stage lỗi. Lookup thành công cho biết đã nhận diện bài báo và version; source/corpus và kiểm định còn có thể chưa đạt.
 
-Đã đo lại một paper `2508.12872` trên runtime Colab CPU, từ commit sạch `0f8d83b`. Wall time 21,511 giây; thời gian paper 21,240 giây; bước references chiếm khoảng 19,312 giây. Tổng RSS cực đại quan sát 41.771.008 bytes, mean theo thời gian khoảng 38.603.952 bytes. Peak disk quan sát 17.676.608 bytes, final 10.907.480 bytes. Đây là một mẫu, không đủ để khái quát hiệu năng toàn assignment hoặc so sánh thuật toán.
+Cumulative TV2–TV5 thống kê dữ liệu tích lũy qua nhiều phiên. Tỷ lệ paper đủ source thấp hơn bao phủ Discovery vì mỗi paper có thể có nhiều version, gặp lỗi tải/giải nén hoặc không có source TeX. Trạng thái no_source được giữ riêng để không coi mọi trường hợp thiếu TeX là lỗi mạng. Số download success và số source có tệp còn chênh lệch; cần kiểm tra checkpoint, đường dẫn và tệp trước khi dùng số trạng thái làm số source thực có.
 
-Audit đối chiếu đủ 25.000 ID nhưng chỉ tìm được record/data cho một ID; phần còn lại là **chưa được crawl**, không phải kết luận 24.999 paper không tồn tại. Không được dùng tỷ lệ thành công 100% của mẫu một paper làm tỷ lệ thành công toàn nhóm.
+## Kích thước và references
 
-Demo có một discovery not_found và một version PDF-only. Vì vậy pipeline exit 1 và source success rate thấp hơn 100% là tình huống có chủ đích. Validator vẫn có thể pass paper PDF-only nếu trạng thái nhất quán. Điều này minh họa vì sao cần xem cả coverage, từng status, nguồn thiếu dữ liệu và validation, thay vì chỉ nhìn exit code.
+Chỉ giữ TeX/BibTeX làm giảm dung lượng trên tập paper có đủ cặp đo. So sánh dùng kích thước giải nén trước lọc và corpus sau lọc; không so gói nén với dữ liệu đã giải nén. Cặp đo thiếu được loại khỏi mẫu số, còn số paper được tính luôn đi kèm kết quả.
 
-## Cần hoàn tất khi có dữ liệu thật
+References được đếm theo paper trích dẫn, loại dòng trùng trong cùng paper. Cùng tài liệu được nhiều paper trích dẫn vẫn được đếm ở mỗi quan hệ. Trung bình bao gồm danh sách rỗng hợp lệ; truy vấn lỗi hoặc chưa được index không được coi là danh sách rỗng. Tỷ lệ truy vấn đọc được và tỷ lệ reference đủ metadata là hai chỉ số riêng.
 
-1. Mẫu smoke/Colab đã chạy; tiếp tục thu thập assignment, giữ nguyên pacing và lưu checkpoint trên storage phù hợp để resume.
-2. Lưu số liệu theo run; tách fresh/resume, xác nhận commit và môi trường.
-3. Chạy lại validator trên corpus thật và rà soát lỗi/cảnh báo; không tự coi mọi success stage là corpus tốt.
-4. Xuất summary/samples/timings sang repository report, chọn run thật khi build, cập nhật intro và phân tích này theo kết quả đo.
-5. Bổ sung ví dụ lỗi thực tế, nguyên nhân, ảnh hưởng tới các milestone sau và hướng cải thiện có số liệu chứng minh.
+TV2 có mức bao phủ references thấp hơn các dải còn lại; cần xem checkpoint references lỗi trước khi dùng cho matching. Tiêu chí đủ năm trường khá chặt vì nhiều tài liệu không có arXiv ID. Nó không thay độ chính xác nội dung do Semantic Scholar cung cấp.
 
-## Giới hạn phương pháp
+## Chất lượng và chuẩn bị MS2
 
-RSS theo mẫu có thể bỏ lỡ đỉnh ngắn; tổng RSS không bằng bộ nhớ vật lý duy nhất do shared pages. Quét disk gây overhead và chỉ đo trong output root, không đo hệ điều hành hay cache pip. Không so package nén với corpus giải nén để kết luận tỷ lệ bỏ hình. Reference metadata không đầy đủ và Semantic Scholar có thể chưa index paper. Validator dùng schema/heuristics, không kiểm chứng ngữ nghĩa toàn bộ LaTeX, không biên dịch PDF và không thay kiểm tra thủ công trên mẫu.
+Một paper có thể vướng nhiều loại lỗi: stage upstream, artifact, corpus hoặc metadata/references. Cần phân loại theo paper/version rồi thử lại stage cần thiết. Paper chưa đạt validator vẫn có thể có TeX sử dụng được; có TeX cũng không bảo đảm mọi trường khác hợp lệ.
 
-Sau khi tiến trình bị ngắt, checkpoint mới có thể chưa xuất hiện trong manifest cuối. Hoàn tất resume để có snapshot nhất quán trước khi thống kê; không cộng các run chồng lặp như các paper mới.
+Audit TV2 mới đã thống nhất cờ hoàn tất với số paper fail, nhưng known_version_count ghi 3.887 trong khi cộng versions của 5.000 paper trong chính audit được 7.987, khớp cumulative. Báo cáo giữ tệp gốc, dùng cumulative cho số version và ghi mâu thuẫn trong phụ lục. TV5 đã giải quyết bốn lookup, nhưng lần thử source 2410.05044 trong bộ bằng chứng sửa lỗi vẫn bị IncompleteRead.
+
+Validator kiểm tra cấu trúc, định danh, trạng thái và tệp; chưa biên dịch LaTeX hay đánh giá toàn bộ ngữ nghĩa. MS2 cần giữ liên kết paper/version, xử lý record không có source và dùng danh sách lỗi để tránh coi đầu vào thiếu là kết quả parsing rỗng hợp lệ.
+
+## Giới hạn thực nghiệm
+
+Ngày 10/11, đối chiếu trực tiếp Drive xác nhận TV1 có manifest đủ 5.000 Discovery thành công, 7.852 version và mẫu corpus có TeX/BibTeX. Bao phủ TV1 đã được xác nhận; các chỉ số kích thước và references vẫn cần bản cumulative đọc đúng dữ liệu này. Bản TV5 ngày 10/11 có đủ 5.000 Discovery thành công và 8.348 version. Tổng TV2–TV5 mô tả các snapshot đủ coverage, không phải số liệu đồng thời hay tổng corpus năm thành viên. Cumulative đọc validation đã lưu, không thay audit mới.
+
+Benchmark chủ yếu chạy resume. Phiên TV1 mới có toàn dải đầu vào và mẫu RAM trên Colab CPU-only nhưng dùng cache, nên chưa đo chi phí tải mới toàn dải. TV2/TV5 thiếu mẫu RAM đại diện trong các phiên đã nộp. Không thể khôi phục runtime, RAM hay disk peak của phiên không có log từ cumulative JSON.
+
+Để chốt số liệu corpus của cả nhóm, cần xuất lại cumulative TV1 từ đúng thư mục dữ liệu đã audit. Để kết luận hiệu năng end-to-end của toàn quá trình, cần lịch sử đo đầy đủ hoặc benchmark Colab CPU-only có biên đo thống nhất. Báo cáo trình bày các số đo có bằng chứng và giữ rõ những giới hạn này.
