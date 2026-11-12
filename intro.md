@@ -1,20 +1,51 @@
-# arXiv Project — Nhóm 6
+# Đồ án Khoa học Dữ liệu — arXiv Data Science Pipeline
 
-Báo cáo Milestone 1: thu thập source LaTeX mọi phiên bản của các paper được giao, metadata và references; kiểm tra chất lượng và đánh giá hiệu năng.
+**Nhóm 6 — Lớp Khoa học Dữ liệu**  
+Trường Đại học Khoa học Tự nhiên, ĐHQG-HCM
 
-```{warning}
-Đã có benchmark **mẫu một paper trên Google Colab CPU-only**, run `colab-cpu-sample`, bên cạnh demo offline và smoke local. Chưa crawl đủ assignment 25.000 ID. Luôn đọc nhãn/phạm vi run; số đo mẫu không đại diện hiệu năng hay độ bao phủ toàn corpus.
-```
+---
 
-Theo file đăng ký nhóm, nhóm 6 có năm khoảng, tổng 25.000 ID đầu vào. ID có thể không tồn tại; số version chỉ được xác định sau discovery. Đầu vào đầy đủ được lưu trong `configs/ms1_group6_ranges.json` của repository source.
+## 1. Giới thiệu Tổng quan Đồ án
 
-Một repository source dùng cho toàn dự án; Jupyter Book có repository riêng. Khi Milestone 2 sẵn sàng, thêm phần MS2 vào cùng book. Hiện book chỉ triển khai MS1.
+Đồ án môn học tập trung vào việc xây dựng đường ống khoa học dữ liệu toàn diện (End-to-End Data Science Pipeline) để thu thập, phân tích cú pháp phân cấp, chuẩn hóa, và khai phá tri thức từ kho lưu trữ ấn phẩm khoa học mở **arXiv**:
 
-Smoke cục bộ ngày 28/10/2026: `2508.12872`, một version, 97 references, validation pass; số đo đầy đủ và nhãn live_unverified nằm trong `summaries/milestone1/live-smoke-local/`. Hai notebook có thể build lại với `TV5_RUN=live-smoke-local`; không trộn vào run demo.
+- **Milestone 1 — Data Collection, Crawling & Metadata Standardization:**
+  Thu thập mã nguồn TeX đa phiên bản, metadata, và danh mục tài liệu tham khảo từ arXiv API và Semantic Scholar; xây dựng cơ sở hạ tầng lưu trữ sạch (**Clean Corpus**) và cơ chế checkpoint phục hồi.
+- **Milestone 2 — Hierarchical Parsing, Normalization & Cross-version Deduplication:**
+  Phân tích cú pháp TeX đa file, xây dựng cây phân cấp ngữ nghĩa ($\text{Document} \rightarrow \text{Section} \rightarrow \text{Sentences} \mid \text{Formulas} \mid \text{Figures}$), chuẩn hóa biểu diễn toán học và văn bản, trích xuất BibTeX, khử trùng lặp 2 cấp độ xuyên phiên bản, và xuất bản 3 bảng dữ liệu quan hệ (`elements`, `hierarchy`, `bibtex`).
+- **Milestone 3 — Citation Matching, Intent Classification & Knowledge Graph:**
+  Đối sánh thực thể trích dẫn, phân loại mục đích trích dẫn trong văn cảnh, và xây dựng đồ thị tri thức khoa học học thuật.
 
-Mẫu Colab CPU-only ngày 28/10/2026: `2508.12872`, một version, 97 references, validator pass; wall time 21,511 giây, peak RSS quan sát 41.771.008 bytes. Source commit sạch `0f8d83b`; raw samples, timings và provenance được xuất vào `summaries/milestone1/colab-cpu-sample/`. Audit trên runtime này xác nhận còn 24.999 ID chưa có discovery record. Biến `TV5_RUN=colab-cpu-sample` chọn dữ liệu này khi build.
+---
 
-- [Source code](https://github.com/LeoTkiet/arxiv-data-science)
-- [Đề chính thức](https://hcmus-cs-ta.github.io/lab-book/intro-ds/statement/)
+## 2. Bảng Phân công Trách nhiệm Thành viên
 
-README hướng dẫn build/triển khai, notebook Colab để chạy lại, và nguồn tham khảo đi kèm giúp kiểm chứng kết quả.
+| Thành viên | MSSV | Vai trò chính trong Dự án | Trọng tâm Milestone 1 | Trọng tâm Milestone 2 |
+| :--- | :--- | :--- | :--- | :--- |
+| **TV1** | Nhóm 6 | Kiến trúc trưởng, Hợp đồng & Orchestrator | Thiết kế hệ thống, Hợp đồng MS1, Discovery, Crawler Orchestrator | Hợp đồng MS2, TeX Resolver đa file, Pipeline Orchestrator (`pipeline/parse.py`) |
+| **TV2** | Nhóm 6 | Phân tích Cú pháp Phân cấp & Kỹ thuật Dữ liệu | Trích xuất Metadata arXiv, Thẩm định nguồn TeX | Bộ phân tích cây phân cấp (`hierarchy.py`), Ngăn xếp thứ bậc tiêu đề, Nhận diện tiêu đề PRL |
+| **TV3** | 24120318 | Chuẩn hóa Văn bản, Toán học & Xử lý Ngôn ngữ | Semantic Scholar API Client, Làm sạch dữ liệu tác giả | Chuẩn hóa văn bản TeX đa tầng (`normalization.py`), Masking toán học tức thời, Phân đoạn câu |
+| **TV4** | Nhóm 6 | Trích xuất Trích dẫn & Khử trùng lặp Xuyên phiên bản | Trích xuất References thô, Hợp nhất metadata | Bộ trích xuất BibTeX (`bibliography.py`), Khử trùng lặp 2 cấp độ & Đổi tên `\cite{}` (`deduplication.py`) |
+| **TV5** | 24120330 | Thẩm định Chất lượng (QA Lead) & Hiệu năng | Thẩm định chất lượng MS1, Giám sát tài nguyên phần cứng | Động cơ kiểm định QA MS2 (`validation.py`), Khung Benchmark (`benchmark.py`), Báo cáo Jupyter Book |
+
+---
+
+## 3. Cấu trúc Tài liệu Báo cáo
+
+Trang web báo cáo được tổ chức thành các chương mục logic:
+1. [**Milestone 1 — Crawling & Metadata Extraction**](milestone1/index.md): Báo cáo chi tiết quá trình thu thập 25,000 bài báo, kiểm tra tính toàn vẹn và đo lường tài nguyên.
+2. [**Milestone 2 — Hierarchical Parsing & Standardization**](milestone2/index.md): Báo cáo chi tiết đường ống 5 trạm phân tích cú pháp phân cấp, chuẩn hóa và khử trùng lặp dữ liệu TeX.
+   - [Mục tiêu & Luồng xử lý Dữ liệu](milestone2/introduction.md)
+   - [Phương pháp Triển khai & Hợp đồng Kỹ thuật](milestone2/methodology.md)
+   - [Thống kê Phân tích Thực nghiệm (Notebook)](milestone2/statistics.ipynb)
+   - [Đo lường Hiệu năng Thực thi (Notebook)](milestone2/performance.ipynb)
+   - [Thảo luận, Phân tích Trường hợp Biên & Sẵn sàng cho MS3](milestone2/discussion.md)
+3. [**Nguồn tham khảo**](references.md): Danh mục tài liệu kỹ thuật, API và đặc tả đề tài.
+
+---
+
+## 4. Liên kết Dự án & Mã nguồn
+
+- **Kho lưu trữ mã nguồn chính (Source Code Repository):** [GitHub: LeoTkiet/arxiv-data-science](https://github.com/LeoTkiet/arxiv-data-science)
+- **Kho lưu trữ báo cáo (Report Repository):** [GitHub: LeoTkiet/arxiv-project-report](https://github.com/LeoTkiet/arxiv-project-report)
+- **Đặc tả chính thức của môn học:** [HCMUS CS Lab Book — Project Statements](https://hcmus-cs-ta.github.io/lab-book/intro-ds/statement/)
