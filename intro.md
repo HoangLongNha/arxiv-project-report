@@ -24,10 +24,10 @@ Nhóm xây dựng corpus source LaTeX theo phiên bản, metadata bài báo và 
 
 | Thành viên | MSSV | Vai trò chính trong Dự án | Trọng tâm Milestone 1 | Trọng tâm Milestone 2 |
 | :--- | :--- | :--- | :--- | :--- |
-| **TV1** | Nhóm 6 | Kiến trúc trưởng, Hợp đồng & Orchestrator | Thiết kế hệ thống, Hợp đồng MS1, Discovery, Crawler Orchestrator | Hợp đồng MS2, TeX Resolver đa file, Pipeline Orchestrator (`pipeline/parse.py`) |
-| **TV2** | Nhóm 6 | Phân tích Cú pháp Phân cấp & Kỹ thuật Dữ liệu | Trích xuất Metadata arXiv, Thẩm định nguồn TeX | Bộ phân tích cây phân cấp (`hierarchy.py`), Ngăn xếp thứ bậc tiêu đề, Nhận diện tiêu đề PRL |
+| **TV1** | Đang cập nhật | Kiến trúc trưởng, Hợp đồng & Orchestrator | Thiết kế hệ thống, Hợp đồng MS1, Discovery, Crawler Orchestrator | Hợp đồng MS2, TeX Resolver đa file, Pipeline Orchestrator (`pipeline/parse.py`) |
+| **TV2** | Đang cập nhật | Phân tích Cú pháp Phân cấp & Kỹ thuật Dữ liệu | Trích xuất Metadata arXiv, Thẩm định nguồn TeX | Bộ phân tích cây phân cấp (`hierarchy.py`), Ngăn xếp thứ bậc tiêu đề, Nhận diện tiêu đề PRL |
 | **TV3** | 24120318 | Chuẩn hóa Văn bản, Toán học & Xử lý Ngôn ngữ | Semantic Scholar API Client, Làm sạch dữ liệu tác giả | Chuẩn hóa văn bản TeX đa tầng (`normalization.py`), Masking toán học tức thời, Phân đoạn câu |
-| **TV4** | Nhóm 6 | Trích xuất Trích dẫn & Khử trùng lặp Xuyên phiên bản | Trích xuất References thô, Hợp nhất metadata | Bộ trích xuất BibTeX (`bibliography.py`), Khử trùng lặp 2 cấp độ & Đổi tên `\cite{}` (`deduplication.py`) |
+| **TV4** | Đang cập nhật | Trích xuất Trích dẫn & Khử trùng lặp Xuyên phiên bản | Trích xuất References thô, Hợp nhất metadata | Bộ trích xuất BibTeX (`bibliography.py`), Khử trùng lặp 2 cấp độ & Đổi tên `\cite{}` (`deduplication.py`) |
 | **TV5** | 24120330 | Thẩm định Chất lượng (QA Lead) & Hiệu năng | Thẩm định chất lượng MS1, Giám sát tài nguyên phần cứng | Động cơ kiểm định QA MS2 (`validation.py`), Khung Benchmark (`benchmark.py`), Báo cáo Jupyter Book |
 
 ---

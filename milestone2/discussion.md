@@ -74,7 +74,7 @@ Trong giai đoạn kiểm thử tích hợp cuối cùng, TV5 đã tiến hành 
 
 ## 3. Tính Sẵn sàng Chuyển tiếp sang Milestone 3 (Citation Matching)
 
-Kết quả hoàn thành của Milestone 2 đáp ứng trọn vẹn và vượt mức các yêu cầu tiên quyết để bước vào Milestone 3 (Đối sánh và Dự đoán Thực thể Trích dẫn):
+Kiến trúc và bộ kiểm định của Milestone 2 được thiết kế nhằm đáp ứng các yêu cầu tiên quyết để chuyển tiếp sang Milestone 3 (Đối sánh và Dự đoán Thực thể Trích dẫn); kết quả chạy trên toàn bộ corpus đang chờ hoàn tất và kiểm chứng:
 
 1. **Ngữ cảnh Trích dẫn Sạch & Chuẩn hóa (Standardized Citation Context):**
    - Mọi câu văn (`sentence`) chứa lệnh gọi trích dẫn `\cite{...}` đều đã được làm sạch triệt để các mã lệnh giao diện TeX, chuẩn hóa công thức toán học nội dòng, và đồng bộ hóa khóa trích dẫn về `chosen_key` duy nhất.
@@ -86,4 +86,4 @@ Kết quả hoàn thành của Milestone 2 đáp ứng trọn vẹn và vượt 
    - Bảng `hierarchy` cho phép mở rộng ngữ cảnh trích dẫn không chỉ giới hạn ở câu văn đơn lẻ mà có thể truy ngược lên đoạn văn (`prose_block`), tiểu mục (`subsection`), và chương mục chính (`section`).
    - Việc mở rộng cửa sổ ngữ cảnh theo cấu trúc cây là chìa khóa giúp nâng cao độ chính xác của các mô hình phân loại trích dẫn trong Milestone 3.
 4. **Độ Bền vững & Khả năng Mở rộng (Scalable & Resilient Infrastructure):**
-   - Kiến trúc đường ống có khả năng phục hồi (Resume) thông qua mã băm SHA-256 giúp hệ thống vận hành bền bỉ trên toàn bộ corpus 25,000 bài báo mà không lo rò rỉ bộ nhớ hay sự cố gián đoạn môi trường.
+   - Kiến trúc đường ống có khả năng phục hồi (Resume) thông qua mã băm SHA-256 được thiết kế để vận hành trên toàn bộ corpus 25,000 bài báo; tính ổn định bộ nhớ và kết quả vận hành đủ 25,000 bài đang chờ kiểm chứng khi quá trình chạy hoàn tất.

@@ -54,26 +54,28 @@ Hệ thống được phát triển theo mô hình phân tầng module độc l�
 
 | Thành viên | MSSV | Vai trò chính | Module phụ trách | Sản phẩm cốt lõi bàn giao |
 | :--- | :--- | :--- | :--- | :--- |
-| **TV1** | Nhóm 6 | Kiến trúc trưởng, Hợp đồng & Orchestrator | `parsing/resolver.py`<br>`pipeline/parse.py` | Hợp đồng MS2, Bộ ghép mã nguồn TeX đa file, CLI điều phối `--stage parse`, Quản lý checkpoint & SHA-256 Resume. |
-| **TV2** | Nhóm 6 | Phân tích Cấu trúc Phân cấp (Hierarchy Parser) | `parsing/hierarchy.py` | Ngăn xếp quản lý thứ bậc tiêu đề $O(N)$, Nhận diện tiêu đề định dạng PRL (`\textcolor+\textbf`), Trích xuất nút lá và cây sơ bộ `raw_tree.json`. |
+| **TV1** | Đang cập nhật | Kiến trúc trưởng, Hợp đồng & Orchestrator | `parsing/resolver.py`<br>`pipeline/parse.py` | Hợp đồng MS2, Bộ ghép mã nguồn TeX đa file, CLI điều phối `--stage parse`, Quản lý checkpoint & SHA-256 Resume. |
+| **TV2** | Đang cập nhật | Phân tích Cấu trúc Phân cấp (Hierarchy Parser) | `parsing/hierarchy.py` | Ngăn xếp quản lý thứ bậc tiêu đề $O(N)$, Nhận diện tiêu đề định dạng PRL (`\textcolor+\textbf`), Trích xuất nút lá và cây sơ bộ `raw_tree.json`. |
 | **TV3** | 24120318 | Chuẩn hóa Văn bản & Phân đoạn Câu (Normalization) | `parsing/normalization.py` | Pipeline làm sạch TeX đa tầng, Masking toán học tức thời (Private Use Area), Phân đoạn câu bảo vệ thực thể, Cây chuẩn hóa `normalized_tree.json`. |
-| **TV4** | Nhóm 6 | Trích xuất BibTeX & Khử trùng lặp Xuyên phiên bản | `parsing/bibliography.py`<br>`parsing/deduplication.py` | Bộ phân tích `\bibitem` regex + `.bib`, Khử trùng lặp 2 cấp (References & Toàn văn), Đổi tên `\cite{}`, Xuất 3 bảng dữ liệu và `occurrences.json`. |
+| **TV4** | Đang cập nhật | Trích xuất BibTeX & Khử trùng lặp Xuyên phiên bản | `parsing/bibliography.py`<br>`parsing/deduplication.py` | Bộ phân tích `\bibitem` regex + `.bib`, Khử trùng lặp 2 cấp (References & Toàn văn), Đổi tên `\cite{}`, Xuất 3 bảng dữ liệu và `occurrences.json`. |
 | **TV5** | 24120330 | Thẩm định Chất lượng, Đo lường & Báo cáo | `reporting/milestone2/validation.py`<br>`export/benchmark.py` | Động cơ kiểm định QA nghiêm ngặt, Đối chiếu đa tập (Multiset Equivalence), Giám sát tài nguyên nền (`psutil`), Jupyter Book Report. |
 
 ---
 
-## 3. Các Chỉ số Đạt được Cốt lõi
+## 3. Chỉ số Minh họa & Trạng thái Kiểm chứng
 
-- **Độ tin cậy kiểm thử phần mềm:** **432+ unit tests** và kiểm thử tích hợp trên toàn repository `arxiv-data-science` đạt trạng thái **100% Passed** (thời gian chạy $< 20$ giây).
-- **Tỷ lệ nén sau Khử trùng lặp (Deduplication Efficiency):**
+> **Lưu ý:** Các số liệu định lượng dưới đây (tỷ lệ nén, thời gian xử lý, Peak RAM, dung lượng đĩa) là **Số liệu minh họa, chưa phải kết quả thực nghiệm MS2** (dùng để dựng cấu trúc bảng và biểu đồ trong bản nháp). Các kết luận trên toàn bộ corpus 25,000 bài đang **chờ kiểm chứng** sau khi quá trình chạy hoàn tất.
+
+- **Độ tin cậy kiểm thử phần mềm:** Bộ unit tests và kiểm thử tích hợp trên repository `arxiv-data-science` kiểm tra các module xử lý và bộ validator độc lập.
+- **Tỷ lệ nén sau Khử trùng lặp (Số liệu minh họa):**
   - Giảm **$45.56\%$** số lượng phần tử văn bản (`elements`) nhờ tái sử dụng mã phần tử giữa các phiên bản bài báo.
   - Giảm **$44.23\%$** số lượng mục tài liệu tham khảo (`bibtex`) nhờ hợp nhất các khóa trích dẫn trùng lặp.
   - Thực hiện đổi tên đồng bộ **$18,940$** lượt gọi trích dẫn `\cite{...}` trong thân bài báo về khóa đại diện duy nhất.
-- **Hiệu năng thực thi trên Google Colab CPU-only:**
+- **Hiệu năng thực thi trên Google Colab CPU-only (Số liệu minh họa):**
   - Thời gian xử lý trung bình: **$0.4125$ giây / bài báo**.
   - Bộ nhớ RAM tiêu thụ cực đại (**Peak RAM**): **$642.8\text{ MB}$** (chiếm $< 5.1\%$ tổng RAM khả dụng của Google Colab).
   - Dung lượng lưu trữ đĩa 3 bảng đầu ra: **$84.6\text{ MB}$** cho 1,000 ấn phẩm nghiên cứu.
-- **Tính toàn vẹn dữ liệu:** **100%** bài báo và phiên bản vượt qua bộ kiểm định QA độc lập của TV5, không phát sinh lỗi schema, không có cạnh tự trỏ, đồ thị cây hoàn toàn không chu trình.
+- **Tính toàn vẹn dữ liệu & QA (Chờ kiểm chứng):** Bộ kiểm định QA độc lập của TV5 đã sẵn sàng (kiểm tra schema, không có cạnh tự trỏ, đồ thị cây không chu trình); tỷ lệ đạt QA trên toàn bộ corpus đang chờ hoàn tất chạy dữ liệu thật để tổng hợp và xác nhận.
 
 ---
 

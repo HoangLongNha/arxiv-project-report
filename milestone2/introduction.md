@@ -13,7 +13,7 @@ Mục tiêu của **Milestone 2** là giải quyết triệt để các vấn đ
 2. Chuẩn hóa hình thức biểu diễn toán học và văn bản, loại bỏ triệt để mã trình bày thừa mà không làm suy hao ngữ nghĩa.
 3. Trích xuất tài liệu tham khảo từ cả hai nguồn (`\bibitem` viết tay và tệp `.bib` đi kèm) sang chuẩn BibTeX.
 4. Thực hiện thuật toán **Khử trùng lặp 2 cấp độ (Two-level Deduplication)** xuyên các phiên bản, hợp nhất thông tin trích dẫn và đồng bộ hóa toàn bộ các lệnh `\cite{}` trong văn bản bài báo.
-5. Xuất bản 3 bảng dữ liệu chuẩn hóa (`elements`, `hierarchy`, `bibtex`) đạt 100% kiểm định chất lượng (QA Verification).
+5. Xuất bản 3 bảng dữ liệu chuẩn hóa (`elements`, `hierarchy`, `bibtex`) đáp ứng bộ kiểm định chất lượng (QA Verification — kết quả chạy toàn corpus đang chờ kiểm chứng).
 
 ---
 
@@ -88,7 +88,7 @@ SẢN PHẨM XUẤT BẢN:
     - *Cấp 1:* Khử trùng lặp tài liệu tham khảo theo DOI/tiêu đề chuẩn hóa, hợp nhất trường dữ liệu về một khóa duy nhất, và đổi tên mọi lệnh `\cite{}` trong toàn văn cây bài báo.
     - *Cấp 2:* Khử trùng lặp nội dung câu văn và phần tử cùng `(kind, cleaned_content)`, gán mã định danh duy nhất `element_id`.
     - Xuất bản 3 bảng dữ liệu cùng `references.bib`, `parsing_manifest.json` và `occurrences.json`.
-  - **Trạm 5 (`validation.py` & `benchmark.py`):** Thẩm định độc lập 100% tính hợp lệ của các bảng đầu ra, cấu trúc cây phân cấp không chu trình, tương đương đa tập (Multiset Equivalence), đo đạc thời gian và bộ nhớ nền (`psutil`).
+  - **Trạm 5 (`validation.py` & `benchmark.py`):** Thẩm định độc lập tính hợp lệ của toàn bộ các bảng đầu ra, cấu trúc cây phân cấp không chu trình, tương đương đa tập (Multiset Equivalence), đo đạc thời gian và bộ nhớ nền (`psutil`).
 
 ---
 
