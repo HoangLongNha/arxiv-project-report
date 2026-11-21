@@ -12,7 +12,7 @@ Nhóm xây dựng corpus source LaTeX theo phiên bản, metadata bài báo và 
 Đồ án môn học tập trung vào việc xây dựng đường ống khoa học dữ liệu toàn diện (End-to-End Data Science Pipeline) để thu thập, phân tích cú pháp phân cấp, chuẩn hóa, và khai phá tri thức từ kho lưu trữ ấn phẩm khoa học mở **arXiv**:
 
 - **Milestone 1 — Data Collection, Crawling & Metadata Standardization:**  
-  Thu thập mã nguồn TeX đa phiên bản, metadata, và danh mục tài liệu tham khảo từ arXiv API và Semantic Scholar; xây dựng cơ sở hạ tầng lưu trữ sạch (**Clean Corpus**) và cơ chế checkpoint phục hồi. Năm audit xác nhận đủ 25.000 ID và lookup thành công trên các dải được giao. Kiểm định ghi nhận paper chưa đạt; mức bao phủ Discovery được đọc riêng với mức hoàn thiện source và chất lượng. Dữ liệu TV1 đã được đối chiếu trực tiếp trên Drive (đủ 5.000 Discovery và 7.852 version).
+  Thu thập mã nguồn TeX đa phiên bản, metadata, và danh mục tài liệu tham khảo từ arXiv API và Semantic Scholar; xây dựng cơ sở hạ tầng lưu trữ sạch (**Clean Corpus**) và cơ chế checkpoint phục hồi. Năm audit xác nhận đủ 25.000 ID và lookup thành công trên các dải được giao. Kiểm định vẫn ghi nhận paper chưa đạt; mức bao phủ Discovery được đọc riêng với mức hoàn thiện source và chất lượng. Cumulative của cả năm thành viên đã bao phủ đủ dải 5.000 ID/người. TV1 đã bổ sung bản mới có 7.852 version và 204.012 references. Thống kê source, kích thước và references được tổng hợp trên toàn nhóm từ các snapshot đã nộp, với ngày xuất và mẫu số được ghi riêng.
 - **Milestone 2 — Hierarchical Parsing, Normalization & Cross-version Deduplication:**  
   Phân tích cú pháp TeX đa file, xây dựng cây phân cấp ngữ nghĩa ($\text{Document} \rightarrow \text{Section} \rightarrow \text{Sentences} \mid \text{Formulas} \mid \text{Figures}$), chuẩn hóa biểu diễn toán học và văn bản, trích xuất BibTeX, khử trùng lặp 2 cấp độ xuyên phiên bản, và xuất bản 3 bảng dữ liệu quan hệ (`elements`, `hierarchy`, `bibtex`).
 - **Milestone 3 — Citation Matching, Intent Classification & Knowledge Graph:**  
@@ -39,7 +39,7 @@ Trang web báo cáo được tổ chức thành các chương mục logic:
 2. [**Milestone 2 — Phân tích Cú pháp Phân cấp & Khử trùng lặp**](milestone2/index.md): Báo cáo chi tiết đường ống 5 trạm phân tích cú pháp phân cấp, chuẩn hóa và khử trùng lặp dữ liệu TeX.
    - [Mục tiêu & Luồng xử lý Dữ liệu](milestone2/introduction.md)
    - [Phương pháp Triển khai & Hợp đồng Kỹ thuật](milestone2/methodology.md)
-   - [Thống kê Phân tích Thực nghiệm (Notebook)](milestone2/statistics.ipynb)
+   - [Thống kê Phân tích Cú pháp & Khử trùng lặp (Notebook)](milestone2/statistics.ipynb)
    - [Đo lường Hiệu năng Thực thi (Notebook)](milestone2/performance.ipynb)
    - [Thảo luận, Phân tích Trường hợp Biên & Sẵn sàng cho MS3](milestone2/discussion.md)
 3. [**Nguồn tham khảo**](references.md): Danh mục tài liệu kỹ thuật, API và đặc tả đề tài.

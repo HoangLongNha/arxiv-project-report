@@ -8,7 +8,7 @@ Nhóm xây dựng corpus source LaTeX theo phiên bản, metadata bài báo và 
 
 Năm audit xác nhận đủ 25.000 ID và lookup thành công trên các dải được giao. Kiểm định vẫn ghi nhận paper chưa đạt; mức bao phủ Discovery được đọc riêng với mức hoàn thiện source và chất lượng.
 
-TV1 đã được đối chiếu trực tiếp trên Drive: đủ 5.000 Discovery thành công và 7.852 version; mẫu corpus có TeX/BibTeX. Thống kê kích thước và references hiện tổng hợp TV2–TV5. Bản cumulative TV1 chưa phản ánh dữ liệu Drive nên các chỉ số này của TV1 chưa được đưa vào tổng.
+Cumulative của cả năm thành viên đã bao phủ đủ dải 5.000 ID/người. TV1 đã bổ sung bản mới có 7.852 version và 204.012 references. Thống kê source, kích thước và references được tổng hợp trên toàn nhóm từ các snapshot đã nộp, với ngày xuất và mẫu số được ghi riêng.
 
 - [Báo cáo Milestone 1](milestone1/index.md)
 - [Mã nguồn pipeline](https://github.com/LeoTkiet/arxiv-data-science)
@@ -21,7 +21,7 @@ Pipeline xác định version, tải source, trích xuất TeX/BibTeX, chuẩn h
 
 Năm audit toàn dải xác nhận không còn ID chưa ghi nhận hoặc lookup chưa giải quyết. Kết quả này chứng minh bao phủ Discovery; số paper đạt kiểm định và mức đầy đủ source được báo riêng. Audit TV2 mới đã sửa cờ hoàn tất về false, phù hợp việc còn paper chưa đạt, nhưng trường tổng version vẫn chưa khớp chi tiết.
 
-Báo cáo phân tích cumulative TV2–TV5 và các phiên Colab đã nộp. TV5 đã có cumulative sau sửa lookup; audit và cumulative vẫn ghi ngày riêng. TV1 được xác nhận trực tiếp từ manifest trên Drive có 5.000 Discovery thành công và 7.852 version. Tệp cumulative TV1 ghi 0 record chưa phản ánh dữ liệu này, nên chưa dùng các số 0 đó làm thống kê kích thước/references thực tế.
+Báo cáo phân tích cumulative của cả năm thành viên và các phiên Colab đã nộp. TV1 đã có bản xuất mới ghi đủ 5.000 Discovery thành công, thay bản 0 record trước đó. Audit và cumulative vẫn ghi ngày riêng; thống kê tích lũy không thay phép kiểm định mới.
 
 - [Phương pháp](methodology.md)
 - [Thiết lập và mẫu số](experimental-setup.md)
@@ -36,7 +36,7 @@ Báo cáo phân tích cumulative TV2–TV5 và các phiên Colab đã nộp. TV5
 
 Năm audit xác nhận đủ 25.000 record và 25.000 lookup thành công. Checkpoint giúp nhóm tiếp tục sau gián đoạn và thử lại riêng ID hoặc stage lỗi. Lookup thành công cho biết đã nhận diện bài báo và version; source/corpus và kiểm định còn có thể chưa đạt.
 
-Cumulative TV2–TV5 thống kê dữ liệu tích lũy qua nhiều phiên. Tỷ lệ paper đủ source thấp hơn bao phủ Discovery vì mỗi paper có thể có nhiều version, gặp lỗi tải/giải nén hoặc không có source TeX. Trạng thái no_source được giữ riêng để không coi mọi trường hợp thiếu TeX là lỗi mạng. Số download success và số source có tệp còn chênh lệch; cần kiểm tra checkpoint, đường dẫn và tệp trước khi dùng số trạng thái làm số source thực có.
+Cumulative của cả năm thành viên thống kê dữ liệu tích lũy qua nhiều phiên. Tỷ lệ paper đủ source thấp hơn bao phủ Discovery vì mỗi paper có thể có nhiều version, gặp lỗi tải/giải nén hoặc không có source TeX. Trạng thái no_source được giữ riêng để không coi mọi trường hợp thiếu TeX là lỗi mạng. Số download success và số source có tệp còn chênh lệch; cần kiểm tra checkpoint, đường dẫn và tệp trước khi dùng số trạng thái làm số source thực có.
 
 ## Kích thước và references
 
@@ -56,11 +56,11 @@ Validator kiểm tra cấu trúc, định danh, trạng thái và tệp; chưa b
 
 ## Giới hạn thực nghiệm
 
-Ngày 10/11, đối chiếu trực tiếp Drive xác nhận TV1 có manifest đủ 5.000 Discovery thành công, 7.852 version và mẫu corpus có TeX/BibTeX. Bao phủ TV1 đã được xác nhận; các chỉ số kích thước và references vẫn cần bản cumulative đọc đúng dữ liệu này. Bản TV5 ngày 10/11 có đủ 5.000 Discovery thành công và 8.348 version. Tổng TV2–TV5 mô tả các snapshot đủ coverage, không phải số liệu đồng thời hay tổng corpus năm thành viên. Cumulative đọc validation đã lưu, không thay audit mới.
+Cumulative mới của TV1 ghi đủ 5.000 record, 5.000 Discovery thành công, 7.852 version và không có diagnostics. Dữ liệu này khớp bao phủ Discovery đã đối chiếu trên Drive. Tổng toàn nhóm hiện bao gồm cả năm dải; các snapshot được xuất ở các thời điểm riêng. Cumulative đọc validation đã lưu, không thay audit mới.
 
 Benchmark chủ yếu chạy resume. Phiên TV1 mới có toàn dải đầu vào và mẫu RAM trên Colab CPU-only nhưng dùng cache, nên chưa đo chi phí tải mới toàn dải. TV2/TV5 thiếu mẫu RAM đại diện trong các phiên đã nộp. Không thể khôi phục runtime, RAM hay disk peak của phiên không có log từ cumulative JSON.
 
-Để chốt số liệu corpus của cả nhóm, cần xuất lại cumulative TV1 từ đúng thư mục dữ liệu đã audit. Để kết luận hiệu năng end-to-end của toàn quá trình, cần lịch sử đo đầy đủ hoặc benchmark Colab CPU-only có biên đo thống nhất. Báo cáo trình bày các số đo có bằng chứng và giữ rõ những giới hạn này.
+Thống kê corpus đã có đủ snapshot bao phủ năm dải cá nhân. Để kết luận hiệu năng end-to-end của toàn quá trình, vẫn cần lịch sử đo đầy đủ hoặc benchmark Colab CPU-only có biên đo thống nhất. Các phép đo và hạn chế hiện có được trình bày riêng.
 ''',
 }
 
@@ -91,7 +91,7 @@ table([{'Chỉ số theo audit toàn nhóm':'Discovery thành công','Số paper
         'Mẫu số':passed+failed,'Tỷ lệ (%)':percentage(failed,passed+failed)}])'''),
         ('md', '''## Source và corpus tích lũy
 
-Số liệu sau lấy từ cumulative TV2–TV5 trên bốn dải 5.000 ID. Tệp TV1 đã nhận nhưng ghi 0 record và 5.000 ID chưa ghi nhận, nên không đưa các số 0 đó vào tổng corpus. Bản TV5 ngày 10/11 ghi đủ 5.000 Discovery thành công, không còn lookup lỗi. Dòng gộp chỉ cộng các snapshot đủ coverage, chưa phải tổng corpus năm thành viên.
+Số liệu sau lấy từ cumulative của cả năm thành viên, trên năm dải 5.000 ID. TV1 mới ghi đủ 5.000 Discovery thành công và 7.852 version; bản TV5 sau sửa lookup ghi 8.348 version. Dòng gộp cộng các snapshot đủ coverage, không cộng các lượt resume chồng lặp. Các snapshot khác thời điểm, không phải một lần chụp đồng thời toàn corpus.
 
 Download success là trạng thái checkpoint. Source có tệp cần đúng đường dẫn và tệp khác rỗng; corpus có TeX/Bib cần extract thành công và có tệp phù hợp. Paper đủ source/corpus yêu cầu mọi version đã biết đáp ứng cả hai điều kiện.'''),
         ('code', '''metrics=corpus_metrics(members)
@@ -144,7 +144,7 @@ ax.set_ylabel('Paper đã kiểm định');ax.legend();plt.tight_layout();plt.sh
         ('code','table(error_groups(members))'),
         ('md', '''## Thời điểm và phạm vi số liệu
 
-TV1 có audit đủ 5.000 ID; manifest trên Drive cũng xác nhận đủ 5.000 Discovery thành công và 7.852 version. Tệp cumulative ghi 0 record không thay kết quả đối chiếu này. TV5 dùng audit ngày 07/11 và cumulative ngày 10/11; cả hai ghi 5.000 Discovery thành công. Validation vẫn lấy từ audit đã nộp, không coi cumulative là phép kiểm định mới. Các mốc UTC cho phép đối chiếu từng phép kiểm tra.'''),
+Cumulative mới TV1 và audit đã nộp đều xác nhận đủ 5.000 Discovery thành công. TV5 cũng có cumulative sau sửa lookup. Validation vẫn lấy từ audit theo ngày kiểm tra, không coi các tệp cumulative là phép kiểm định mới. Các mốc UTC cho phép đối chiếu từng phép đọc.'''),
         ('code','table(snapshot_rows(members))'),
         ('md','''### Đối chiếu trực tiếp dữ liệu TV1
 
@@ -187,7 +187,7 @@ Khoảng lấy mẫu có thể dài hơn cấu hình vì quét output trên Driv
 
 ## Bộ bằng chứng được sử dụng
 
-Báo cáo chọn audit toàn dải mới của TV1/TV2 và giữ audit TV3/TV4/TV5 đã đối chiếu. Cumulative của cả năm thành viên được nhập nguyên byte, kiểm phạm vi, định danh và hash. Tệp TV1 hợp lệ về cấu trúc nhưng không có record, nên chỉ ghi nhận bằng chứng và không gộp các số corpus của tệp này. Snapshot cũ và benchmark trước được giữ để truy vết, không cộng trùng cùng run ID.
+Báo cáo chọn audit toàn dải mới của TV1/TV2 và giữ audit TV3/TV4/TV5 đã đối chiếu. Cumulative của cả năm thành viên được nhập nguyên byte và kiểm hash/phạm vi/số đếm. TV1 chọn bản mới đủ 5.000 record; bản 0 record cũ được giữ để truy vết nhưng không dùng tổng hợp. Benchmark được khử trùng lặp theo run ID.
 
 ZIP/JSON bổ sung do thành viên gửi trực tiếp; pipeline log và bản sao dữ liệu riêng không được công bố. Kiểm hash bảo đảm đúng tệp đã nhập, chưa thay việc kiểm định độc lập corpus trên Drive.'''),
         ('code',setup),
@@ -236,5 +236,5 @@ Cài môi trường theo README, chạy kiểm thử rồi build Jupyter Book. B
 
 ## Dữ liệu còn cần bổ sung
 
-TV1 cần xuất lại cumulative từ đúng data đã audit; bản đã gửi ghi 0 record và 5.000 unseen dù audit trước xác nhận đủ dải. Không cần suy rằng phải crawl lại: trước hết đối chiếu DATA và checkpoint. TV5 đã bổ sung bản sau sửa lookup ngày 10/11. Muốn kết luận benchmark thu thập ban đầu, cần lịch sử đo đầy đủ hoặc phép đo mới với biên đo và môi trường Colab CPU-only được xác nhận.'''),
+TV1 đã bổ sung cumulative toàn dải và TV5 đã có bản sau sửa lookup. Phần thống kê corpus hiện có dữ liệu của cả năm thành viên. Bằng chứng hiệu năng vẫn cần lịch sử đo đầy đủ hoặc phép đo có biên end-to-end thống nhất trên Colab CPU-only.'''),
     ])

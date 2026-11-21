@@ -134,6 +134,9 @@ def load_members(root):
         newer_cumulative = Path(root) / 'summaries/milestone1/cumulative-20261110' / member
         if (newer_cumulative / 'provenance.json').is_file():
             cumulative_dir = newer_cumulative
+        latest_cumulative = Path(root) / 'summaries/milestone1/cumulative-20261112' / member
+        if (latest_cumulative / 'provenance.json').is_file():
+            cumulative_dir = latest_cumulative
         cumulative = read(cumulative_dir / 'cumulative-statistics.json')
         if cumulative:
             validate_cumulative(cumulative, member)

@@ -2,7 +2,7 @@
 
 Jupyter Book công khai cho MS1 và các milestone tiếp theo, tách khỏi [repository code](https://github.com/LeoTkiet/arxiv-data-science). [GitHub Pages](https://hoanglongnha.github.io/arxiv-project-report/) được build và deploy bằng GitHub Actions.
 
-Bộ bằng chứng có audit toàn dải và cumulative của cả năm thành viên. Audit xác nhận đủ 25.000 record và lookup thành công; còn paper chưa đạt validator. Cumulative TV1 đã nhận nhưng ghi 0 record và 5.000 unseen, nên chỉ giữ để đối chiếu, chưa dùng các số 0 đó làm thống kê corpus thực tế. TV5 đã bổ sung cumulative ngày 10/11/2026, ghi đủ 5.000 Discovery thành công và 8.348 version sau sửa lookup. Trường tổng version audit TV2 không khớp chi tiết; phần thống kê version dùng cumulative và phụ lục ghi rõ mâu thuẫn.
+Bộ bằng chứng có audit toàn dải và cumulative của cả năm thành viên. Audit xác nhận đủ 25.000 record và lookup thành công; còn paper chưa đạt validator. Cumulative TV1 mới đã ghi đủ 5.000 record, 7.852 version và 204.012 references; báo cáo hiện tổng hợp corpus của cả năm thành viên. Bản 0 record cũ được giữ riêng để truy vết. TV5 đã bổ sung cumulative ngày 10/11/2026, ghi đủ 5.000 Discovery thành công và 8.348 version sau sửa lookup. Trường tổng version audit TV2 không khớp chi tiết; phần thống kê version dùng cumulative và phụ lục ghi rõ mâu thuẫn.
 
 ## Môi trường và build
 
@@ -55,7 +55,7 @@ python scripts/import_cumulative_statistics.py --member TV3 --input 'D:/received
 python scripts/import_cumulative_statistics.py --member TV5 --input 'D:/received/TV5-new.json' --snapshot cumulative-20261110
 ```
 
-Importer giữ byte gốc, kiểm phạm vi/định danh/số đếm và lưu SHA-256. Nó từ chối ghi đè bản đã nhập; bản mới cần snapshot riêng qua --snapshot cumulative-YYYYMMDD và phải được chọn trong bộ đọc báo cáo sau rà soát. TV5 hiện chọn cumulative-20261110; bản cũ được giữ nguyên. WRITERS_STOPPED là xác nhận của người chạy, không phải phát hiện tiến trình tự động. Export kiểm thay đổi trong lúc đọc; validation lấy từ báo cáo đã lưu, không phải audit mới. Cumulative không khôi phục runtime/RAM/disk peak lịch sử.
+Importer giữ byte gốc, kiểm phạm vi/định danh/số đếm và lưu SHA-256. Nó từ chối ghi đè bản đã nhập; bản mới cần snapshot riêng qua --snapshot cumulative-YYYYMMDD và phải được chọn trong bộ đọc báo cáo sau rà soát. TV5 hiện chọn cumulative-20261110, TV1 chọn cumulative-20261112; các bản cũ được giữ nguyên. WRITERS_STOPPED là xác nhận của người chạy, không phải phát hiện tiến trình tự động. Export kiểm thay đổi trong lúc đọc; validation lấy từ báo cáo đã lưu, không phải audit mới. Cumulative không khôi phục runtime/RAM/disk peak lịch sử.
 
 Bộ TV1/TV2 bổ sung được nhập bằng:
 
