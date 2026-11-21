@@ -9,7 +9,7 @@ Chương này đi sâu đánh giá các bài học kỹ thuật rút ra trong qu
 Trong quá trình chạy thực tế trên các bài báo thật (như `2411.13795`, `2410.08024`, `2508.17481`, `2508.17871`, `2508.17740`), hệ thống đã phát hiện và xử lý triệt để các trường hợp dị thường:
 
 ### 1.1. Ấn phẩm chỉ có tệp PDF (PDF-only Publications)
-- **Thực tế:** Khoảng $2.8\%$ bài báo trên arXiv không cung cấp mã nguồn LaTeX gốc (chỉ có tệp PDF do tác giả nộp trực tiếp hoặc TeX bị lỗi từ chối biên dịch tại thời điểm nộp).
+- **Thực tế:** Một tỷ lệ nhỏ bài báo trên arXiv không cung cấp mã nguồn LaTeX gốc (chỉ có tệp PDF do tác giả nộp trực tiếp hoặc TeX bị lỗi từ chối biên dịch tại thời điểm nộp; tỷ lệ cụ thể trên toàn bộ 25,000 bài báo đang chờ tổng hợp sau khi chạy xong MS2).
 - **Vấn đề tiềm ẩn:** Nếu pipeline coi các bài báo này là lỗi xử lý (`error` hoặc `failed`) hoặc bỏ qua khỏi danh sách theo dõi, mẫu số thống kê sẽ bị sai lệch, không phản ánh đúng tỷ lệ hoàn thành của dự án.
 - **Giải pháp:** TV1 và TV4 thiết lập trạng thái hợp đồng `no_source`. Version được ghi nhận là một bản ghi hợp lệ trong `manifest.versions` với `occurrences = []`. Bảng `elements.json` và `hierarchy.json` của version này không bị ép sinh dữ liệu giả mạo. TV5 kiểm định nghiêm ngặt: version `no_source` tuyệt đối không được phép có nút gốc `document` trong `elements` hay bất kỳ cạnh nào trong `hierarchy`.
 

@@ -1,4 +1,6 @@
 {
+  "data_status": "illustrative_draft",
+  "note": "Số liệu minh họa dùng để dựng bảng và biểu đồ trong bản nháp, chưa phải kết quả thực nghiệm MS2.",
   "environment": {
     "platform": "Google Colab CPU-only",
     "cpu_model": "Intel(R) Xeon(R) CPU @ 2.20GHz",

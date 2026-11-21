@@ -84,6 +84,6 @@ Hệ thống được phát triển theo mô hình phân tầng module độc l�
 Nội dung chi tiết của Milestone 2 được trình bày qua các mục:
 - [**Mục tiêu & Luồng xử lý Dữ liệu**](introduction.md): Bối cảnh học thuật, mô hình luồng 5 trạm và hợp đồng envelope Schema 2.0.
 - [**Phương pháp Triển khai & Hợp đồng Kỹ thuật**](methodology.md): Thuyết minh chuyên sâu giải thuật của cả 5 thành viên (Resolver, Hierarchy, Normalization, Deduplication, Validation & Benchmark).
-- [**Thống kê Phân tích Thực nghiệm**](statistics.ipynb): Notebook tương tác phân tích độ bao phủ, phân phối thành phần cú pháp và hiệu quả khử trùng lặp.
-- [**Đo lường Hiệu năng Phần cứng**](performance.ipynb): Notebook tương tác đo đạc thời gian, bộ nhớ Peak/Average RAM và dung lượng đĩa trên Colab CPU-only.
+- [**Thống kê Phân tích Cú pháp & Khử trùng lặp**](statistics.ipynb): Notebook tương tác trình bày khung trực quan hóa độ bao phủ, phân phối thành phần cú pháp và hiệu quả khử trùng lặp (đang dùng số liệu minh họa trong bản nháp).
+- [**Đo lường Hiệu năng Phần cứng**](performance.ipynb): Notebook tương tác trình bày khung đo đạc thời gian, bộ nhớ Peak/Average RAM và dung lượng đĩa trên Colab CPU-only (đang dùng số liệu minh họa trong bản nháp).
 - [**Thảo luận, Phân tích Trường hợp Biên & Sẵn sàng cho MS3**](discussion.md): Đánh giá 7 nhóm ca biên phức tạp, bài học gỡ lỗi qua 11 issue review và điều kiện chuyển tiếp sang Milestone 3.
