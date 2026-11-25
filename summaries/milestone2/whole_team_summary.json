@@ -1,0 +1,651 @@
+{
+  "schema_version": "2.0",
+  "data_status": "verified_experimental_results",
+  "source_drive_folder": "https://drive.google.com/drive/folders/1MSdnTnxXauSZEJE-CB5Ds4C4KiQc8x3z",
+  "snapshot_window_utc": "2026-11-20T07:04:53Z to 2026-11-21T10:29:28Z",
+  "environment": {
+    "platform": "Linux-6.6.159+-x86_64-with-glibc2.39",
+    "cpu_model": "Intel(R) Xeon(R) CPU @ 2.20GHz",
+    "cpu_cores": 2,
+    "total_ram_gb": 12.67,
+    "python_version": "3.13.18"
+  },
+  "aggregate": {
+    "coverage_statistics": {
+      "total_assigned_publications": 25000,
+      "successfully_parsed_publications": 16321,
+      "pdf_only_empty_publications": 1920,
+      "certified_complete_publications": 18241,
+      "incomplete_publications": 6759,
+      "parsing_success_rate_pct": 65.28,
+      "pdf_only_rate_pct": 7.68,
+      "certified_complete_rate_pct": 72.96,
+      "incomplete_rate_pct": 27.04,
+      "total_versions_discovered": 40677,
+      "parsed_versions_count": 29902,
+      "empty_versions_count": 2642,
+      "skipped_versions_count": 8133,
+      "timeout_publications_count": 1,
+      "timeout_publications": [
+        "2506.19089"
+      ]
+    },
+    "deduplication_statistics": {
+      "elements_before_dedup": 9821396,
+      "elements_after_dedup": 6576538,
+      "elements_removed": 3244858,
+      "element_dedup_reduction_pct": 33.04,
+      "bibtex_entries_before_dedup": 1424979,
+      "bibtex_entries_after_dedup": 878307,
+      "bibtex_entries_removed": 546672,
+      "bibtex_dedup_reduction_pct": 38.36,
+      "citations_renamed_count": 20568
+    },
+    "performance_metrics": {
+      "sum_session_wall_time_sec": 65895.91,
+      "sum_final_export_sec": 721.85,
+      "sum_total_elapsed_sec": 67150.54,
+      "total_skipped_completed_papers": 9185,
+      "total_pending_papers_in_sessions": 15815,
+      "max_peak_ram_mb": 3561.79,
+      "min_peak_ram_mb": 920.6,
+      "mean_session_avg_ram_mb": 927.99,
+      "total_final_output_storage_mb": 3764.52,
+      "total_archive_zip_mb": 4412.34,
+      "note": "Cac phien chay voi resume=True va so paper da cache (skipped_completed_papers) khac nhau giua 5 thanh vien; khong dung de xep hang toc do giua thanh vien."
+    }
+  },
+  "stage_breakdown": {
+    "resolve": {
+      "data_error": 7482,
+      "success": 30313,
+      "no_source": 2642,
+      "skipped": 240
+    },
+    "hierarchy": {
+      "skipped": 7722,
+      "success": 30313,
+      "no_source": 2642
+    },
+    "normalize": {
+      "skipped": 7722,
+      "success": 30313,
+      "no_source": 2642
+    },
+    "bibliography": {
+      "skipped": 7722,
+      "success": 28504,
+      "no_source": 4040,
+      "data_error": 411
+    },
+    "deduplicate": {
+      "skipped": 5257,
+      "success": 17822,
+      "no_source": 1920
+    },
+    "validate_parse": {
+      "skipped": 5257,
+      "success": 16321,
+      "no_source": 1920,
+      "data_error": 1501
+    }
+  },
+  "error_taxonomy": {
+    "resolve_non_success": {
+      "missing_root": 4059,
+      "unsupported_tex": 1027,
+      "unsupported_include": 819,
+      "malformed_tex": 506,
+      "missing_include": 311,
+      "unsupported_conditional": 272,
+      "malformed_conditional": 270,
+      "ms1_upstream_not_successful": 240,
+      "dynamic_include": 94,
+      "invalid_archive_source": 37,
+      "missing_source": 28,
+      "document_boundary": 26,
+      "empty_include": 22,
+      "empty_corpus": 7,
+      "unsafe_path": 4
+    },
+    "bibliography_data_error": {
+      "undefined_bibtex_string_macro": 295,
+      "unclosed_bibtex_block": 115,
+      "other_bibliography_input_error": 1
+    },
+    "validate_parse_data_error": {
+      "bibtex_journal_mismatch": 644,
+      "bibtex_url_mismatch": 575,
+      "references_bib_reparse_error": 161,
+      "bibtex_title_mismatch": 60,
+      "bibtex_authors_mismatch": 52,
+      "bibtex_doi_mismatch": 6,
+      "bibtex_year_mismatch": 3
+    }
+  },
+  "version_distribution": [
+    {
+      "version_bucket": "1",
+      "total_papers": 14482,
+      "certified_complete_papers": 11098,
+      "parsed_tex_papers": 9608,
+      "pdf_only_papers": 1490,
+      "incomplete_papers": 3384,
+      "certified_complete_rate_pct": 76.63
+    },
+    {
+      "version_bucket": "2",
+      "total_papers": 7049,
+      "certified_complete_papers": 4924,
+      "parsed_tex_papers": 4612,
+      "pdf_only_papers": 312,
+      "incomplete_papers": 2125,
+      "certified_complete_rate_pct": 69.85
+    },
+    {
+      "version_bucket": "3",
+      "total_papers": 2383,
+      "certified_complete_papers": 1559,
+      "parsed_tex_papers": 1465,
+      "pdf_only_papers": 94,
+      "incomplete_papers": 824,
+      "certified_complete_rate_pct": 65.42
+    },
+    {
+      "version_bucket": "4",
+      "total_papers": 717,
+      "certified_complete_papers": 434,
+      "parsed_tex_papers": 418,
+      "pdf_only_papers": 16,
+      "incomplete_papers": 283,
+      "certified_complete_rate_pct": 60.53
+    },
+    {
+      "version_bucket": "5+",
+      "total_papers": 368,
+      "certified_complete_papers": 226,
+      "parsed_tex_papers": 218,
+      "pdf_only_papers": 8,
+      "incomplete_papers": 142,
+      "certified_complete_rate_pct": 61.41
+    },
+    {
+      "version_bucket": "0 (timeout)",
+      "total_papers": 1,
+      "certified_complete_papers": 0,
+      "parsed_tex_papers": 0,
+      "pdf_only_papers": 0,
+      "incomplete_papers": 1,
+      "certified_complete_rate_pct": 0.0
+    }
+  ],
+  "members": [
+    {
+      "member": "TV1",
+      "assignment_range": "2508.12872:2508.17871",
+      "run_timestamp_utc": "2026-11-21T10:24:36.266444+00:00",
+      "code_sha": "3ae67d5553eef652d92e5386eef4248b9d124779",
+      "storage_mode": "colab-local-batches",
+      "batch_size": 50,
+      "copy_workers": 8,
+      "resume": true,
+      "skipped_completed_papers": 440,
+      "pending_papers_in_session": 4560,
+      "migrated_stages": 0,
+      "timeout_papers": [],
+      "environment": {
+        "platform": "Linux-6.6.159+-x86_64-with-glibc2.39",
+        "cpu_model": "Intel(R) Xeon(R) CPU @ 2.20GHz",
+        "cpu_cores": 2,
+        "total_ram_gb": 12.67,
+        "python_version": "3.13.18"
+      },
+      "coverage_statistics": {
+        "total_assigned_publications": 5000,
+        "successfully_parsed_publications": 3334,
+        "pdf_only_empty_publications": 391,
+        "parsing_success_rate_pct": 66.68,
+        "total_versions_discovered": 7852,
+        "parsed_versions_count": 5813,
+        "empty_versions_count": 531,
+        "certified_complete_publications": 3725,
+        "certified_complete_rate_pct": 74.5,
+        "incomplete_publications": 1275,
+        "incomplete_rate_pct": 25.5,
+        "skipped_versions_count": 1508
+      },
+      "deduplication_statistics": {
+        "elements_before_dedup": 1888045,
+        "elements_after_dedup": 1304091,
+        "element_dedup_reduction_pct": 30.93,
+        "bibtex_entries_before_dedup": 272438,
+        "bibtex_entries_after_dedup": 173405,
+        "bibtex_dedup_reduction_pct": 36.35,
+        "citations_renamed_count": 3294
+      },
+      "performance_metrics": {
+        "end_to_end_wall_time_sec": 15836.7,
+        "avg_time_per_publication_sec": 3.1673,
+        "peak_ram_mb": 1757.2,
+        "avg_ram_mb": 785.21,
+        "final_output_storage_mb": 734.79,
+        "effective_sec_per_pending_paper": 3.473,
+        "final_export_seconds": 138.2,
+        "total_elapsed_seconds": 16111.2,
+        "archive_zip_mb": 838.51,
+        "archive_sha256": "9e8a6025bddb2e2160ac19069fb64d067d6ef17a822770ede48e8f5617e64491"
+      },
+      "measurement_scope": "discovery, pending processing and previous output collection; ZIP export measured separately",
+      "ram_measurement_scope": "discovery and pending processing",
+      "stage_breakdown": {
+        "resolve": {
+          "data_error": 1418,
+          "success": 5887,
+          "no_source": 531,
+          "skipped": 16
+        },
+        "hierarchy": {
+          "skipped": 1434,
+          "success": 5887,
+          "no_source": 531
+        },
+        "normalize": {
+          "skipped": 1434,
+          "success": 5887,
+          "no_source": 531
+        },
+        "bibliography": {
+          "skipped": 1434,
+          "success": 5578,
+          "no_source": 766,
+          "data_error": 74
+        },
+        "deduplicate": {
+          "skipped": 994,
+          "success": 3615,
+          "no_source": 391
+        },
+        "validate_parse": {
+          "skipped": 994,
+          "success": 3334,
+          "no_source": 391,
+          "data_error": 281
+        }
+      }
+    },
+    {
+      "member": "TV2",
+      "assignment_range": "2506.15788:2506.20787",
+      "run_timestamp_utc": "2026-11-20T07:04:53.791318+00:00",
+      "code_sha": "3ae67d5553eef652d92e5386eef4248b9d124779",
+      "storage_mode": "colab-local-batches",
+      "batch_size": 50,
+      "copy_workers": 8,
+      "resume": true,
+      "skipped_completed_papers": 2432,
+      "pending_papers_in_session": 2568,
+      "migrated_stages": 0,
+      "timeout_papers": [
+        "2506.19089"
+      ],
+      "environment": {
+        "platform": "Linux-6.6.159+-x86_64-with-glibc2.39",
+        "cpu_model": "Intel(R) Xeon(R) CPU @ 2.20GHz",
+        "cpu_cores": 2,
+        "total_ram_gb": 12.67,
+        "python_version": "3.13.18"
+      },
+      "coverage_statistics": {
+        "total_assigned_publications": 5000,
+        "successfully_parsed_publications": 3247,
+        "pdf_only_empty_publications": 373,
+        "parsing_success_rate_pct": 64.94,
+        "total_versions_discovered": 7981,
+        "parsed_versions_count": 5791,
+        "empty_versions_count": 521,
+        "certified_complete_publications": 3620,
+        "certified_complete_rate_pct": 72.4,
+        "incomplete_publications": 1380,
+        "incomplete_rate_pct": 27.6,
+        "skipped_versions_count": 1669
+      },
+      "deduplication_statistics": {
+        "elements_before_dedup": 1886607,
+        "elements_after_dedup": 1288691,
+        "element_dedup_reduction_pct": 31.69,
+        "bibtex_entries_before_dedup": 274086,
+        "bibtex_entries_after_dedup": 172181,
+        "bibtex_dedup_reduction_pct": 37.18,
+        "citations_renamed_count": 3818
+      },
+      "performance_metrics": {
+        "end_to_end_wall_time_sec": 5666.26,
+        "avg_time_per_publication_sec": 1.1333,
+        "peak_ram_mb": 3561.79,
+        "avg_ram_mb": 1903.35,
+        "final_output_storage_mb": 730.13,
+        "effective_sec_per_pending_paper": 2.2065,
+        "final_export_seconds": 122.45,
+        "total_elapsed_seconds": 5869.84,
+        "archive_zip_mb": 776.87,
+        "archive_sha256": "eb6d853752dceb95057b99100f47561abbe42d3c37c08327d2afd4f2907303b0"
+      },
+      "measurement_scope": "discovery, pending processing and previous output collection; ZIP export measured separately",
+      "ram_measurement_scope": "discovery and pending processing",
+      "stage_breakdown": {
+        "resolve": {
+          "success": 5868,
+          "data_error": 1558,
+          "no_source": 521,
+          "skipped": 34
+        },
+        "hierarchy": {
+          "success": 5868,
+          "skipped": 1592,
+          "no_source": 521
+        },
+        "normalize": {
+          "success": 5868,
+          "skipped": 1592,
+          "no_source": 521
+        },
+        "bibliography": {
+          "success": 5508,
+          "skipped": 1592,
+          "no_source": 804,
+          "data_error": 77
+        },
+        "deduplicate": {
+          "success": 3521,
+          "skipped": 1105,
+          "no_source": 373
+        },
+        "validate_parse": {
+          "success": 3247,
+          "skipped": 1105,
+          "no_source": 373,
+          "data_error": 274
+        }
+      }
+    },
+    {
+      "member": "TV3",
+      "assignment_range": "2411.08799:2411.13798",
+      "run_timestamp_utc": "2026-11-21T02:35:14.323887+00:00",
+      "code_sha": "3ae67d5553eef652d92e5386eef4248b9d124779",
+      "storage_mode": "colab-local-batches",
+      "batch_size": 50,
+      "copy_workers": 8,
+      "resume": true,
+      "skipped_completed_papers": 3586,
+      "pending_papers_in_session": 1414,
+      "migrated_stages": 0,
+      "timeout_papers": [],
+      "environment": {
+        "platform": "Linux-6.6.159+-x86_64-with-glibc2.39",
+        "cpu_model": "Intel(R) Xeon(R) CPU @ 2.20GHz",
+        "cpu_cores": 2,
+        "total_ram_gb": 12.67,
+        "python_version": "3.13.18"
+      },
+      "coverage_statistics": {
+        "total_assigned_publications": 5000,
+        "successfully_parsed_publications": 3158,
+        "pdf_only_empty_publications": 428,
+        "parsing_success_rate_pct": 63.16,
+        "total_versions_discovered": 8211,
+        "parsed_versions_count": 5852,
+        "empty_versions_count": 583,
+        "certified_complete_publications": 3586,
+        "certified_complete_rate_pct": 71.72,
+        "incomplete_publications": 1414,
+        "incomplete_rate_pct": 28.28,
+        "skipped_versions_count": 1776
+      },
+      "deduplication_statistics": {
+        "elements_before_dedup": 1869556,
+        "elements_after_dedup": 1265979,
+        "element_dedup_reduction_pct": 32.28,
+        "bibtex_entries_before_dedup": 266908,
+        "bibtex_entries_after_dedup": 165207,
+        "bibtex_dedup_reduction_pct": 38.1,
+        "citations_renamed_count": 4078
+      },
+      "performance_metrics": {
+        "end_to_end_wall_time_sec": 3211.24,
+        "avg_time_per_publication_sec": 0.6422,
+        "peak_ram_mb": 920.6,
+        "avg_ram_mb": 514.97,
+        "final_output_storage_mb": 719.66,
+        "effective_sec_per_pending_paper": 2.271,
+        "final_export_seconds": 134.09,
+        "total_elapsed_seconds": 3436.55,
+        "archive_zip_mb": 811.45,
+        "archive_sha256": "4402ab20aca4691f21acc1fbf5e343a3c8f4ce0dcab940a33127dd6026337c9a"
+      },
+      "measurement_scope": "discovery, pending processing and previous output collection; ZIP export measured separately",
+      "ram_measurement_scope": "discovery and pending processing",
+      "stage_breakdown": {
+        "resolve": {
+          "data_error": 1570,
+          "skipped": 129,
+          "success": 5929,
+          "no_source": 583
+        },
+        "hierarchy": {
+          "skipped": 1699,
+          "success": 5929,
+          "no_source": 583
+        },
+        "normalize": {
+          "skipped": 1699,
+          "success": 5929,
+          "no_source": 583
+        },
+        "bibliography": {
+          "skipped": 1699,
+          "success": 5578,
+          "data_error": 77,
+          "no_source": 857
+        },
+        "deduplicate": {
+          "skipped": 1131,
+          "success": 3441,
+          "no_source": 428
+        },
+        "validate_parse": {
+          "skipped": 1131,
+          "data_error": 283,
+          "success": 3158,
+          "no_source": 428
+        }
+      }
+    },
+    {
+      "member": "TV4",
+      "assignment_range": "2410.18025:2410.23024",
+      "run_timestamp_utc": "2026-11-20T12:45:08.601427+00:00",
+      "code_sha": "949e5ec1b625c0f15cd156084bf97b95e0c65877",
+      "storage_mode": "colab-local-batches",
+      "batch_size": 50,
+      "copy_workers": 8,
+      "resume": true,
+      "skipped_completed_papers": 2688,
+      "pending_papers_in_session": 2312,
+      "migrated_stages": 2796,
+      "timeout_papers": [],
+      "environment": {
+        "platform": "Linux-6.6.159+-x86_64-with-glibc2.39",
+        "cpu_model": "Intel(R) Xeon(R) CPU @ 2.20GHz",
+        "cpu_cores": 2,
+        "total_ram_gb": 12.67,
+        "python_version": "3.13.18"
+      },
+      "coverage_statistics": {
+        "total_assigned_publications": 5000,
+        "successfully_parsed_publications": 3277,
+        "pdf_only_empty_publications": 385,
+        "parsing_success_rate_pct": 65.54,
+        "total_versions_discovered": 8285,
+        "parsed_versions_count": 6162,
+        "empty_versions_count": 544,
+        "certified_complete_publications": 3662,
+        "certified_complete_rate_pct": 73.24,
+        "incomplete_publications": 1338,
+        "incomplete_rate_pct": 26.76,
+        "skipped_versions_count": 1579
+      },
+      "deduplication_statistics": {
+        "elements_before_dedup": 2091731,
+        "elements_after_dedup": 1364844,
+        "element_dedup_reduction_pct": 34.75,
+        "bibtex_entries_before_dedup": 293920,
+        "bibtex_entries_after_dedup": 178925,
+        "bibtex_dedup_reduction_pct": 39.12,
+        "citations_renamed_count": 4271
+      },
+      "performance_metrics": {
+        "end_to_end_wall_time_sec": 9368.15,
+        "avg_time_per_publication_sec": 1.8736,
+        "peak_ram_mb": 967.61,
+        "avg_ram_mb": 428.94,
+        "final_output_storage_mb": 789.65,
+        "effective_sec_per_pending_paper": 4.052,
+        "final_export_seconds": 145.09,
+        "total_elapsed_seconds": 9612.98,
+        "archive_zip_mb": 926.14,
+        "archive_sha256": "60b6837a0275e4660e74bea4a38221c776200fbf872030b0b770c097bda0f4a9"
+      },
+      "measurement_scope": "discovery, pending processing and previous output collection; ZIP export measured separately",
+      "ram_measurement_scope": "discovery and pending processing",
+      "stage_breakdown": {
+        "resolve": {
+          "success": 6238,
+          "no_source": 544,
+          "data_error": 1468,
+          "skipped": 35
+        },
+        "hierarchy": {
+          "success": 6238,
+          "no_source": 544,
+          "skipped": 1503
+        },
+        "normalize": {
+          "success": 6238,
+          "no_source": 544,
+          "skipped": 1503
+        },
+        "bibliography": {
+          "success": 5876,
+          "no_source": 830,
+          "skipped": 1503,
+          "data_error": 76
+        },
+        "deduplicate": {
+          "success": 3607,
+          "no_source": 385,
+          "skipped": 1008
+        },
+        "validate_parse": {
+          "success": 3277,
+          "no_source": 385,
+          "skipped": 1008,
+          "data_error": 330
+        }
+      }
+    },
+    {
+      "member": "TV5",
+      "assignment_range": "2410.03025:2410.08024",
+      "run_timestamp_utc": "2026-11-20T14:15:35.383137+00:00",
+      "code_sha": "e8e9d1485748d0f480a3dc5aedd27c7b0efb0e7f",
+      "storage_mode": "colab-local-batches",
+      "batch_size": 50,
+      "copy_workers": 8,
+      "resume": true,
+      "skipped_completed_papers": 39,
+      "pending_papers_in_session": 4961,
+      "migrated_stages": 10066,
+      "timeout_papers": [],
+      "environment": {
+        "platform": "Linux-6.6.159+-x86_64-with-glibc2.39",
+        "cpu_model": "Intel(R) Xeon(R) CPU @ 2.20GHz",
+        "cpu_cores": 2,
+        "total_ram_gb": 12.67,
+        "python_version": "3.13.18"
+      },
+      "coverage_statistics": {
+        "total_assigned_publications": 5000,
+        "successfully_parsed_publications": 3305,
+        "pdf_only_empty_publications": 343,
+        "parsing_success_rate_pct": 66.1,
+        "total_versions_discovered": 8348,
+        "parsed_versions_count": 6284,
+        "empty_versions_count": 463,
+        "certified_complete_publications": 3648,
+        "certified_complete_rate_pct": 72.96,
+        "incomplete_publications": 1352,
+        "incomplete_rate_pct": 27.04,
+        "skipped_versions_count": 1601
+      },
+      "deduplication_statistics": {
+        "elements_before_dedup": 2085457,
+        "elements_after_dedup": 1352933,
+        "element_dedup_reduction_pct": 35.13,
+        "bibtex_entries_before_dedup": 317627,
+        "bibtex_entries_after_dedup": 188589,
+        "bibtex_dedup_reduction_pct": 40.63,
+        "citations_renamed_count": 5107
+      },
+      "performance_metrics": {
+        "end_to_end_wall_time_sec": 31813.56,
+        "avg_time_per_publication_sec": 6.3627,
+        "peak_ram_mb": 1970.39,
+        "avg_ram_mb": 1007.5,
+        "final_output_storage_mb": 790.29,
+        "effective_sec_per_pending_paper": 6.4127,
+        "final_export_seconds": 182.02,
+        "total_elapsed_seconds": 32119.97,
+        "archive_zip_mb": 1059.37,
+        "archive_sha256": "52f94bbe0dc275108d88cf1de9f7953d31202b6e5fd5a5dc9998c12f00448e8f"
+      },
+      "measurement_scope": "discovery, pending processing and previous output collection; ZIP export measured separately",
+      "ram_measurement_scope": "discovery and pending processing",
+      "stage_breakdown": {
+        "resolve": {
+          "success": 6391,
+          "no_source": 463,
+          "data_error": 1468,
+          "skipped": 26
+        },
+        "hierarchy": {
+          "success": 6391,
+          "no_source": 463,
+          "skipped": 1494
+        },
+        "normalize": {
+          "success": 6391,
+          "no_source": 463,
+          "skipped": 1494
+        },
+        "bibliography": {
+          "success": 5964,
+          "no_source": 783,
+          "skipped": 1494,
+          "data_error": 107
+        },
+        "deduplicate": {
+          "success": 3638,
+          "no_source": 343,
+          "skipped": 1019
+        },
+        "validate_parse": {
+          "data_error": 333,
+          "success": 3305,
+          "no_source": 343,
+          "skipped": 1019
+        }
+      }
+    }
+  ]
+}

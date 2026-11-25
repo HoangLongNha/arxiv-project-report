@@ -62,20 +62,33 @@ Hệ thống được phát triển theo mô hình phân tầng module độc l�
 
 ---
 
-## 3. Chỉ số Minh họa & Trạng thái Kiểm chứng
+## 3. Kết quả Thực nghiệm Toàn nhóm (25.000 Bài báo — 5 Thành viên)
 
-> **Lưu ý:** Các số liệu định lượng dưới đây (tỷ lệ nén, thời gian xử lý, Peak RAM, dung lượng đĩa) là **Số liệu minh họa, chưa phải kết quả thực nghiệm MS2** (dùng để dựng cấu trúc bảng và biểu đồ trong bản nháp). Các kết luận trên toàn bộ corpus 25,000 bài đang **chờ kiểm chứng** sau khi quá trình chạy hoàn tất.
+Toàn bộ 5 thành viên (TV1 – TV5) đã hoàn tất chạy đường ống Milestone 2 trên toàn bộ dải phân công **25.000 bài báo** (**40.677 phiên bản**, snapshot ngày 20–21/11/2026 trên **Google Colab CPU-only**) và xuất bản 5 gói kết quả `MS2_RESULTS.zip` kèm mã kiểm SHA-256. Số liệu dưới đây được tổng hợp trực tiếp từ `summaries/parsing_summary.json`, `summaries/parse-run.json`, `manifests/stages.json` và `delivery.json` của cả 5 thành viên (lưu trong `summaries/milestone2/whole_team_summary.json`):
 
-- **Độ tin cậy kiểm thử phần mềm:** Bộ unit tests và kiểm thử tích hợp trên repository `arxiv-data-science` kiểm tra các module xử lý và bộ validator độc lập.
-- **Tỷ lệ nén sau Khử trùng lặp (Số liệu minh họa):**
-  - Giảm **$45.56\%$** số lượng phần tử văn bản (`elements`) nhờ tái sử dụng mã phần tử giữa các phiên bản bài báo.
-  - Giảm **$44.23\%$** số lượng mục tài liệu tham khảo (`bibtex`) nhờ hợp nhất các khóa trích dẫn trùng lặp.
-  - Thực hiện đổi tên đồng bộ **$18,940$** lượt gọi trích dẫn `\cite{...}` trong thân bài báo về khóa đại diện duy nhất.
-- **Hiệu năng thực thi trên Google Colab CPU-only (Số liệu minh họa):**
-  - Thời gian xử lý trung bình: **$0.4125$ giây / bài báo**.
-  - Bộ nhớ RAM tiêu thụ cực đại (**Peak RAM**): **$642.8\text{ MB}$** (chiếm $< 5.1\%$ tổng RAM khả dụng của Google Colab).
-  - Dung lượng lưu trữ đĩa 3 bảng đầu ra: **$84.6\text{ MB}$** cho 1,000 ấn phẩm nghiên cứu.
-- **Tính toàn vẹn dữ liệu & QA (Chờ kiểm chứng):** Bộ kiểm định QA độc lập của TV5 đã sẵn sàng (kiểm tra schema, không có cạnh tự trỏ, đồ thị cây không chu trình); tỷ lệ đạt QA trên toàn bộ corpus đang chờ hoàn tất chạy dữ liệu thật để tổng hợp và xác nhận.
+| Thành viên | Dải ID arXiv | Đã parse TeX (`success`) | PDF-only (`no_source`) | Đạt QA hoàn chỉnh | Chưa hoàn chỉnh (`incomplete`) | Giảm `elements` | Giảm `bibtex` | Peak RAM (MB) | Dung lượng 3 bảng (MB) |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **TV1** | `2508.12872:2508.17871` | 3.334 (66,68%) | 391 (7,82%) | **3.725 (74,50%)** | 1.275 (25,50%) | 30,93% | 36,35% | 1.757,20 | 734,79 |
+| **TV2** | `2506.15788:2506.20787` | 3.247 (64,94%) | 373 (7,46%) | **3.620 (72,40%)** | 1.380 (27,60%) | 31,69% | 37,18% | 3.561,79 | 730,13 |
+| **TV3** | `2411.08799:2411.13798` | 3.158 (63,16%) | 428 (8,56%) | **3.586 (71,72%)** | 1.414 (28,28%) | 32,28% | 38,10% | 920,60 | 719,66 |
+| **TV4** | `2410.18025:2410.23024` | 3.277 (65,54%) | 385 (7,70%) | **3.662 (73,24%)** | 1.338 (26,76%) | 34,75% | 39,12% | 967,61 | 789,65 |
+| **TV5** | `2410.03025:2410.08024` | 3.305 (66,10%) | 343 (6,86%) | **3.648 (72,96%)** | 1.352 (27,04%) | 35,13% | 40,63% | 1.970,39 | 790,29 |
+| **Toàn nhóm** | **25.000 ID (40.677 version)** | **16.321 (65,28%)** | **1.920 (7,68%)** | **18.241 (72,96%)** | **6.759 (27,04%)** | **33,04%** | **38,36%** | **3.561,79 (max)** | **3.764,52 (3,68 GB)** |
+
+**Các phát hiện định lượng chính:**
+- **Độ bao phủ & Chất lượng (QA):** Trong **25.000** bài được giao, có **18.241 bài (`72,96%`)** hoàn tất toàn bộ các phiên bản và vượt qua kiểm định QA nghiêm ngặt của TV5 (gồm **16.321** bài có mã nguồn TeX và **1.920** bài `no_source` được ghi nhận rỗng hợp lệ). Ở cấp phiên bản, **29.902 / 40.677** phiên bản (`73,51%`) parse thành công cả TeX lẫn BibTeX và **2.642** phiên bản (`6,50%`) là `no_source`.
+- **Phân tách nguyên nhân `incomplete` (`6.759` bài — `27,04%`):**
+  - **5.257 bài (`21,03%`)** dừng trước bước khử trùng lặp do có ít nhất một phiên bản lỗi ở Trạm 1 (`resolve`: 7.482 phiên bản `data_error` + 240 phiên bản thiếu upstream MS1) hoặc Trạm 4A (`bibliography`: 411 phiên bản `data_error`).
+  - **1.501 bài (`6,00%`)** đã qua `deduplicate` nhưng bị `validate_parse` từ chối (**100% do sai lệch đối chiếu round-trip giữa `references.bib` và `bibtex.json`**, không có bất kỳ lỗi schema, chu trình cây hay khóa ngoại `hierarchy`/`occurrences` nào; tỷ lệ qua QA trên các bài đã deduplicate đạt **92,40%**).
+  - **1 bài (`2506.19089` thuộc dải TV2)** vượt ngưỡng timeout 300 giây.
+- **Hiệu quả Khử trùng lặp Xuyên phiên bản (trên 16.321 bài có TeX đạt QA):**
+  - Giảm từ **9.821.396** xuống **6.576.538** phần tử nội dung (`elements`) — tiết kiệm **3.244.858 phần tử (`33,04%`)**.
+  - Giảm từ **1.424.979** xuống **878.307** bản ghi tài liệu tham khảo (`bibtex`) — tiết kiệm **546.672 bản ghi (`38,36%`)**.
+  - Đổi tên đồng bộ **20.568** lượt gọi `\cite{...}` xuyên phiên bản về khóa đại diện `chosen_key`.
+- **Tài nguyên & Lưu trữ trên Google Colab CPU-only (2 vCPU Xeon 2,20 GHz, 12,67 GB RAM):**
+  - **Peak RAM** trong cả 5 phiên dao động từ **920,60 MB** đến **3.561,79 MB** (tối đa **27,45%** giới hạn RAM Colab), vận hành ổn định không OOM trên toàn bộ 25.000 bài.
+  - **Tổng dung lượng 3 bảng đầu ra chưa nén:** **3.764,52 MB (`3,68 GB`)**; tổng 5 gói nén `MS2_RESULTS.zip` xuất bản đạt **4.412,34 MB (`4,31 GB`)**.
+  - **Lưu ý về thời gian thực thi:** Các phiên chạy sử dụng `resume=True` với số bài đã cache (`skipped_completed_papers`) khác nhau giữa 5 thành viên (từ 39 bài ở TV5 đến 3.586 bài ở TV3); chi tiết phạm vi đo được tách bạch rõ trong trang [Đo lường Hiệu năng Phần cứng](performance.ipynb).
 
 ---
 
@@ -84,6 +97,6 @@ Hệ thống được phát triển theo mô hình phân tầng module độc l�
 Nội dung chi tiết của Milestone 2 được trình bày qua các mục:
 - [**Mục tiêu & Luồng xử lý Dữ liệu**](introduction.md): Bối cảnh học thuật, mô hình luồng 5 trạm và hợp đồng envelope Schema 2.0.
 - [**Phương pháp Triển khai & Hợp đồng Kỹ thuật**](methodology.md): Thuyết minh chuyên sâu giải thuật của cả 5 thành viên (Resolver, Hierarchy, Normalization, Deduplication, Validation & Benchmark).
-- [**Thống kê Phân tích Cú pháp & Khử trùng lặp**](statistics.ipynb): Notebook tương tác trình bày khung trực quan hóa độ bao phủ, phân phối thành phần cú pháp và hiệu quả khử trùng lặp (đang dùng số liệu minh họa trong bản nháp).
-- [**Đo lường Hiệu năng Phần cứng**](performance.ipynb): Notebook tương tác trình bày khung đo đạc thời gian, bộ nhớ Peak/Average RAM và dung lượng đĩa trên Colab CPU-only (đang dùng số liệu minh họa trong bản nháp).
-- [**Thảo luận, Phân tích Trường hợp Biên & Sẵn sàng cho MS3**](discussion.md): Đánh giá 7 nhóm ca biên phức tạp, bài học gỡ lỗi qua 11 issue review và điều kiện chuyển tiếp sang Milestone 3.
+- [**Thống kê Phân tích Cú pháp & Khử trùng lặp**](statistics.ipynb): Notebook phân tích thực nghiệm toàn nhóm (25.000 bài báo): độ bao phủ, hiệu quả khử trùng lặp, phễu 6 stage, phân loại lỗi và ảnh hưởng số phiên bản.
+- [**Đo lường Hiệu năng Phần cứng**](performance.ipynb): Notebook phân tích thời gian thực thi theo phạm vi resume, Peak/Average RAM và dung lượng lưu trữ trên Colab CPU-only.
+- [**Thảo luận, Phân tích Trường hợp Biên & Sẵn sàng cho MS3**](discussion.md): Đánh giá 7 nhóm ca biên, 11 issue review, phân tích thực nghiệm nguyên nhân 6.759 bài chưa hoàn chỉnh và điều kiện chuyển tiếp sang Milestone 3.

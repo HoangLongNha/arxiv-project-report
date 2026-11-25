@@ -13,7 +13,7 @@ Mục tiêu của **Milestone 2** là giải quyết triệt để các vấn đ
 2. Chuẩn hóa hình thức biểu diễn toán học và văn bản, loại bỏ triệt để mã trình bày thừa mà không làm suy hao ngữ nghĩa.
 3. Trích xuất tài liệu tham khảo từ cả hai nguồn (`\bibitem` viết tay và tệp `.bib` đi kèm) sang chuẩn BibTeX.
 4. Thực hiện thuật toán **Khử trùng lặp 2 cấp độ (Two-level Deduplication)** xuyên các phiên bản, hợp nhất thông tin trích dẫn và đồng bộ hóa toàn bộ các lệnh `\cite{}` trong văn bản bài báo.
-5. Xuất bản 3 bảng dữ liệu chuẩn hóa (`elements`, `hierarchy`, `bibtex`) đáp ứng bộ kiểm định chất lượng (QA Verification — kết quả chạy toàn corpus đang chờ kiểm chứng).
+5. Xuất bản 3 bảng dữ liệu chuẩn hóa (`elements`, `hierarchy`, `bibtex`) đáp ứng bộ kiểm định chất lượng độc lập (QA Verification); trên tập toàn nhóm 25.000 bài báo, **18.241 bài (`72,96%`)** hoàn tất và đạt chuẩn QA, còn **6.759 bài (`27,04%`)** được ghi nhận tường minh nguyên nhân chưa hoàn chỉnh theo từng trạm xử lý.
 
 ---
 
@@ -115,10 +115,11 @@ Mỗi giai đoạn sau khi hoàn tất đều trả về đối tượng `StageR
 - `artifacts` (dict[str, str]): Ánh xạ tên artifact sang đường dẫn tương đối tính từ `output_dir`.
 - `schema_version` (str): Cố định `"2.0"` cho toàn bộ giai đoạn Milestone 2.
 
-### 3.3. Cơ chế Khôi phục Thông minh (Checkpoint & Resume via SHA-256)
+### 3.3. Cơ chế Khôi phục Thông minh (Checkpoint & Resume via SHA-256) và Tối ưu I/O trên Colab
 - Pipeline tự động lưu vết trạng thái của từng giai đoạn tại `state/stages/<stage_name>/<paper_key>/v<version>.json` (hoặc `paper.json`).
 - Mỗi checkpoint lưu trữ mã băm SHA-256 của toàn bộ tệp đầu vào, mã nguồn module phụ trách, và các artifact đã sinh.
-- Khi thực thi với cờ `--resume`, Orchestrator so sánh mã băm phụ thuộc. Nếu không có bất kỳ thay đổi nào từ mã nguồn hoặc dữ liệu đầu vào, giai đoạn đó được tái sử dụng tức thì mà không cần tính toán lại, rút ngắn thời gian chạy kiểm thử tích hợp xuống dưới 1 giây.
+- Khi thực thi thực nghiệm trên Google Colab CPU-only (`storage_mode = colab-local-batches`, `batch_size = 50`, `copy_workers = 8`, `frozen_input = true`), hệ thống sao chép theo lô sang ổ đĩa cục bộ để giảm nghẽn I/O Google Drive, áp dụng giới hạn timeout 300 giây/bài báo và chỉ đóng gói xuất bản `MS2_RESULTS.zip` (kèm SHA-256) sau khi hoàn tất thu gom kết quả.
+- Khi thực thi lại với cờ `--resume`, Orchestrator tái sử dụng tức thì các bài đã đạt chứng nhận hoàn chỉnh (`skipped_completed_papers`) mà không tính toán lại, giúp phục hồi an toàn sau các lần ngắt phiên Colab.
 
 ---
 
