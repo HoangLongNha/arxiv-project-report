@@ -1,6 +1,6 @@
 {
   "data_status": "verified_experimental_results",
-  "note": "Tong hop ket qua thuc nghiem Milestone 2 tren toan bo 25.000 bai bao cua 5 thanh vien (TV1-TV5). Chi tiet tung thanh vien xem summaries/milestone2/whole_team_summary.json.",
+  "note": "Tong hop ket qua thuc nghiem Milestone 2 tren toan bo 25.000 bai bao cua 5 thanh vien (TV1-TV5). Chi tiet tung thanh vien xem summaries/milestone2/whole_team_summary.json. Luu y: avg_time_per_publication_sec duoc chia tren tong 25.000 bai kem resume=True (9.185 bai skipped/cache), khong dai dien cho toc do cold-run.",
   "environment": {
     "platform": "Linux-6.6.159+-x86_64-with-glibc2.39",
     "cpu_model": "Intel(R) Xeon(R) CPU @ 2.20GHz",

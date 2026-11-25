@@ -95,7 +95,7 @@ Trong số `30.313` phiên bản TeX đã giải mã thành công, chỉ có `41
 Trong `19.742` bài báo đã chạy xong `deduplicate` (`17.822` bài có TeX + `1.920` bài `no_source`), có **18.241 bài (`92,40%`)** vượt qua kiểm định QA và **1.501 bài (`7,60%`)** bị `validate_parse` từ chối:
 - **Điểm sáng quan trọng:** Có **0 lỗi schema**, **0 lỗi khóa ngoại `hierarchy` ↔ `elements`**, **0 lỗi chu trình DAG / thứ tự `occurrences`**, và **0 lỗi khớp nối snapshot** trên toàn bộ 19.742 bài.
 - **100% nguyên nhân của 1.501 ca từ chối QA đều nằm ở kiểm tra đối chiếu sâu 1-1 giữa `references.bib` và `bibtex.json`:**
-  - Lệch trường `journal` (`644` bài), `url` (`571` bài), `title` (`64` bài), `authors` (`52` bài), `doi` (`6` bài), `year` (`3` bài) — chủ yếu do khác biệt khi thoát ký tự đặc biệt (`%`, `\^`, macro LaTeX hoặc khoảng trắng kép) trong quá trình xuất ra `.bib` rồi đọc ngược lại bằng `parse_bib_text`.
+  - Lệch trường `journal` (`644` bài), `url` (`575` bài), `title` (`60` bài), `authors` (`52` bài), `doi` (`6` bài), `year` (`3` bài) — chủ yếu do khác biệt khi thoát ký tự đặc biệt (`%`, `\^`, macro LaTeX hoặc khoảng trắng kép) trong quá trình xuất ra `.bib` rồi đọc ngược lại bằng `parse_bib_text`.
   - Lỗi đọc lại `references.bib` (`161` bài, gồm 159 lỗi `could not be parsed` và 2 lỗi unclosed BibTeX block).
 - Việc bộ kiểm định QA chủ động gắn cờ `complete = false` thay vì bỏ qua cho thấy cơ chế kiểm soát chất lượng hoạt động đúng thiết kế; đồng thời chỉ rõ rằng chỉ cần chuẩn hóa nhất quán bộ serializer/escape cho `references.bib` là có thể thu hồi ngay phần lớn trong số **1.501 bài** này (nâng tỷ lệ hoàn chỉnh từ `72,96%` lên xấp xỉ `78,96%`).
 
