@@ -1,37 +1,43 @@
 {
-  "data_status": "illustrative_draft",
-  "note": "Số liệu minh họa dùng để dựng bảng và biểu đồ trong bản nháp, chưa phải kết quả thực nghiệm MS2.",
+  "data_status": "verified_experimental_results",
+  "note": "Tong hop ket qua thuc nghiem Milestone 2 tren toan bo 25.000 bai bao cua 5 thanh vien (TV1-TV5). Chi tiet tung thanh vien xem summaries/milestone2/whole_team_summary.json. Luu y: avg_time_per_publication_sec duoc chia tren tong 25.000 bai kem resume=True (9.185 bai skipped/cache), khong dai dien cho toc do cold-run.",
   "environment": {
-    "platform": "Google Colab CPU-only",
+    "platform": "Linux-6.6.159+-x86_64-with-glibc2.39",
     "cpu_model": "Intel(R) Xeon(R) CPU @ 2.20GHz",
     "cpu_cores": 2,
     "total_ram_gb": 12.67,
-    "python_version": "3.11.10"
+    "python_version": "3.13.18"
   },
   "coverage_statistics": {
-    "total_assigned_publications": 1000,
-    "successfully_parsed_publications": 972,
-    "pdf_only_empty_publications": 28,
-    "parsing_success_rate_pct": 97.2,
-    "total_versions_discovered": 1840,
-    "parsed_versions_count": 1795,
-    "empty_versions_count": 45
+    "total_assigned_publications": 25000,
+    "successfully_parsed_publications": 16321,
+    "pdf_only_empty_publications": 1920,
+    "certified_complete_publications": 18241,
+    "incomplete_publications": 6759,
+    "parsing_success_rate_pct": 65.28,
+    "certified_complete_rate_pct": 72.96,
+    "total_versions_discovered": 40677,
+    "parsed_versions_count": 29902,
+    "empty_versions_count": 2642,
+    "skipped_versions_count": 8133
   },
   "deduplication_statistics": {
-    "elements_before_dedup": 485200,
-    "elements_after_dedup": 264150,
-    "element_dedup_reduction_pct": 45.56,
-    "bibtex_entries_before_dedup": 62400,
-    "bibtex_entries_after_dedup": 34800,
-    "bibtex_dedup_reduction_pct": 44.23,
-    "citations_renamed_count": 18940
+    "elements_before_dedup": 9821396,
+    "elements_after_dedup": 6576538,
+    "element_dedup_reduction_pct": 33.04,
+    "bibtex_entries_before_dedup": 1424979,
+    "bibtex_entries_after_dedup": 878307,
+    "bibtex_dedup_reduction_pct": 38.36,
+    "citations_renamed_count": 20568
   },
   "performance_metrics": {
-    "end_to_end_wall_time_sec": 412.5,
-    "avg_time_per_publication_sec": 0.4125,
-    "peak_ram_mb": 642.8,
-    "avg_ram_mb": 418.2,
-    "final_output_storage_mb": 84.6
+    "end_to_end_wall_time_sec": 65895.91,
+    "avg_time_per_publication_sec": 2.6358,
+    "peak_ram_mb": 3561.79,
+    "avg_ram_mb": 927.99,
+    "final_output_storage_mb": 3764.52,
+    "total_archive_zip_mb": 4412.34,
+    "total_skipped_completed_papers": 9185,
+    "total_pending_papers_in_sessions": 15815
   }
 }
-
