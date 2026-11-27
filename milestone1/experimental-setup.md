@@ -1,42 +1,27 @@
-# Thiết lập thực nghiệm và cách đánh giá
+# Thiết lập thực nghiệm
 
-## Dữ liệu và môi trường
+## Phạm vi dữ liệu
 
-Mỗi thành viên xử lý dải 5.000 ID được phân công. Các phiên có thể bị gián đoạn rồi chạy tiếp từ checkpoint.
+Kết quả corpus dùng bộ MS1 đã được nhóm chốt, gồm năm dải không giao nhau, tổng 25.000 ID. Mỗi paper chỉ được tính một lần; mỗi version dùng cặp arXiv ID và số phiên bản. Trạng thái kiểm định lấy từ audit hoặc validation trong bản kiểm kê tương ứng với bộ bàn giao.
 
-Môi trường benchmark theo đề bài là Google Colab CPU-only. Cấu hình, commit source, mốc thời gian và xác nhận CPU-only do từng run ghi lại được trình bày ở phụ lục. Các run có chế độ cache và phạm vi khác nhau, nên chưa dùng để xếp hạng tốc độ giữa thành viên.
+## Định nghĩa chỉ số
 
-## Tiến độ, kết quả và chất lượng
-
-| Cấp đánh giá | Đơn vị và cách xác định |
+| Chỉ số | Cách tính và giới hạn |
 |---|---|
-| Tiến độ đầu vào | ID có record, ID chưa ghi nhận và lookup chưa giải quyết trên đúng dải 5.000 ID |
-| Kết quả thu thập | Paper phát hiện được, version đã biết, source/corpus và metadata/references đã lưu |
-| Chất lượng | Paper được kiểm định, số đạt/chưa đạt, loại lỗi và cảnh báo |
+| Bao phủ Discovery | ID nhận diện thành công / 25.000 ID được giao |
+| Source thu thập được | Version có source theo dữ liệu kiểm định; phân biệt với record no_source |
+| Tỷ lệ đạt kiểm định | Paper đạt toàn bộ quy tắc / paper đã kiểm định |
+| References đã ghi nhận | Tổng quan hệ paper–reference đọc được trong bản kiểm định, không phải số tài liệu tham khảo duy nhất toàn cục |
+| References/paper | References đã ghi nhận / paper của phạm vi xét; không ước lượng references chưa thu được |
+| Kích thước trước/sau lọc | Cộng version trong từng paper, rồi lấy trung bình trên cùng tập có đủ cặp đo |
+| Metadata references đầy đủ | Reference đủ năm trường / references được xét trong phép đo |
 
-Một record lỗi cho biết ID đã được thử xử lý. Lookup chỉ được xem là giải quyết khi có kết quả thành công hoặc không tìm thấy hợp lệ. Cờ hoàn tất audit còn xét validation và diagnostics, nên được đọc riêng với tiến độ chạy ID.
+Một record no_source hợp lệ có thể đại diện cho PDF-only, không tự động là lỗi thu thập. Paper đạt validator cũng không có nghĩa luôn có TeX: record rỗng hợp lệ được giữ theo hợp đồng. Tỷ lệ Discovery, mức hiện diện source và tỷ lệ đạt validator vì vậy được báo riêng.
 
-## Thống kê corpus tích lũy
+## Thực nghiệm dung lượng và hiệu năng
 
-Thống kê toàn dải phải đọc checkpoint Discovery của mọi ID được giao, dùng manifest làm dữ liệu dự phòng khi không có checkpoint, rồi đối chiếu các stage và tệp hiện có. Mỗi paper được nhận diện bằng arXiv ID; source/corpus dùng cặp ID và version. References lấy từ tệp hiện hành của từng paper để tránh đếm lại qua các phiên.
+Các phép đo kích thước và benchmark đã lưu được giữ làm bằng chứng thực nghiệm, với ngày và phạm vi riêng. Chúng không được gắn lại thành phép đo trên bộ corpus cuối chỉ bằng cách thay nhãn. Kích thước trước lọc lấy từ sidecar giải nén; sau lọc là TeX/BibTeX. Trung bình gộp có trọng số theo số paper có cặp đo.
 
-Công cụ thống kê cũ chỉ chọn paper trong manifest của một lượt hoàn tất. Vì vậy một lượt resume sáu ID có thể tạo statistics sáu ID dù thư mục dữ liệu đã tích lũy gần đủ assignment. Bản thống kê mới có phạm vi riêng cho toàn dải và không mang nhãn benchmark của lượt cuối.
+Testbed là Google Colab CPU-only. Công cụ benchmark đo wall time của tiến trình pipeline, RSS của cây tiến trình và dung lượng toàn output; sample/timing giữ trong artifacts. Các phiên resume có thể dùng cache và thử lại stage, nên thời gian đo mô tả phiên thực thi đó. Tổng thời gian các phiên được khử trùng lặp theo run ID và không coi là toàn bộ thời gian thu thập ban đầu nếu lịch sử đo không đầy đủ.
 
-| Chỉ số | Mẫu số/phạm vi |
-|---|---|
-| Bao phủ đầu vào | ID có record / ID được giao |
-| Discovery thành công | Paper phát hiện được / ID được giao của dải xét |
-| Tải source | Version download thành công theo checkpoint; số có tệp thực tế được ghi riêng |
-| Paper đủ source | Mọi version đã biết có source và corpus, theo quy tắc kiểm tra |
-| Validation pass | Paper đạt / paper đã kiểm định; báo riêng paper chưa được kiểm định |
-| Kích thước trước/sau lọc | Cùng tập paper có đủ cặp đo, cộng các version của từng paper |
-| References trung bình | Tổng references / paper có kết quả truy vấn đọc được, gồm danh sách rỗng hợp lệ |
-| Metadata references đầy đủ | References đủ trường / references đã đọc |
-
-Giá trị thiếu không được thay bằng 0. Kích thước trước lọc lấy từ sidecar trích xuất; nếu sidecar không còn thì chưa tính được cặp đo. Thống kê đọc các báo cáo validation đã lưu; muốn kết luận về chất lượng hiện tại phải audit lại.
-
-## Thời gian, RAM và dung lượng
-
-Thời gian và RAM mô tả các phiên được đo. Khi tổng hợp, chỉ đếm mỗi run ID một lần; chi phí xử lý lại ID vẫn là thời gian đã sử dụng. Tổng thời gian hoạt động của các phiên khác với thời gian lịch có cả lúc nghỉ/ngắt máy. Số liệu từ một phần phiên chạy được ghi rõ là một phần lịch sử.
-
-RAM gộp được tính từ các phiên có đủ mẫu, theo trọng số thời gian quan sát; peak là cực đại đã quan sát. Không thể khôi phục RAM hoặc runtime của phiên không có log từ corpus cuối. Final disk đo cả output root tại mốc kết thúc, có thể gồm dữ liệu tích lũy, raw source, corpus, checkpoint và sidecar. Nó không phải riêng kích thước corpus TeX/BibTeX.
+Peak RAM/disk là cực đại tại các lần quan sát; RAM trung bình dùng trọng số thời gian. Phiên không có đủ khoảng lấy mẫu được đánh dấu không tính. Final output gồm raw, corpus, checkpoint và sidecar, không đồng nghĩa kích thước riêng TeX/BibTeX. Nhóm không cộng disk của các phiên chồng lặp thành dung lượng corpus.

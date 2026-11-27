@@ -31,7 +31,6 @@ Metadata sử dụng lại Discovery để tránh truy vấn arXiv trùng lặp.
 
 Semantic Scholar cung cấp định danh và metadata tài liệu tham khảo. Client hỗ trợ batch, retry và phân trang để xử lý giới hạn API và danh sách dài. References được loại trùng theo định danh khi có; mục thiếu arXiv ID vẫn được giữ trong dữ liệu làm việc. Không có references, chưa được index và lỗi API là những kết quả khác nhau.
 
-Một thí nghiệm references riêng được TV4 mô tả trong tài liệu bàn giao sử dụng dải tháng 08/2025. Đó là thí nghiệm của module, không phải kết quả assignment tháng 10/2024 của người chạy TV4, và không được cộng vào thống kê toàn nhóm ở phần kết quả này.
 
 ## Kiểm định và khả năng chạy tiếp
 

@@ -2,7 +2,7 @@
 
 Jupyter Book công khai cho MS1 và các milestone tiếp theo, tách khỏi [repository code](https://github.com/LeoTkiet/arxiv-data-science). [GitHub Pages](https://hoanglongnha.github.io/arxiv-project-report/) được build và deploy bằng GitHub Actions.
 
-Bộ bằng chứng có audit toàn dải và cumulative của cả năm thành viên. Audit xác nhận đủ 25.000 record và lookup thành công; còn paper chưa đạt validator. Cumulative TV1 mới đã ghi đủ 5.000 record, 7.852 version và 204.012 references; báo cáo hiện tổng hợp corpus của cả năm thành viên. Bản 0 record cũ được giữ riêng để truy vết. TV5 đã bổ sung cumulative ngày 10/11/2026, ghi đủ 5.000 Discovery thành công và 8.348 version sau sửa lookup. Trường tổng version audit TV2 không khớp chi tiết; phần thống kê version dùng cumulative và phụ lục ghi rõ mâu thuẫn.
+MS1 sử dụng bộ corpus đã được nhóm chốt, với 25.000 paper, 40.683 version và 1.005.198 quan hệ references theo chi tiết kiểm định. Phần kết quả trình bày toàn nhóm; thực nghiệm dung lượng/metadata references và benchmark giữ đúng phạm vi đã đo. Nguồn chốt nằm tại `summaries/milestone1/frozen-20261127`, có provenance và SHA-256. Các snapshot trước được giữ cho tái lập thực nghiệm.
 
 ## Môi trường và build
 
@@ -24,7 +24,7 @@ Tạo lại các trang đã biên tập:
 python scripts/prepare_submission_report.py
 ```
 
-`scripts/final_ms1_sections.py` chứa kết quả và kết luận hiện hành, phối hợp với `scripts/submission_updates.py` và generator. Sửa các nguồn này rồi tạo lại trang để giữ nội dung nhất quán.
+`scripts/group_ms1_report.py` chứa các trang và notebook MS1 hiện hành. Generator chỉ ghi nội dung trong `milestone1/`, không ghi đè trang gốc, chương MS2 hoặc cấu hình chung. Phần MS1 ở trang gốc được cập nhật riêng để giữ nguyên nội dung MS2.
 
 ## Kiểm thử
 

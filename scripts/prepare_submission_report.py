@@ -246,11 +246,16 @@ PAGES['milestone1/methodology.md'] = PAGES['milestone1/methodology.md'].replace(
 
 
 def main():
-    import runpy
-    for name, text in PAGES.items():
+    from group_ms1_report import PAGES as GROUP_PAGES, build as build_group
+    pages = dict(PAGES, **GROUP_PAGES)
+    for name, text in pages.items():
+        if not name.startswith('milestone1/'):
+            continue
+        if name == 'milestone1/methodology.md':
+            text = '\n'.join(line for line in text.splitlines()
+                             if not line.startswith('Một thí nghiệm references riêng được TV4'))
         (ROOT / name).write_text(text.rstrip() + '\n', encoding='utf-8')
-    build(notebook, SETUP)
-    runpy.run_path(str(ROOT / 'scripts/prepare_cumulative_notebook.py'), run_name='__main__')
+    build_group(notebook)
 
 
 if __name__ == '__main__':

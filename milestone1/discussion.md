@@ -1,31 +1,23 @@
 # Thảo luận và kết luận
 
-## Bao phủ đầu vào và mức hoàn thiện corpus
+## Kết quả của nhóm
 
-Năm audit xác nhận đủ 25.000 record và 25.000 lookup thành công. Checkpoint giúp nhóm tiếp tục sau gián đoạn và thử lại riêng ID hoặc stage lỗi. Lookup thành công cho biết đã nhận diện bài báo và version; source/corpus và kiểm định còn có thể chưa đạt.
+Nhóm đã hoàn tất việc xử lý phạm vi 25.000 ID và chốt bộ corpus MS1. Kết quả gồm nguồn đa phiên bản, metadata, references và thông tin kiểm định để các bước tiếp theo nhận biết được chất lượng đầu vào. Tỷ lệ đạt validator của bộ đã chốt là 98,56%; các trạng thái còn lại được thống kê như đặc tính của corpus bàn giao.
 
-Cumulative của cả năm thành viên thống kê dữ liệu tích lũy qua nhiều phiên. Tỷ lệ paper đủ source thấp hơn bao phủ Discovery vì mỗi paper có thể có nhiều version, gặp lỗi tải/giải nén hoặc không có source TeX. Trạng thái no_source được giữ riêng để không coi mọi trường hợp thiếu TeX là lỗi mạng. Số download success và số source có tệp còn chênh lệch; cần kiểm tra checkpoint, đường dẫn và tệp trước khi dùng số trạng thái làm số source thực có.
+Bao phủ Discovery phản ánh khả năng xác định bài báo và version. Mức hiện diện source và kết quả kiểm định đánh giá các tầng khác nhau: một bài có thể có nhiều version, một version có thể chỉ có PDF, và một paper có TeX vẫn có thể không đạt quy tắc metadata/references. Vì vậy không dùng một tỷ lệ duy nhất để thay tất cả mức độ thành công.
 
-## Kích thước và references
+## Dung lượng và tài liệu tham khảo
 
-Chỉ giữ TeX/BibTeX làm giảm dung lượng trên tập paper có đủ cặp đo. So sánh dùng kích thước giải nén trước lọc và corpus sau lọc; không so gói nén với dữ liệu đã giải nén. Cặp đo thiếu được loại khỏi mẫu số, còn số paper được tính luôn đi kèm kết quả.
+Lọc ở bước giải nén giúp hình và tệp ngoài TeX/BibTeX không đi vào working corpus, trong khi lệnh LaTeX được giữ cho parsing. Thực nghiệm dung lượng dùng cùng tập ghép cặp trước/sau lọc để tránh so sánh sai gói nén với nội dung giải nén. Các giá trị trung bình là số đo trên tập được nêu, không ngoại suy cho các paper không có cặp đo.
 
-References được đếm theo paper trích dẫn, loại dòng trùng trong cùng paper. Cùng tài liệu được nhiều paper trích dẫn vẫn được đếm ở mỗi quan hệ. Trung bình bao gồm danh sách rỗng hợp lệ; truy vấn lỗi hoặc chưa được index không được coi là danh sách rỗng. Tỷ lệ truy vấn đọc được và tỷ lệ reference đủ metadata là hai chỉ số riêng.
+References được lưu theo quan hệ bài trích dẫn và tài liệu được trích dẫn. Một tài liệu xuất hiện ở nhiều paper vẫn tạo nhiều quan hệ. Thiếu arXiv ID hoặc ngày công bố không tự chứng minh truy vấn thất bại; tiêu chí đủ năm trường là đánh giá mức đầy đủ metadata, không phải độ chính xác ngữ nghĩa. Số references đã ghi nhận không bao gồm phần chưa lấy được từ dịch vụ bên ngoài.
 
-TV2 có mức bao phủ references thấp hơn các dải còn lại; cần xem checkpoint references lỗi trước khi dùng cho matching. Tiêu chí đủ năm trường khá chặt vì nhiều tài liệu không có arXiv ID. Nó không thay độ chính xác nội dung do Semantic Scholar cung cấp.
+## Diễn giải hiệu năng
 
-## Chất lượng và chuẩn bị MS2
+Checkpoint giúp sử dụng lại kết quả khi phiên Colab bị ngắt. Các số đo resume thể hiện chi phí kiểm tra cache và thực thi những bước cần xử lý trong phiên, không phải chi phí tải mới toàn bộ assignment. RAM có thể bỏ lỡ đỉnh ngắn giữa các lần lấy mẫu; quét thư mục trên Drive cũng tạo overhead. Do đó hiệu năng được đọc cùng phạm vi, số mẫu và chế độ chạy.
 
-Một paper có thể vướng nhiều loại lỗi: stage upstream, artifact, corpus hoặc metadata/references. Cần phân loại theo paper/version rồi thử lại stage cần thiết. Paper chưa đạt validator vẫn có thể có TeX sử dụng được; có TeX cũng không bảo đảm mọi trường khác hợp lệ.
+## Giá trị bàn giao
 
-Audit TV2 mới đã thống nhất cờ hoàn tất với số paper fail, nhưng known_version_count ghi 3.887 trong khi cộng versions của 5.000 paper trong chính audit được 7.987, khớp cumulative. Báo cáo giữ tệp gốc, dùng cumulative cho số version và ghi mâu thuẫn trong phụ lục. TV5 đã giải quyết bốn lookup, nhưng lần thử source 2410.05044 trong bộ bằng chứng sửa lỗi vẫn bị IncompleteRead.
+Corpus chốt giữ liên kết paper/version cùng trạng thái source, metadata và references. Các bản kiểm định giúp giai đoạn sau phân biệt paper có TeX, record không có source và đầu vào không đáp ứng đầy đủ hợp đồng. Validator kiểm tra cấu trúc, trạng thái và tính nhất quán tệp; không biên dịch LaTeX hay xác minh toàn bộ ngữ nghĩa khoa học.
 
-Validator kiểm tra cấu trúc, định danh, trạng thái và tệp; chưa biên dịch LaTeX hay đánh giá toàn bộ ngữ nghĩa. MS2 cần giữ liên kết paper/version, xử lý record không có source và dùng danh sách lỗi để tránh coi đầu vào thiếu là kết quả parsing rỗng hợp lệ.
-
-## Giới hạn thực nghiệm
-
-Cumulative mới của TV1 ghi đủ 5.000 record, 5.000 Discovery thành công, 7.852 version và không có diagnostics. Dữ liệu này khớp bao phủ Discovery đã đối chiếu trên Drive. Tổng toàn nhóm hiện bao gồm cả năm dải; các snapshot được xuất ở các thời điểm riêng. Cumulative đọc validation đã lưu, không thay audit mới.
-
-Benchmark chủ yếu chạy resume. Phiên TV1 mới có toàn dải đầu vào và mẫu RAM trên Colab CPU-only nhưng dùng cache, nên chưa đo chi phí tải mới toàn dải. TV2/TV5 thiếu mẫu RAM đại diện trong các phiên đã nộp. Không thể khôi phục runtime, RAM hay disk peak của phiên không có log từ cumulative JSON.
-
-Thống kê corpus đã có đủ snapshot bao phủ năm dải cá nhân. Để kết luận hiệu năng end-to-end của toàn quá trình, vẫn cần lịch sử đo đầy đủ hoặc benchmark Colab CPU-only có biên đo thống nhất. Các phép đo và hạn chế hiện có được trình bày riêng.
+MS1 cung cấp một nền dữ liệu có nguồn gốc và phạm vi kiểm chứng rõ ràng. Các giới hạn của dịch vụ ngoài, dạng submission và phép đo được trình bày ở cấp hệ thống, không quy thành mức hoàn thành của riêng một thành viên.

@@ -1,0 +1,55 @@
+{
+  "declared_final_by_group": true,
+  "received_on": "2026-11-27",
+  "sources": [
+    {
+      "member": "TV1",
+      "original_name": "TV1-final.zip",
+      "original_sha256": "b25f9fd7a248709831cff293b15997f44d1be4bf7a19cd9db87428e7da30ed22",
+      "entry": "after-inventory.json",
+      "entry_sha256": "2dc81ad2344db17c6771abc85716a5ea23058a83458d01d5ad714b602c414de9",
+      "generated_at": "2026-11-21T03:52:27.420556+00:00"
+    },
+    {
+      "member": "TV2",
+      "original_name": "TV2-assignment-audit.json",
+      "original_sha256": "d2926be1a16c7a78b5c04db21b9904de181d75ae59d52d0c1397f915b781e0e6",
+      "entry": "assignment-audit.json",
+      "entry_sha256": "d2926be1a16c7a78b5c04db21b9904de181d75ae59d52d0c1397f915b781e0e6",
+      "generated_at": "2026-11-18T14:36:47.825296+00:00"
+    },
+    {
+      "member": "TV3",
+      "original_name": "TV3-final.zip",
+      "original_sha256": "21848b4e6ef9a0724a01090c963c12f5b841dda4b7015e80a152f8aae0eb8ad5",
+      "entry": "after-inventory.json",
+      "entry_sha256": "ea01dbc188615c7a7b1d7b58e0af03e1db3df7755ad5300f41c5957402024154",
+      "generated_at": "2026-11-19T12:40:04.892710+00:00"
+    },
+    {
+      "member": "TV4",
+      "original_name": "TV4-final.zip",
+      "original_sha256": "51968995aba01bfebba3479df46a45dd10334c00574bc1266d3b1e2f96ee4228",
+      "entry": "after-inventory.json",
+      "entry_sha256": "6599161e0e2e9498bfd6466ac25618dbf6608b0b63c6335b6558b8b663355b6e",
+      "generated_at": "2026-11-19T11:32:54.626910+00:00"
+    },
+    {
+      "member": "TV5",
+      "original_name": "TV5-final.zip",
+      "original_sha256": "8df4ee058d3c18b26cec7dea9ba0319df31fa0806f6769dc34571d75b00341e6",
+      "entry": "plan.json",
+      "entry_sha256": "fa0dab8420e9edb2446fc90655097ba4591b30c3d9015910df00bce212be1715",
+      "generated_at": "2026-11-18T23:55:39.425492+00:00"
+    }
+  ],
+  "public_sha256": "2da295350f9fb6e9cfacb65377670d4dc36add08641313587f5dc8013f68cfc7",
+  "source_folders": {
+    "TV1": "1JWX7rSCNaUhlSV_bFddiw16f2BwaGL04",
+    "TV2": "1RasCy6dB1k2LCRFLnqtGZyujNyzXG8mf",
+    "TV3": "1tjZxiSrxUSTiVVsqF-chALVXDnpkrQ8z",
+    "TV4": "1esqu294n4BWs5OY3HxC_MjJB-i4xVKvN",
+    "TV5": "1qdMRdJseVCyeGfCE4Z2kPl--OKzHjYob"
+  },
+  "note": "TV2 version total is summed from paper details, not inconsistent top-level total. Recovery plans are used as final-state inventories, not timed end-to-end benchmark runs."
+}
